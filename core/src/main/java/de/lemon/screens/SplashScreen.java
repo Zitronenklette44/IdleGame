@@ -2,7 +2,9 @@ package de.lemon.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import de.lemon.animation.AnimationController;
 import de.lemon.animation.SimpleSprite;
+import de.lemon.animation.Sprite;
 import de.lemon.core.Resources;
 import de.lemon.enums.ScreenFeatures;
 import de.lemon.main.Main;
@@ -12,6 +14,7 @@ import java.util.EnumSet;
 public class SplashScreen extends CoreScreen{
 
     private SimpleSprite simpleSprite;
+    private Sprite name;
     private final boolean[] loadProgress = {false};
     private final int MAX_LOADING_FRAMES = 20;
     private final int TRANSITION_FRAMES = 30;
@@ -37,6 +40,8 @@ public class SplashScreen extends CoreScreen{
         simpleSprite = new SimpleSprite(Resources._instance.splashScreen_loadingBar, 128, 16, false, new Vector2());
         worldRenderer.addObject(simpleSprite);
 
+        name = new AnimationController(Resources._instance.startScreen_name, new int[]{0, 1}, new Vector2(), 256, 48, 0.1f, 5);
+        worldRenderer.addObject(name);
     }
 
     int frameCounter = -1;
@@ -82,5 +87,6 @@ public class SplashScreen extends CoreScreen{
     public void resize(int width, int height) {
         super.resize(width, height);
         simpleSprite.autoResize(0.5f, 0.5f, 1f/3, 1, viewport);
+        name.autoResize(0.5f, 0.8f, 0.5f, 0.1f, viewport);
     }
 }

@@ -19,22 +19,22 @@ public class Resources {
 
         assetManager = new AssetManager();
         assetManager.load("sprites/loadingBar.png", Texture.class);
+        assetManager.load("sprites/idlePotions.png", Texture.class);
 
         assetManager.finishLoading();
         splashScreen_loadingBar = assetManager.get("sprites/loadingBar.png", Texture.class);
+        startScreen_name = assetManager.get("sprites/idlePotions.png", Texture.class);
 
     }
 
     public void startLoading(){
         assetManager.load("sprites/gameScreen.png", Texture.class);
-        assetManager.load("sprites/name.png", Texture.class);
     }
 
     boolean loadedAll = false;
     public void update() {
         if (assetManager.update()) { // true, wenn alles fertig
             if (gameScreen_background == null) gameScreen_background = assetManager.get("sprites/gameScreen.png", Texture.class);
-            if (startScreen_name == null) startScreen_name = assetManager.get("sprites/name.png", Texture.class);
 
             loadedAll = true;
         }
