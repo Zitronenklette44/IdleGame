@@ -1,0 +1,7 @@
+{
+"mana": 100,
+"upgrades": {
+	"class": "java.util.HashMap",
+	"MANA_GENERATION_PER_TICK": 1
+}
+}
