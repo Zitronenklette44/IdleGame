@@ -86,4 +86,12 @@ public final class SaveManager {
             SAVE_DIR + "/" + FILE_PREFIX + id + FILE_EXTENSION
         );
     }
+
+    private static String getSaveName(int id){
+        GameState temp = loadGameState(id);
+        String name = temp.getName();
+        temp.dispose();
+        temp = null;
+        return name;
+    }
 }

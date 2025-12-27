@@ -1,19 +1,27 @@
 package de.lemon.screens;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.lemon.animation.AnimationController;
-import de.lemon.animation.SimpleSprite;
 import de.lemon.animation.Sprite;
 import de.lemon.core.Resources;
 import de.lemon.enums.ScreenFeatures;
+import de.lemon.logic.GameLogic;
+import de.lemon.main.Main;
+import de.lemon.save.SaveManager;
+import de.lemon.ui.TButton;
 
 import java.util.EnumSet;
 
 public class StartScreen extends CoreScreen{
 
     private Sprite name;
+    private TButton startGame;
+    private TButton options;
+    private TButton quit;
 
     @Override
     protected EnumSet<ScreenFeatures> getFeatures() {
@@ -22,13 +30,42 @@ public class StartScreen extends CoreScreen{
 
     @Override
     protected void createComponents() {
+        Table table = new Table();
+        table.setFillParent(true);
+        table.defaults().width(200).height(60).pad(10);
+        stage.addActor(table);
+
+        startGame = new TButton("Start Game",Resources._instance.skin);
+        startGame.bindCell(table.add(startGame));
+        table.row();
+
+        options = new TButton("Options", Resources._instance.skin);
+        options.bindCell(table.add(options));
+        table.row();
+
+        quit = new TButton("Quit Game", Resources._instance.skin);
+        quit.bindCell(table.add(quit));
+        table.row();
+
+        addListeners();
+    }
+
+    private void addListeners(){
+        startGame.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Main._instance.gameLogic = new GameLogic(SaveManager.loadGameState(0));
+                Main._instance.setScreen(new LoadScreen());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
 
     }
 
     @Override
     protected void createWorld() {
         setBackgroundColor(Color.GRAY);
-        name = new AnimationController(Resources._instance.startScreen_name,new int[]{0, 1},new Vector2(), 256, 48, 0.11f, 10);
+        name = new AnimationController(Resources._instance.startScreen_name,new int[]{0, 1, 2, 3},new Vector2(), 256, 48, 0.11f, 10);
         worldRenderer.addObject(name);
     }
 
@@ -41,5 +78,10 @@ public class StartScreen extends CoreScreen{
     public void resize(int width, int height) {
         super.resize(width, height);
         name.autoResize(0.5f, 0.9f, 0.5f, 0.1f, viewport);
+
+        startGame.autoResize(1/5f, 1/10f, stage.getViewport());
+        options.autoResize(1/5f, 1/10f, stage.getViewport());
+        quit.autoResize(1/5f, 1/10f, stage.getViewport());
+
     }
 }

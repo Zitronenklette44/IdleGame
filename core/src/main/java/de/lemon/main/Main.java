@@ -62,7 +62,7 @@ public class Main extends Game {
 
     @Override
     public void dispose() {
-        //SaveManager.saveGameState(gameLogic.getGameState(), 0);
+        SaveManager.saveGameState(gameLogic.getGameState(), 0);
         super.dispose();
     }
 }

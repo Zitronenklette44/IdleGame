@@ -8,6 +8,7 @@ import de.lemon.animation.Sprite;
 import de.lemon.core.Resources;
 import de.lemon.enums.ScreenFeatures;
 import de.lemon.main.Main;
+import de.lemon.ui.FontCache;
 
 import java.util.EnumSet;
 
@@ -15,7 +16,7 @@ public class SplashScreen extends CoreScreen{
 
     private SimpleSprite simpleSprite;
     private Sprite name;
-    private final boolean[] loadProgress = {false};
+    private final boolean[] loadProgress = {false, false};
     private final int MAX_LOADING_FRAMES = 20;
     private final int TRANSITION_FRAMES = 30;
 
@@ -40,7 +41,7 @@ public class SplashScreen extends CoreScreen{
         simpleSprite = new SimpleSprite(Resources._instance.splashScreen_loadingBar, 128, 16, false, new Vector2());
         worldRenderer.addObject(simpleSprite);
 
-        name = new AnimationController(Resources._instance.startScreen_name, new int[]{0, 1}, new Vector2(), 256, 48, 0.1f, 5);
+        name = new AnimationController(Resources._instance.startScreen_name, new int[]{0, 1, 2, 3}, new Vector2(), 256, 48, 0.1f, 5);
         worldRenderer.addObject(name);
     }
 
@@ -65,6 +66,13 @@ public class SplashScreen extends CoreScreen{
             loadProgress[0] = true;
         }
 
+        if(loadProgress[0]){
+            if(!FontCache.isLoaded) FontCache.init(Resources._instance.font1);
+            if(!loadProgress[1]) loadProgress[1] = FontCache.isLoaded;
+
+
+
+        }
         setState((MAX_LOADING_FRAMES / loadProgress.length) * amountLoaded());
     }
 

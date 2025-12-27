@@ -18,6 +18,7 @@ public class AnimationController extends Sprite {
     public AnimationController(Texture texture, int[] rows, Vector2 pos, int frameWidth, int frameHeight, float frameDuration, int delay){
         super(frameWidth, frameHeight);
         this.delay = delay;
+        currentAnimation = MathUtils.random(rows.length - 1);
 
         setPos(pos);
 

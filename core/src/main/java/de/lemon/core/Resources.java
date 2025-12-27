@@ -1,7 +1,11 @@
 package de.lemon.core;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Resources {
 
@@ -11,7 +15,8 @@ public class Resources {
     public Texture splashScreen_loadingBar;
     public Texture gameScreen_background;
     public Texture startScreen_name;
-
+    public Skin skin;
+    public FileHandle font1;
 
 
     public Resources(){
@@ -29,6 +34,11 @@ public class Resources {
 
     public void startLoading(){
         assetManager.load("sprites/gameScreen.png", Texture.class);
+
+
+        assetManager.load("skins/template.json", Skin.class);
+
+        font1 = Gdx.files.internal("fonts/font1.ttf");
     }
 
     boolean loadedAll = false;
@@ -36,6 +46,7 @@ public class Resources {
         if (assetManager.update()) { // true, wenn alles fertig
             if (gameScreen_background == null) gameScreen_background = assetManager.get("sprites/gameScreen.png", Texture.class);
 
+            if (skin == null) skin = assetManager.get("skins/template.json", Skin.class);
             loadedAll = true;
         }
     }

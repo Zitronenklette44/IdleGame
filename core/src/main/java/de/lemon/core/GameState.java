@@ -8,7 +8,8 @@ import java.util.Map;
 public class GameState {
 
     private int mana;
-    private final Map<String, Integer> upgrades = new HashMap<>();
+    private Map<String, Integer> upgrades = new HashMap<>();
+    private String name;
 
 
     public int getMana() {
@@ -44,5 +45,19 @@ public class GameState {
 
     public void addMana(int mana) {
         setMana(this.mana + mana);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void dispose() {
+        mana = 0;
+        upgrades = null;
+        name = null;
     }
 }
