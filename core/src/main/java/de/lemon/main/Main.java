@@ -10,6 +10,8 @@ import de.lemon.logic.Tick;
 import de.lemon.save.SaveManager;
 import de.lemon.screens.SplashScreen;
 
+import java.util.Date;
+
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {
 
@@ -19,6 +21,7 @@ public class Main extends Game {
 
     public Tick tick;
     public GameLogic gameLogic;
+    public int currentGameStateId;
 
 
     public Main(){
@@ -62,7 +65,10 @@ public class Main extends Game {
 
     @Override
     public void dispose() {
-        SaveManager.saveGameState(gameLogic.getGameState(), 0);
+        if(gameLogic != null) {
+            gameLogic.getGameState().setLastPlayed(new Date(System.currentTimeMillis()));
+            SaveManager.saveGameState(gameLogic.getGameState(), currentGameStateId);
+        }
         super.dispose();
     }
 }

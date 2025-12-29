@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import de.lemon.animation.Sprite;
 import de.lemon.core.Resources;
 import de.lemon.enums.ScreenFeatures;
+import de.lemon.logic.GameLogic;
 import de.lemon.main.Main;
+import de.lemon.save.SaveManager;
 
 import java.util.EnumSet;
 
@@ -14,6 +16,7 @@ public class GameScreen extends CoreScreen{
 
 
     public GameScreen(){
+        Main._instance.gameLogic = new GameLogic(SaveManager.loadGameState(Main._instance.currentGameStateId));
         Main._instance.tick.addListener(Main._instance.gameLogic.getTickListener());
         setBackgroundColor(Color.DARK_GRAY);
     }

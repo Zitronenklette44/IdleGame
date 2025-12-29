@@ -54,7 +54,6 @@ public class StartScreen extends CoreScreen{
         startGame.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Main._instance.gameLogic = new GameLogic(SaveManager.loadGameState(0));
                 Main._instance.setScreen(new LoadScreen());
                 return super.touchDown(event, x, y, pointer, button);
             }

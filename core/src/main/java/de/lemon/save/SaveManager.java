@@ -6,6 +6,10 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import de.lemon.core.GameState;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public final class SaveManager {
 
     // Debug
@@ -60,25 +64,33 @@ public final class SaveManager {
     /**
      * Counts the number of save files in the save directory.
      */
-    public static int getNumberOfSaveGames() {
+    public static List<Integer> getAvailableIds() {
         FileHandle dir = Gdx.files.local(SAVE_DIR);
 
         if (!dir.exists() || !dir.isDirectory()) {
-            return 0;
+            return new ArrayList<>();
         }
 
-        int count = 0;
+        List<Integer> availableIds = new ArrayList<>();
 
         for (FileHandle file : dir.list()) {
             String name = file.name();
             if (!file.isDirectory()
                 && name.startsWith(FILE_PREFIX)
                 && name.endsWith(FILE_EXTENSION)) {
-                count++;
+                int id = Integer.parseInt(name.replace(FILE_PREFIX, "").replace(FILE_EXTENSION, ""));
+                if (!availableIds.contains(id)) {
+                    availableIds.add(id);
+                } else {
+                    file.delete();
+                }
+
+                Collections.sort(availableIds);
+
             }
         }
 
-        return count;
+        return availableIds;
     }
 
     private static FileHandle getSaveFile(int id) {
@@ -87,11 +99,15 @@ public final class SaveManager {
         );
     }
 
-    private static String getSaveName(int id){
-        GameState temp = loadGameState(id);
-        String name = temp.getName();
-        temp.dispose();
-        temp = null;
-        return name;
+    public static void delete(int id) {
+        FileHandle file = Gdx.files.local(SAVE_DIR + "/" + FILE_PREFIX + id + FILE_EXTENSION);
+        file.delete();
+    }
+
+    public static int getNewId(){
+        List<Integer> availableIds = getAvailableIds();
+        int lastId = availableIds.get(availableIds.size() - 1);
+        return lastId + 1;
     }
 }
+

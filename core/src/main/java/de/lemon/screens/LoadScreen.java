@@ -1,16 +1,30 @@
 package de.lemon.screens;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.lemon.core.Resources;
 import de.lemon.enums.ScreenFeatures;
+import de.lemon.main.Main;
+import de.lemon.save.SaveManager;
+import de.lemon.save.SavePreview;
 import de.lemon.ui.TButton;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
+import java.util.List;
 
 public class LoadScreen extends CoreScreen{
     private Table table;
     private ScrollPane scrollPane;
     private Cell<ScrollPane> cell;
+    private Table buttonTable;
+
+    private SavePreview selectedSave = null;
 
     @Override
     protected EnumSet<ScreenFeatures> getFeatures() {
@@ -19,15 +33,30 @@ public class LoadScreen extends CoreScreen{
 
     @Override
     protected void createComponents() {
+        setBackgroundColor(Color.GRAY);
         table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
-        scrollPane = new ScrollPane(null);
+        Table content = new Table();
+        content.top();
+        content.defaults().expandX().fillX().pad(10);
+
+        Table wrapper = new Table();
+        wrapper.top();
+        wrapper.add(content).expand().fillX().top();
+
+        scrollPane = new ScrollPane(wrapper);
+        scrollPane.setFadeScrollBars(false);
+        scrollPane.setScrollingDisabled(true, false);
+        scrollPane.setForceScroll(false, true);
+        scrollPane.setFlickScroll(true);
+        scrollPane.setCancelTouchFocus(true);
+        scrollPane.setTouchable(Touchable.enabled);
         cell = table.add(scrollPane).prefWidth(stage.getWidth() * 0.5f).expandY().fill().center();
         table.row();
 
-        Table buttonTable = new Table();
+        buttonTable = new Table();
         TButton loadGame = new TButton("Load Game", Resources._instance.skin);
         TButton deleteGame = new TButton("Delete Game", Resources._instance.skin);
         TButton createGame = new TButton("Create Game", Resources._instance.skin);
@@ -38,12 +67,149 @@ public class LoadScreen extends CoreScreen{
 
         table.add(buttonTable).center().padBottom(20);
 
-        table.debugAll();
+//        table.debugAll();
 
         float value = loadGame.getMinWidth() + deleteGame.getMinWidth() + createGame.getMinWidth() + 60;
 //        System.out.println("Value: "+ value);
         cell.minWidth(value);
+        addSaves();
+        addListeners();
     }
+
+    private void addListeners() {
+        //Load game
+        buttonTable.getChildren().get(0).addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Main._instance.setScreen(new GameScreen());
+                super.clicked(event, x, y);
+            }
+        });
+
+        // delete Game
+        buttonTable.getChildren().get(1).addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("deleting entry " + selectedSave.getId());
+                SaveManager.delete(selectedSave.getId());
+                Table wrapper = (Table) scrollPane.getActor();
+                Table content = (Table) wrapper.getChildren().first();
+                content.removeActor(selectedSave);
+                rebuildSaves();
+                selectedSave = null;
+                super.clicked(event, x, y);
+            }
+        });
+
+        // New Game
+        buttonTable.getChildren().get(2).addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showNameInputDialog();
+                super.clicked(event, x, y);
+            }
+        });
+    }
+
+    public void showNameInputDialog() {
+        Skin skin = Resources._instance.skin;
+
+        TextField textField = new TextField("", skin);
+        textField.setMessageText("Save Name");
+
+        Label error = new Label("", skin);
+        error.setText("Valid: a-z, A-Z, -_, 0-9\n ");
+
+        Dialog dialog = new Dialog("Enter Save Name", skin) {
+            @Override
+            protected void result(Object object) {
+                if(object == null){
+                    hide();
+                    return;
+                }
+
+                String validChars = "abcdefghijklmnopqrstuvwxyz";
+                validChars = validChars + validChars.toUpperCase() + "-_0123456789";
+                String name = textField.getText();
+                if(name.isEmpty() || name.length() > 16){
+                    cancel();
+                    error.setText("Invalid length it has to be\nbetween 1 - 16");
+                    textField.setText(textField.getText().subSequence(0, 16).toString());
+                    return;
+                }
+                if(!name.matches("[a-zA-Z0-9 _-]{1,16}")){
+                    cancel();
+                    error.setText("invalid Characters\n ");
+                    return;
+                }
+
+                Main._instance.currentGameStateId = SaveManager.getNewId();
+                Main._instance.setScreen(new GameScreen());
+                Main._instance.gameLogic.getGameState().setName(name);
+            }
+        };
+
+        dialog.getContentTable().add(textField).width(200).row();
+        dialog.getContentTable().add(error).width(400);
+        dialog.button("OK", true); // OK-Button
+        dialog.button("Cancel", null); // Cancel-Button
+
+        dialog.show(stage);
+    }
+
+    private void addSaves(){
+        List<Integer> availableIds = SaveManager.getAvailableIds();
+        if(availableIds.isEmpty()) return;
+
+        Table wrapper = (Table) scrollPane.getActor();
+        Table content = (Table) wrapper.getChildren().first();
+
+        for (Integer id : availableIds) {
+            SavePreview sP = new SavePreview(SaveManager.loadGameState(id), id);
+            content.add(sP).row();
+
+            sP.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+//                    event.stop();
+                    if(selectedSave != null) selectedSave.setSelected(false);
+                    selectedSave = sP;
+                    sP.setSelected(true);
+                    Main._instance.currentGameStateId = sP.getId();
+                    super.clicked(event, x, y);
+                    System.out.println("clicked");
+                }
+            });
+        }
+//        table.debugAll();
+    }
+
+    private void rebuildSaves() {
+        Table wrapper = (Table) scrollPane.getActor();
+        Table content = (Table) wrapper.getChildren().first();
+
+        content.clearChildren();
+
+        List<Integer> ids = SaveManager.getAvailableIds();
+        for (Integer id : ids) {
+            SavePreview sP = new SavePreview(SaveManager.loadGameState(id), id);
+            content.add(sP).row();
+
+            sP.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (selectedSave != null) selectedSave.setSelected(false);
+                    selectedSave = sP;
+                    sP.setSelected(true);
+                    Main._instance.currentGameStateId = sP.getId();
+                }
+            });
+        }
+
+        content.invalidateHierarchy();
+        scrollPane.layout();
+    }
+
 
 
     @Override
