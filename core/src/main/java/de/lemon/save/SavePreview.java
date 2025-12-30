@@ -11,6 +11,7 @@ import de.lemon.core.GameState;
 import de.lemon.core.Resources;
 
 import java.text.DateFormat;
+import java.util.Date;
 
 public class SavePreview extends Table {
 
@@ -49,7 +50,7 @@ public class SavePreview extends Table {
     private void createPreview() {
         left = new Label(gameState.getName(), Resources._instance.skin);
         middle = new Label(gameState.getPlaytime() + "", Resources._instance.skin);
-        String date = DateFormat.getInstance().format(gameState.getLastPlayed());
+        String date = DateFormat.getInstance().format(new Date(gameState.getLastPlayed()));
 
         right = new Label(date, Resources._instance.skin);
         add(left).expandX().left();

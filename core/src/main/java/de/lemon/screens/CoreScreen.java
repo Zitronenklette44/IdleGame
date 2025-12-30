@@ -27,6 +27,7 @@ public abstract class CoreScreen implements Screen {
     protected Color backgroundColor = Color.BLACK;
 
     protected Stage stage;
+    protected Stage worldStage;
     protected WorldRenderer worldRenderer;
 
     OrthographicCamera camera = new OrthographicCamera();
@@ -43,7 +44,9 @@ public abstract class CoreScreen implements Screen {
             inputMultiplexer.addProcessor(stage);
         }
         if(getFeatures().contains(ScreenFeatures.WORLD)){
+            worldStage = new Stage(viewport);
             worldRenderer = new WorldRenderer();
+            inputMultiplexer.addProcessor(worldStage);
             inputMultiplexer.addProcessor(worldRenderer.getInputProcessor());
         }
 
@@ -89,6 +92,10 @@ public abstract class CoreScreen implements Screen {
             stage.act(delta);
             stage.draw();
         }
+        if(worldStage != null){
+            worldStage.act(delta);
+            worldStage.draw();
+        }
     }
 
     @Override
@@ -106,6 +113,9 @@ public abstract class CoreScreen implements Screen {
 
         if(stage != null){
             stage.getViewport().update(width, height, true);
+        }
+        if(worldStage != null){
+            worldStage.getViewport().update(width, height, true);
         }
 
     }
@@ -131,6 +141,7 @@ public abstract class CoreScreen implements Screen {
         // Destroy screen's assets here.
         if (stage != null) stage.dispose();
         if ( worldRenderer != null) worldRenderer.dispose();
+        if (worldRenderer != null) worldStage.dispose();
     }
 
     public Color getBackgroundColor() {

@@ -14,6 +14,7 @@ public class Resources {
 
     public Texture splashScreen_loadingBar;
     public Texture gameScreen_background;
+    public Texture gardenScreen_background;
     public Texture startScreen_name;
     public Skin skin;
     public FileHandle font1;
@@ -34,6 +35,7 @@ public class Resources {
 
     public void startLoading(){
         assetManager.load("sprites/gameScreen.png", Texture.class);
+        assetManager.load("sprites/garden.png", Texture.class);
 
 
         assetManager.load("skins/template.json", Skin.class);
@@ -45,6 +47,7 @@ public class Resources {
     public void update() {
         if (assetManager.update()) { // true, wenn alles fertig
             if (gameScreen_background == null) gameScreen_background = assetManager.get("sprites/gameScreen.png", Texture.class);
+            if (gardenScreen_background == null) gardenScreen_background = assetManager.get("sprites/garden.png", Texture.class);
 
             if (skin == null) skin = assetManager.get("skins/template.json", Skin.class);
             loadedAll = true;

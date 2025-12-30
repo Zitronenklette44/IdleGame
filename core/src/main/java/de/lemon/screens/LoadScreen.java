@@ -38,6 +38,8 @@ public class LoadScreen extends CoreScreen{
         table.setFillParent(true);
         stage.addActor(table);
 
+        //table.add(createHeader()).padBottom(20).padTop(10).row();
+
         Table content = new Table();
         content.top();
         content.defaults().expandX().fillX().pad(10);
@@ -74,6 +76,20 @@ public class LoadScreen extends CoreScreen{
         cell.minWidth(value);
         addSaves();
         addListeners();
+    }
+
+    private Table createHeader() {
+        Table header = new Table();
+        header.defaults().pad(10);
+
+        header.add(new Label("Name", Resources._instance.skin))
+            .expandX().left();
+        header.add(new Label("Playtime", Resources._instance.skin))
+            .width(100).center();
+        header.add(new Label("Last played", Resources._instance.skin))
+            .width(150).right();
+
+        return header;
     }
 
     private void addListeners() {
@@ -128,8 +144,6 @@ public class LoadScreen extends CoreScreen{
                     return;
                 }
 
-                String validChars = "abcdefghijklmnopqrstuvwxyz";
-                validChars = validChars + validChars.toUpperCase() + "-_0123456789";
                 String name = textField.getText();
                 if(name.isEmpty() || name.length() > 16){
                     cancel();
@@ -149,7 +163,7 @@ public class LoadScreen extends CoreScreen{
             }
         };
 
-        dialog.getContentTable().add(textField).width(200).row();
+        dialog.getContentTable().add(textField).width(300).row();
         dialog.getContentTable().add(error).width(400);
         dialog.button("OK", true); // OK-Button
         dialog.button("Cancel", null); // Cancel-Button

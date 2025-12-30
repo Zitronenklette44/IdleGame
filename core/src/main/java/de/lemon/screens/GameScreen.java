@@ -8,11 +8,13 @@ import de.lemon.enums.ScreenFeatures;
 import de.lemon.logic.GameLogic;
 import de.lemon.main.Main;
 import de.lemon.save.SaveManager;
+import de.lemon.ui.Hitbox;
 
 import java.util.EnumSet;
 
 public class GameScreen extends CoreScreen{
     private Sprite background;
+    private Hitbox door;
 
 
     public GameScreen(){
@@ -27,7 +29,18 @@ public class GameScreen extends CoreScreen{
     }
 
     @Override
-    protected void createComponents() {}
+    protected void createComponents() {
+        door = new Hitbox(){
+            @Override
+            public void onClick() {
+//              System.out.println("door");
+                Main._instance.setScreen(new GardenScreen());
+            }
+        };
+        worldStage.addActor(door);
+
+
+    }
 
     @Override
     protected void createWorld() {
@@ -50,5 +63,9 @@ public class GameScreen extends CoreScreen{
     public void resize(int width, int height) {
         super.resize(width, height);
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
+
+        Vector2 size = background.getSize().cpy();
+        door.autoresize(background, size.x / 4, 0, 1/7.2f, 1/20f);
+
     }
 }

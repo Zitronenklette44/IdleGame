@@ -66,7 +66,7 @@ public class Main extends Game {
     @Override
     public void dispose() {
         if(gameLogic != null) {
-            gameLogic.getGameState().setLastPlayed(new Date(System.currentTimeMillis()));
+            gameLogic.getGameState().setLastPlayed(System.currentTimeMillis());
             SaveManager.saveGameState(gameLogic.getGameState(), currentGameStateId);
         }
         super.dispose();

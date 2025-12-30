@@ -2,7 +2,6 @@ package de.lemon.core;
 
 import de.lemon.enums.Upgrades;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +10,7 @@ public class GameState {
     private int mana;
     private Map<String, Integer> upgrades = new HashMap<>();
     private String name;
-    private Date lastPlayed;
+    private long lastPlayed;
     private long playtime = 0;
 
 
@@ -72,11 +71,11 @@ public class GameState {
         this.playtime = playtime;
     }
 
-    public Date getLastPlayed() {
+    public long getLastPlayed() {
         return lastPlayed;
     }
 
-    public void setLastPlayed(Date lastPlayed) {
+    public void setLastPlayed(long lastPlayed) {
         this.lastPlayed = lastPlayed;
     }
 }
