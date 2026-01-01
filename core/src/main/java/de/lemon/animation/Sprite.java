@@ -16,8 +16,8 @@ public class Sprite extends GameObject {
 
     protected boolean autoPlay;
     protected boolean loop;
-    private final int frameWidth;
-    private final int frameHeight;
+    protected int frameWidth;
+    protected int frameHeight;
 
     protected Sprite(int frameWidth, int frameHeight){
         super(new Vector2(), new Vector2());
@@ -33,14 +33,7 @@ public class Sprite extends GameObject {
         this.autoPlay = true;
         this.loop = loop;
 
-        TextureRegion[][] regions = TextureRegion.split(texture, frameWidth, frameHeight);
-        TextureRegion[] frames = regions[row];
-        if(frameDuration <= 0){
-            frameDuration = 1f / frames.length;
-        }
-
-        animation = new Animation<>(frameDuration, frames);
-        animation.setPlayMode(loop ? Animation.PlayMode.LOOP : Animation.PlayMode.NORMAL);
+        createAnimation(splitTexture(texture, row), frameDuration, loop);
 
         stateTime = 0f;
     }
@@ -49,6 +42,20 @@ public class Sprite extends GameObject {
     }
     public Sprite(Texture texture, int frameWidth, int frameHeight, boolean loop, Vector2 pos){
         this(texture, 0, frameWidth, frameHeight, 0, loop, pos);
+    }
+
+    protected TextureRegion[] splitTexture(Texture texture, int row){
+        TextureRegion[][] regions = TextureRegion.split(texture, frameWidth, frameHeight);
+        return regions[row];
+    }
+
+    protected void createAnimation(TextureRegion[] frames, float frameDuration, boolean loop){
+        if(frameDuration <= 0){
+            frameDuration = 1f / frames.length;
+        }
+
+        animation = new Animation<>(frameDuration, frames);
+        animation.setPlayMode(loop ? Animation.PlayMode.LOOP : Animation.PlayMode.NORMAL);
     }
 
     @Override

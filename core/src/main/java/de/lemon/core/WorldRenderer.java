@@ -1,6 +1,7 @@
 package de.lemon.core;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 
 public class WorldRenderer {
     ArrayList<GameObject> objects = new ArrayList<>();
+    ArrayList<GameObject> lights = new ArrayList<>();
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     SpriteBatch spriteBatch = new SpriteBatch();
@@ -19,6 +21,9 @@ public class WorldRenderer {
 
     public void addObject(GameObject object){
         objects.add(object);
+    }
+    public void addLight(GameObject object){
+        lights.add(object);
     }
 
     public void render(float delta, OrthographicCamera camera){
@@ -34,6 +39,18 @@ public class WorldRenderer {
         spriteBatch.begin();
         for (GameObject o : objects) o.onSpriteRender(spriteBatch, delta);
         spriteBatch.end();
+
+        spriteBatch.setBlendFunction(
+            GL20.GL_SRC_ALPHA,
+            GL20.GL_ONE
+        );
+        spriteBatch.begin();
+        for (GameObject o : lights) o.onSpriteRender(spriteBatch, delta);
+        spriteBatch.end();
+        spriteBatch.setBlendFunction(
+            GL20.GL_SRC_ALPHA,
+            GL20.GL_ONE_MINUS_SRC_ALPHA
+        );
 
     }
 
@@ -104,5 +121,9 @@ public class WorldRenderer {
         for (GameObject gO : objects){
             gO.update(delta);
         }
+    }
+
+    public ArrayList<GameObject> getObjects() {
+        return objects;
     }
 }

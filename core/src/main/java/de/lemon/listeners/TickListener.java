@@ -1,5 +1,7 @@
 package de.lemon.listeners;
 
+import de.lemon.main.Main;
+
 public class TickListener {
     private float time;
 
@@ -14,4 +16,7 @@ public class TickListener {
 
     protected void onSecond(){}
 
+    public void dispose() {
+        Main._instance.tick.removeListener(this);
+    }
 }

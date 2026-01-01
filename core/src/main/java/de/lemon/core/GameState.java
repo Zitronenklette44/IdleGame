@@ -33,13 +33,16 @@ public class GameState {
     public void setUpgradeLevel(Upgrades upgrade, int level) {
         if(level <= 0){
             upgrades.remove(upgrade.name());
+            return;
         }
         upgrades.put(upgrade.name(), level);
     }
     public void addUpgradeLevel(Upgrades upgrade, int level){
+        addUpgrade(upgrade);
         int currentLevel = upgrades.get(upgrade.name());
         int newLevel = Math.max(1, currentLevel + level);
         upgrades.put(upgrade.name(), newLevel);
+//        System.out.println("upgrade: "+ upgrade.name() + " currentLevel: " + currentLevel + " newLevel: " + newLevel + " savedLevel: " + upgrades.get(upgrade.name()));
     }
     public void addUpgradeLevel(Upgrades upgrade){
         addUpgradeLevel(upgrade, 1);

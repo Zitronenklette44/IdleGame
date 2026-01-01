@@ -2,13 +2,14 @@ package de.lemon.logic;
 
 import de.lemon.listeners.TickListener;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Tick {
 
     private float timeScale = 1f;
+    private boolean running = false;
 
-    ArrayList<TickListener> listeners = new ArrayList<>();
+    CopyOnWriteArrayList<TickListener> listeners = new CopyOnWriteArrayList<>();
 
     public Tick(){}
 
@@ -21,6 +22,7 @@ public class Tick {
     }
 
     public void update(float delta){
+        if(!running) return;
         for(TickListener l : listeners) l.onTick(delta * timeScale);
     }
 
@@ -30,5 +32,13 @@ public class Tick {
 
     public void setTimeScale(float timeScale) {
         this.timeScale = Math.max(0, timeScale);
+    }
+
+    public void start(){
+        running = true;
+    }
+
+    public void stopp(){
+        running = false;
     }
 }

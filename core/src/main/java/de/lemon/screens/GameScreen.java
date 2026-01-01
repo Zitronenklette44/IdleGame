@@ -17,10 +17,12 @@ public class GameScreen extends CoreScreen{
     private Hitbox door;
 
 
-    public GameScreen(){
+    @Override
+    public void init() {
         Main._instance.gameLogic = new GameLogic(SaveManager.loadGameState(Main._instance.currentGameStateId));
         Main._instance.tick.addListener(Main._instance.gameLogic.getTickListener());
         setBackgroundColor(Color.DARK_GRAY);
+        super.init();
     }
 
     @Override
@@ -30,11 +32,11 @@ public class GameScreen extends CoreScreen{
 
     @Override
     protected void createComponents() {
+        Main._instance.played = true;
         door = new Hitbox(){
             @Override
             public void onClick() {
-//              System.out.println("door");
-                Main._instance.setScreen(new GardenScreen());
+                Main._instance.switchScreen(Main.GARDEN_SCREEN);
             }
         };
         worldStage.addActor(door);

@@ -13,8 +13,14 @@ public class Resources {
     private final AssetManager assetManager;
 
     public Texture splashScreen_loadingBar;
+
     public Texture gameScreen_background;
+
     public Texture gardenScreen_background;
+    public Texture gardenScreen_pots;
+
+    public Texture plants_01;
+
     public Texture startScreen_name;
     public Skin skin;
     public FileHandle font1;
@@ -36,7 +42,9 @@ public class Resources {
     public void startLoading(){
         assetManager.load("sprites/gameScreen.png", Texture.class);
         assetManager.load("sprites/garden.png", Texture.class);
+        assetManager.load("sprites/pots.png", Texture.class);
 
+        assetManager.load("sprites/plants/plant_01.png", Texture.class);
 
         assetManager.load("skins/template.json", Skin.class);
 
@@ -45,9 +53,12 @@ public class Resources {
 
     boolean loadedAll = false;
     public void update() {
-        if (assetManager.update()) { // true, wenn alles fertig
+        if (assetManager.update()) { // true, if all loaded
             if (gameScreen_background == null) gameScreen_background = assetManager.get("sprites/gameScreen.png", Texture.class);
             if (gardenScreen_background == null) gardenScreen_background = assetManager.get("sprites/garden.png", Texture.class);
+            if (gardenScreen_pots == null) gardenScreen_pots = assetManager.get("sprites/pots.png", Texture.class);
+
+            if (plants_01 == null) plants_01 = assetManager.get("sprites/plants/plant_01.png", Texture.class);
 
             if (skin == null) skin = assetManager.get("skins/template.json", Skin.class);
             loadedAll = true;

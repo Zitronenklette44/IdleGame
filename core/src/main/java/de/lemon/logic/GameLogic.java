@@ -43,6 +43,7 @@ public class GameLogic {
     public TickListener getTickListener() {
         return tickListener;
     }
+
     public GameState getGameState() {
         return gameState;
     }

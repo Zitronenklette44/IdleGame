@@ -6,6 +6,7 @@ public enum Upgrades {
     MANA_GENERATION_PER_TICK,
     CLICK_AMOUNT,
     CLICK_NUMBER,
+    GARDEN_POT_LEVEL,
 
     //permanent
     GLOBAL_MULTIPLIER,

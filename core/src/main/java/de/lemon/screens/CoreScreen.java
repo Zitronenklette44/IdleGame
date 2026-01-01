@@ -37,8 +37,11 @@ public abstract class CoreScreen implements Screen {
 
     protected abstract EnumSet<ScreenFeatures> getFeatures();
 
+    public void init(){}
+
     @Override
     public void show() {
+        if (inputMultiplexer != null) inputMultiplexer.clear();
         if(getFeatures().contains(ScreenFeatures.LOADING) || getFeatures().contains(ScreenFeatures.UI)){
             stage = new Stage(new ScreenViewport());
             inputMultiplexer.addProcessor(stage);
@@ -49,7 +52,6 @@ public abstract class CoreScreen implements Screen {
             inputMultiplexer.addProcessor(worldStage);
             inputMultiplexer.addProcessor(worldRenderer.getInputProcessor());
         }
-
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         background = new GameObject(new Vector2(0, 0), new Vector2(viewport.getWorldWidth(),viewport.getWorldHeight())) {

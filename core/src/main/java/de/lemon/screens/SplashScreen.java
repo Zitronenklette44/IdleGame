@@ -16,7 +16,7 @@ public class SplashScreen extends CoreScreen{
 
     private SimpleSprite simpleSprite;
     private Sprite name;
-    private final boolean[] loadProgress = {false, false};
+    private final boolean[] loadProgress = {false, false, false};
     private final int MAX_LOADING_FRAMES = 20;
     private final int TRANSITION_FRAMES = 30;
 
@@ -53,7 +53,7 @@ public class SplashScreen extends CoreScreen{
         if(amountLoaded() == loadProgress.length) {
             if(frameCounter == -1) frameCounter = 0;
             if(frameCounter >= TRANSITION_FRAMES){
-                Main._instance.setScreen(new StartScreen());
+                Main._instance.switchScreen(Main.START_SCREEN);
                 return;
             }
         }
@@ -70,6 +70,10 @@ public class SplashScreen extends CoreScreen{
             if(!FontCache.isLoaded) FontCache.init(Resources._instance.font1);
             if(!loadProgress[1]) loadProgress[1] = FontCache.isLoaded;
 
+            if(!loadProgress[2]){
+                Main._instance.initScreens();
+                loadProgress[2] = true;
+            }
 
 
         }

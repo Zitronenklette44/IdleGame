@@ -1,6 +1,7 @@
 package de.lemon.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -76,6 +77,9 @@ public class LoadScreen extends CoreScreen{
         cell.minWidth(value);
         addSaves();
         addListeners();
+
+        disableButton(buttonTable.getChildren().get(0));
+        disableButton(buttonTable.getChildren().get(1));
     }
 
     private Table createHeader() {
@@ -97,7 +101,8 @@ public class LoadScreen extends CoreScreen{
         buttonTable.getChildren().get(0).addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Main._instance.setScreen(new GameScreen());
+                Main._instance.switchScreen(Main.GAME_SCREEN);
+                Main._instance.tick.start();
                 super.clicked(event, x, y);
             }
         });
@@ -113,6 +118,8 @@ public class LoadScreen extends CoreScreen{
                 content.removeActor(selectedSave);
                 rebuildSaves();
                 selectedSave = null;
+                disableButton(buttonTable.getChildren().get(0));
+                disableButton(buttonTable.getChildren().get(1));
                 super.clicked(event, x, y);
             }
         });
@@ -158,7 +165,7 @@ public class LoadScreen extends CoreScreen{
                 }
 
                 Main._instance.currentGameStateId = SaveManager.getNewId();
-                Main._instance.setScreen(new GameScreen());
+                Main._instance.switchScreen(Main.GAME_SCREEN);
                 Main._instance.gameLogic.getGameState().setName(name);
             }
         };
@@ -186,16 +193,31 @@ public class LoadScreen extends CoreScreen{
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
 //                    event.stop();
-                    if(selectedSave != null) selectedSave.setSelected(false);
+                    if(selectedSave != null){
+                        selectedSave.setSelected(false);
+                    }
                     selectedSave = sP;
                     sP.setSelected(true);
                     Main._instance.currentGameStateId = sP.getId();
+                    enableButton(buttonTable.getChildren().get(0));
+                    enableButton(buttonTable.getChildren().get(1));
                     super.clicked(event, x, y);
-                    System.out.println("clicked");
                 }
             });
         }
 //        table.debugAll();
+    }
+
+    private void disableButton(Actor actor) {
+        Button button = (Button) (actor);
+        button.setDisabled(true);
+        button.setTouchable(Touchable.disabled);
+    }
+
+    private void enableButton(Actor actor) {
+        Button button = (Button) (actor);
+        button.setDisabled(false);
+        button.setTouchable(Touchable.enabled);
     }
 
     private void rebuildSaves() {
