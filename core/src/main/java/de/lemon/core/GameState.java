@@ -1,6 +1,7 @@
 package de.lemon.core;
 
-import de.lemon.enums.Upgrades;
+import de.lemon.logic.enums.Upgrades;
+import de.lemon.mechanics.Inventory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,11 @@ public class GameState {
     private String name;
     private long lastPlayed;
     private long playtime = 0;
+    private Inventory inventory;
 
+    public GameState(){
+        inventory = new Inventory();
+    }
 
     public int getMana() {
         return mana;
@@ -80,5 +85,13 @@ public class GameState {
 
     public void setLastPlayed(long lastPlayed) {
         this.lastPlayed = lastPlayed;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 }

@@ -1,0 +1,23 @@
+
+skin.png
+size: 128, 128
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+RoundedBorder
+  rotate: false
+  xy: 1, 67
+  size: 64, 32
+  split: 11, 11, 11, 11
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+RoundedBorderTable
+  rotate: false
+  xy: 1, 1
+  size: 64, 64
+  split: 13, 13, 13, 13
+  pad: 32, 31, 32, 30
+  orig: 64, 64
+  offset: 0, 0
+  index: -1

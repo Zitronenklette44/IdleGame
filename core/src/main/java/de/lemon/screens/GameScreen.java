@@ -2,11 +2,12 @@ package de.lemon.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.lemon.animation.Sprite;
+import de.lemon.logic.animation.Sprite;
 import de.lemon.core.Resources;
-import de.lemon.enums.ScreenFeatures;
+import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.logic.GameLogic;
 import de.lemon.main.Main;
+import de.lemon.mechanics.Inventory;
 import de.lemon.save.SaveManager;
 import de.lemon.ui.Hitbox;
 
@@ -14,12 +15,14 @@ import java.util.EnumSet;
 
 public class GameScreen extends CoreScreen{
     private Sprite background;
-    private Hitbox door;
+//    private Hitbox door;
+    private Sprite door;
 
 
     @Override
     public void init() {
         Main._instance.gameLogic = new GameLogic(SaveManager.loadGameState(Main._instance.currentGameStateId));
+        Inventory._instance = Main._instance.gameLogic.getGameState().getInventory();
         Main._instance.tick.addListener(Main._instance.gameLogic.getTickListener());
         setBackgroundColor(Color.DARK_GRAY);
         super.init();
@@ -33,13 +36,14 @@ public class GameScreen extends CoreScreen{
     @Override
     protected void createComponents() {
         Main._instance.played = true;
-        door = new Hitbox(){
+        /*door = new Hitbox(){
             @Override
             public void onClick() {
                 Main._instance.switchScreen(Main.GARDEN_SCREEN);
             }
         };
         worldStage.addActor(door);
+        */
 
 
     }
@@ -49,6 +53,15 @@ public class GameScreen extends CoreScreen{
         background = new Sprite(Resources._instance.gameScreen_background, 512, 320, 0.1f, true, new Vector2(0, 0));
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
         worldRenderer.addObject(background);
+
+        door = new Sprite(Resources._instance.door, 72, 16, 0.1f, true, new Vector2()){
+            @Override
+            public void onClick() {
+                Main._instance.switchScreen(Main.GARDEN_SCREEN);
+            }
+        };
+        door.setClickable(true);
+        worldRenderer.addObject(door);
     }
 
     @Override
@@ -66,8 +79,8 @@ public class GameScreen extends CoreScreen{
         super.resize(width, height);
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
 
-        Vector2 size = background.getSize().cpy();
-        door.autoresize(background, size.x / 4, 0, 1/7.2f, 1/20f);
+        //Vector2 size = background.getSize().cpy();
+        door.autoResize(4 / 10f, 2.6f/100f, 1/7.2f, 3/10f, viewport);
 
     }
 }

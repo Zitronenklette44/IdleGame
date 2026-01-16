@@ -3,19 +3,16 @@ package de.lemon.screens;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.lemon.core.Resources;
-import de.lemon.enums.ScreenFeatures;
+import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.main.Main;
 import de.lemon.save.SaveManager;
 import de.lemon.save.SavePreview;
 import de.lemon.ui.TButton;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 

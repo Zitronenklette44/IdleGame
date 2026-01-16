@@ -5,18 +5,22 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import de.lemon.logic.interfaces.Clickable;
 
 import java.util.ArrayList;
 
 public class WorldRenderer {
-    ArrayList<GameObject> objects = new ArrayList<>();
-    ArrayList<GameObject> lights = new ArrayList<>();
+    private final ArrayList<GameObject> objects = new ArrayList<>();
+    private final ArrayList<GameObject> lights = new ArrayList<>();
+    private final OrthographicCamera camera;
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     SpriteBatch spriteBatch = new SpriteBatch();
 
-    public WorldRenderer(){
-
+    public WorldRenderer(OrthographicCamera camera){
+        this.camera = camera;
     }
 
     public void addObject(GameObject object){
@@ -26,7 +30,7 @@ public class WorldRenderer {
         lights.add(object);
     }
 
-    public void render(float delta, OrthographicCamera camera){
+    public void render(float delta){
         camera.update();
         shapeRenderer.setProjectionMatrix(camera.combined);
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -76,7 +80,16 @@ public class WorldRenderer {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                for (GameObject o : objects) o.onTouchDown(screenX, screenY, button);
+                Vector3 world = new Vector3(screenX, screenY, 0);
+                camera.unproject(world);
+
+                for (GameObject o : objects) {
+                    o.onTouchDown(screenX, screenY, button);
+                    if(o instanceof Clickable){
+                        Clickable c = (Clickable) o;
+                        if(c.isClickable() && c.contains(world.x, world.y)) c.onClick();
+                    }
+                }
                 return false;
             }
 

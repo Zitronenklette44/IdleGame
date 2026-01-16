@@ -1,4 +1,4 @@
-package de.lemon.animation;
+package de.lemon.logic.animation;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -7,9 +7,18 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import de.lemon.logic.interfaces.Clickable;
 import de.lemon.core.GameObject;
 
-public class Sprite extends GameObject {
+public class Sprite extends GameObject implements Clickable {
+
+    public static final float CW_180 = 180;
+    public static final float CW_90 = -90;
+    public static final float CCW_90 = 90;
+    public static final float CCW_45 = 45;
+    public static final float CW_45 = -45;
+    public static final float CW_135 = -135;
+    public static final float CCW_135 = 135;
 
     protected Animation<TextureRegion> animation;
     protected float stateTime;
@@ -18,6 +27,10 @@ public class Sprite extends GameObject {
     protected boolean loop;
     protected int frameWidth;
     protected int frameHeight;
+    protected float rotation = 0;
+    protected Vector2 origin = new Vector2();
+
+    protected boolean clickable = false;
 
     protected Sprite(int frameWidth, int frameHeight){
         super(new Vector2(), new Vector2());
@@ -36,6 +49,8 @@ public class Sprite extends GameObject {
         createAnimation(splitTexture(texture, row), frameDuration, loop);
 
         stateTime = 0f;
+        origin.x = size.x / 2f;
+        origin.y = size.y / 2f;
     }
     public Sprite(Texture texture, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos){
         this(texture, 0, frameWidth, frameHeight, frameDuration, loop, pos);
@@ -70,7 +85,7 @@ public class Sprite extends GameObject {
     protected void onSpriteRender(Batch batch, float delta) {
         TextureRegion frame = animation.getKeyFrame(stateTime, loop);
 
-        batch.draw(frame, pos.x, pos.y, size.x, size.y);
+        batch.draw(frame, pos.x, pos.y,origin.x, origin.y, size.x, size.y, 1f, 1f, rotation);
         //System.out.println("drawn ->" + pos.toString() + " size: " + size.toString());
         super.onSpriteRender(batch, delta);
     }
@@ -152,4 +167,25 @@ public class Sprite extends GameObject {
     }
 
 
+    @Override
+    public boolean isClickable() {
+        return clickable;
+    }
+
+    @Override
+    public boolean contains(float x, float y) {
+        return pos.x <= x && pos.x + size.x >= x &&
+            pos.y <= y && pos.y + size.y >= y;
+    }
+
+    @Override
+    public void onClick() {}
+
+    public void setClickable(boolean clickable) {
+        this.clickable = clickable;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
 }

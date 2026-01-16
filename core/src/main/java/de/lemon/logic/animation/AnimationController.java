@@ -1,4 +1,4 @@
-package de.lemon.animation;
+package de.lemon.logic.animation;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;

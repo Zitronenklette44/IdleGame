@@ -3,11 +3,11 @@ package de.lemon.main;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.Screen;
 import de.lemon.core.Resources;
-import de.lemon.enums.ScreenMode;
+import de.lemon.logic.enums.ScreenMode;
 import de.lemon.logic.GameLogic;
 import de.lemon.logic.Tick;
+import de.lemon.mechanics.Inventory;
 import de.lemon.save.SaveManager;
 import de.lemon.screens.*;
 
@@ -82,6 +82,7 @@ public class Main extends Game {
     @Override
     public void dispose() {
         if(played) {
+            gameLogic.getGameState().setInventory(Inventory._instance);
             gameLogic.getGameState().setLastPlayed(System.currentTimeMillis());
             SaveManager.saveGameState(gameLogic.getGameState(), currentGameStateId);
         }

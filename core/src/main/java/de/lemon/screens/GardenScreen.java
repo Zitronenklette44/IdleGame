@@ -1,12 +1,15 @@
 package de.lemon.screens;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.lemon.animation.SimpleSprite;
-import de.lemon.animation.Sprite;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import de.lemon.logic.animation.SimpleSprite;
+import de.lemon.logic.animation.Sprite;
 import de.lemon.core.Resources;
-import de.lemon.enums.ScreenFeatures;
-import de.lemon.enums.Upgrades;
+import de.lemon.logic.enums.ScreenFeatures;
+import de.lemon.logic.enums.Upgrades;
 import de.lemon.main.Main;
 import de.lemon.mechanics.plants.Plant;
 import de.lemon.mechanics.plants.PlantLogic;
@@ -18,6 +21,8 @@ public class GardenScreen extends CoreScreen{
     private Sprite background;
     private SimpleSprite pots;
     private PlantLogic[] plants = new PlantLogic[5];
+    private Cell<Table> cell;
+    private Sprite door;
 
     @Override
     protected EnumSet<ScreenFeatures> getFeatures() {
@@ -27,13 +32,22 @@ public class GardenScreen extends CoreScreen{
     @Override
     public void init() {
         createPlants();
-        System.out.println("called");
         super.init();
     }
 
     @Override
     protected void createComponents() {
 //        setBackgroundColor(Color.YELLOW);
+        Table main = new Table();
+        main.setFillParent(true);
+        stage.addActor(main);
+
+        Table tools = new Table();
+        main.bottom();
+        cell = main.add(tools).expandX().fillX().height(50);
+        tools.setBackground(Resources._instance.skin.newDrawable("white", Color.valueOf("A0522D")));
+        tools.setDebug(true);
+
     }
 
     @Override
@@ -55,6 +69,17 @@ public class GardenScreen extends CoreScreen{
 
 //        for(PlantLogic plant : plants) worldRenderer.addObject(plant);
         worldRenderer.addObject(plants[0]);
+
+        door = new Sprite(Resources._instance.door, 1, 72, 16, 0.1f, true, new Vector2()){
+            @Override
+            public void onClick() {
+                Main._instance.switchScreen(Main.GAME_SCREEN);
+            }
+        };
+        door.setClickable(true);
+        door.setRotation(Sprite.CW_90);
+        worldRenderer.addObject(door);
+
     }
 
     private void createPlants() {
@@ -69,6 +94,10 @@ public class GardenScreen extends CoreScreen{
         pots.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
 
         plants[0].autoResize(1.2f/10f, 7.25f/10f, 2/5f, 2/5f, viewport);
+
+        cell.height(stage.getViewport().getScreenHeight() / 5f);
+
+        door.autoResize(3.4f/100f, 1.2f/3f, 1/7.2f, 3/10f, viewport);
     }
 
     @Override

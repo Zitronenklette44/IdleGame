@@ -2,8 +2,10 @@ package de.lemon.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -13,6 +15,7 @@ public class Resources {
     private final AssetManager assetManager;
 
     public Texture splashScreen_loadingBar;
+    public Texture door;
 
     public Texture gameScreen_background;
 
@@ -40,6 +43,8 @@ public class Resources {
     }
 
     public void startLoading(){
+        assetManager.load("sprites/door.png", Texture.class);
+
         assetManager.load("sprites/gameScreen.png", Texture.class);
         assetManager.load("sprites/garden.png", Texture.class);
         assetManager.load("sprites/pots.png", Texture.class);
@@ -48,12 +53,19 @@ public class Resources {
 
         assetManager.load("skins/template.json", Skin.class);
 
+        assetManager.load("skins/customSkin/skin.atlas", TextureAtlas.class);
+        SkinLoader.SkinParameter skinParam = new SkinLoader.SkinParameter("skins/customSkin/skin.atlas");
+        assetManager.load("skins/customSkin/skin.json", Skin.class, skinParam);
+
+
         font1 = Gdx.files.internal("fonts/font1.ttf");
     }
 
     boolean loadedAll = false;
     public void update() {
         if (assetManager.update()) { // true, if all loaded
+            if (door == null) door = assetManager.get("sprites/door.png", Texture.class);
+
             if (gameScreen_background == null) gameScreen_background = assetManager.get("sprites/gameScreen.png", Texture.class);
             if (gardenScreen_background == null) gardenScreen_background = assetManager.get("sprites/garden.png", Texture.class);
             if (gardenScreen_pots == null) gardenScreen_pots = assetManager.get("sprites/pots.png", Texture.class);
@@ -61,6 +73,7 @@ public class Resources {
             if (plants_01 == null) plants_01 = assetManager.get("sprites/plants/plant_01.png", Texture.class);
 
             if (skin == null) skin = assetManager.get("skins/template.json", Skin.class);
+//            if (skin == null)  skin = assetManager.get("skins/customSkin/skin.json", Skin.class);
             loadedAll = true;
         }
     }

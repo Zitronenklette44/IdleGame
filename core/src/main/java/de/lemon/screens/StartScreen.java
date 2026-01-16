@@ -5,13 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import de.lemon.animation.AnimationController;
-import de.lemon.animation.Sprite;
+import de.lemon.logic.animation.AnimationController;
+import de.lemon.logic.animation.Sprite;
 import de.lemon.core.Resources;
-import de.lemon.enums.ScreenFeatures;
-import de.lemon.logic.GameLogic;
+import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.main.Main;
-import de.lemon.save.SaveManager;
 import de.lemon.ui.TButton;
 
 import java.util.EnumSet;

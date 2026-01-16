@@ -1,7 +1,7 @@
 package de.lemon.mechanics;
 
 import de.lemon.core.GameState;
-import de.lemon.enums.Upgrades;
+import de.lemon.logic.enums.Upgrades;
 
 public class Mana {
 

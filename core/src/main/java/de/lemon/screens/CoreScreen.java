@@ -10,12 +10,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.core.GameObject;
 import de.lemon.core.WorldRenderer;
-import de.lemon.enums.ScreenFeatures;
+import de.lemon.logic.enums.ScreenFeatures;
 
 import java.util.EnumSet;
 
@@ -48,7 +47,7 @@ public abstract class CoreScreen implements Screen {
         }
         if(getFeatures().contains(ScreenFeatures.WORLD)){
             worldStage = new Stage(viewport);
-            worldRenderer = new WorldRenderer();
+            worldRenderer = new WorldRenderer(camera);
             inputMultiplexer.addProcessor(worldStage);
             inputMultiplexer.addProcessor(worldRenderer.getInputProcessor());
         }
@@ -88,7 +87,7 @@ public abstract class CoreScreen implements Screen {
         //System.out.println("RENDER->" + getClass().getSimpleName());
         if(worldRenderer != null){
             worldRenderer.update(delta);
-            worldRenderer.render(delta, camera);
+            worldRenderer.render(delta);
         }
         if(stage != null) {
             stage.act(delta);

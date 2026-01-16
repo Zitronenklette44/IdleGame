@@ -1,4 +1,4 @@
-package de.lemon.enums;
+package de.lemon.logic.enums;
 
 public enum ScreenMode {
     FULLSCREEN,

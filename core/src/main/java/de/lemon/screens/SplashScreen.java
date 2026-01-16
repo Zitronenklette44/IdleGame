@@ -2,11 +2,11 @@ package de.lemon.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.lemon.animation.AnimationController;
-import de.lemon.animation.SimpleSprite;
-import de.lemon.animation.Sprite;
+import de.lemon.logic.animation.AnimationController;
+import de.lemon.logic.animation.SimpleSprite;
+import de.lemon.logic.animation.Sprite;
 import de.lemon.core.Resources;
-import de.lemon.enums.ScreenFeatures;
+import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.main.Main;
 import de.lemon.ui.FontCache;
 
