@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import de.lemon.logic.animation.SimpleSprite;
-import de.lemon.logic.animation.Sprite;
+import de.lemon.logic.render.SimpleSprite;
+import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.core.Resources;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.logic.enums.Upgrades;
@@ -18,11 +18,11 @@ import de.lemon.mechanics.plants.Plants;
 import java.util.EnumSet;
 
 public class GardenScreen extends CoreScreen{
-    private Sprite background;
+    private AnimatedSprite background;
     private SimpleSprite pots;
     private PlantLogic[] plants = new PlantLogic[5];
     private Cell<Table> cell;
-    private Sprite door;
+    private AnimatedSprite door;
 
     @Override
     protected EnumSet<ScreenFeatures> getFeatures() {
@@ -52,12 +52,12 @@ public class GardenScreen extends CoreScreen{
 
     @Override
     protected void createWorld() {
-        background = new Sprite(Resources._instance.gardenScreen_background, 512, 256, 0.1f, false, new Vector2());
+        background = new AnimatedSprite(Resources._instance.gardenScreen_background, 512, 256, 0.1f, false, new Vector2());
         worldRenderer.addObject(background);
 
         pots = new SimpleSprite(Resources._instance.gardenScreen_pots,512, 256, false, new Vector2()){
             @Override
-            protected void onKeyDown(int keycode) {
+            public void onKeyDown(int keycode) {
                 if(keycode == Input.Keys.U){
                     Main._instance.gameLogic.getGameState().addUpgradeLevel(Upgrades.GARDEN_POT_LEVEL);
                     Main._instance.switchScreen(Main.GAME_SCREEN);
@@ -70,20 +70,21 @@ public class GardenScreen extends CoreScreen{
 //        for(PlantLogic plant : plants) worldRenderer.addObject(plant);
         worldRenderer.addObject(plants[0]);
 
-        door = new Sprite(Resources._instance.door, 1, 72, 16, 0.1f, true, new Vector2()){
+        door = new AnimatedSprite(Resources._instance.door, 1, 72, 16, 0.1f, true, new Vector2()){
             @Override
-            public void onClick() {
+            public void onClick(int button) {
                 Main._instance.switchScreen(Main.GAME_SCREEN);
             }
         };
         door.setClickable(true);
-        door.setRotation(Sprite.CW_90);
+        door.setRotation(AnimatedSprite.CW_90);
         worldRenderer.addObject(door);
 
     }
 
     private void createPlants() {
         plants[0] = new PlantLogic(Plant.getNewPlant(Plants.BLATTRUBIN));
+        plants[0].setClickable(true);
 
     }
 

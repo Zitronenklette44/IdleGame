@@ -3,7 +3,7 @@ package de.lemon.mechanics.plants;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import de.lemon.logic.animation.SimpleSprite;
+import de.lemon.logic.render.SimpleSprite;
 import de.lemon.listeners.TickListener;
 import de.lemon.main.Main;
 import de.lemon.mechanics.Inventory;
@@ -78,7 +78,7 @@ public class PlantLogic extends SimpleSprite {
     }
 
     @Override
-    protected void onTouchDown(int screenX, int screenY, int button) {
+    public void onClick(int button) {
         if(button == Input.Buttons.LEFT){
             if(fullyGrown){
                 Inventory._instance.addPlant(plantID, dropAmount);
@@ -89,6 +89,5 @@ public class PlantLogic extends SimpleSprite {
                 addListener();
             }
         }
-        super.onTouchDown(screenX, screenY, button);
     }
 }

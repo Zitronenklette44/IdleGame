@@ -1,4 +1,4 @@
-package de.lemon.logic.animation;
+package de.lemon.logic.render;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-public class AnimationController extends Sprite {
+public class AnimationController extends AnimatedSprite {
 
     private final int delay;
     private final ArrayList<Animation<TextureRegion>> animationList = new ArrayList<>();
@@ -42,7 +42,7 @@ public class AnimationController extends Sprite {
 
     float currentDelay = 0;
     @Override
-    protected void onSpriteRender(Batch batch, float delta) {
+    public void onSpriteRender(Batch batch, float delta) {
         Animation<TextureRegion> anim = animationList.get(currentAnimation);
 
         if(anim.isAnimationFinished(stateTime)){

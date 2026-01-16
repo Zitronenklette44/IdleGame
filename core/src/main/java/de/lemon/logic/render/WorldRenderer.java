@@ -1,12 +1,13 @@
-package de.lemon.core;
+package de.lemon.logic.render;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import de.lemon.core.GameObject;
+import de.lemon.logic.GameLogic;
 import de.lemon.logic.interfaces.Clickable;
 
 import java.util.ArrayList;
@@ -36,13 +37,20 @@ public class WorldRenderer {
         spriteBatch.setProjectionMatrix(camera.combined);
 
         shapeRenderer.setAutoShapeType(true);
-        shapeRenderer.begin();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         for (GameObject o : objects) o.onShapeRender(shapeRenderer, delta);
         shapeRenderer.end();
 
         spriteBatch.begin();
         for (GameObject o : objects) o.onSpriteRender(spriteBatch, delta);
         spriteBatch.end();
+
+        if(GameLogic.debug){
+            shapeRenderer.setAutoShapeType(true);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            for (GameObject o : objects) o.onDebug(shapeRenderer, delta);
+            shapeRenderer.end();
+        }
 
         spriteBatch.setBlendFunction(
             GL20.GL_SRC_ALPHA,
@@ -87,7 +95,7 @@ public class WorldRenderer {
                     o.onTouchDown(screenX, screenY, button);
                     if(o instanceof Clickable){
                         Clickable c = (Clickable) o;
-                        if(c.isClickable() && c.contains(world.x, world.y)) c.onClick();
+                        if(c.isClickable() && c.contains(world.x, world.y)) c.onClick(button);
                     }
                 }
                 return false;

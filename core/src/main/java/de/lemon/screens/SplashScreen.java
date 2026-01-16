@@ -2,9 +2,9 @@ package de.lemon.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.lemon.logic.animation.AnimationController;
-import de.lemon.logic.animation.SimpleSprite;
-import de.lemon.logic.animation.Sprite;
+import de.lemon.logic.render.AnimationController;
+import de.lemon.logic.render.SimpleSprite;
+import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.core.Resources;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.main.Main;
@@ -15,7 +15,7 @@ import java.util.EnumSet;
 public class SplashScreen extends CoreScreen{
 
     private SimpleSprite simpleSprite;
-    private Sprite name;
+    private AnimatedSprite name;
     private final boolean[] loadProgress = {false, false, false};
     private final int MAX_LOADING_FRAMES = 20;
     private final int TRANSITION_FRAMES = 30;

@@ -1,24 +1,17 @@
-package de.lemon.logic.animation;
+package de.lemon.logic.render;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.logic.interfaces.Clickable;
-import de.lemon.core.GameObject;
 
-public class Sprite extends GameObject implements Clickable {
-
-    public static final float CW_180 = 180;
-    public static final float CW_90 = -90;
-    public static final float CCW_90 = 90;
-    public static final float CCW_45 = 45;
-    public static final float CW_45 = -45;
-    public static final float CW_135 = -135;
-    public static final float CCW_135 = 135;
+public class AnimatedSprite extends Sprite implements Clickable {
 
     protected Animation<TextureRegion> animation;
     protected float stateTime;
@@ -27,18 +20,14 @@ public class Sprite extends GameObject implements Clickable {
     protected boolean loop;
     protected int frameWidth;
     protected int frameHeight;
-    protected float rotation = 0;
-    protected Vector2 origin = new Vector2();
 
-    protected boolean clickable = false;
-
-    protected Sprite(int frameWidth, int frameHeight){
+    protected AnimatedSprite(int frameWidth, int frameHeight){
         super(new Vector2(), new Vector2());
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
     }
 
-    public Sprite(Texture texture, int row, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos) {
+    public AnimatedSprite(Texture texture, int row, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos) {
         super(pos, new Vector2(frameWidth, frameHeight));
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
@@ -49,13 +38,11 @@ public class Sprite extends GameObject implements Clickable {
         createAnimation(splitTexture(texture, row), frameDuration, loop);
 
         stateTime = 0f;
-        origin.x = size.x / 2f;
-        origin.y = size.y / 2f;
     }
-    public Sprite(Texture texture, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos){
+    public AnimatedSprite(Texture texture, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos){
         this(texture, 0, frameWidth, frameHeight, frameDuration, loop, pos);
     }
-    public Sprite(Texture texture, int frameWidth, int frameHeight, boolean loop, Vector2 pos){
+    public AnimatedSprite(Texture texture, int frameWidth, int frameHeight, boolean loop, Vector2 pos){
         this(texture, 0, frameWidth, frameHeight, 0, loop, pos);
     }
 
@@ -82,12 +69,18 @@ public class Sprite extends GameObject implements Clickable {
     }
 
     @Override
-    protected void onSpriteRender(Batch batch, float delta) {
+    public void onSpriteRender(Batch batch, float delta) {
         TextureRegion frame = animation.getKeyFrame(stateTime, loop);
 
-        batch.draw(frame, pos.x, pos.y,origin.x, origin.y, size.x, size.y, 1f, 1f, rotation);
+        batch.draw(frame, pos.x, pos.y,origin.x, origin.y, size.x, size.y, scale.x, scale.y, rotation);
         //System.out.println("drawn ->" + pos.toString() + " size: " + size.toString());
-        super.onSpriteRender(batch, delta);
+    }
+
+    @Override
+    public void onDebug(ShapeRenderer shapeRenderer, float delta) {
+            if(shapeRenderer.getCurrentType() != ShapeRenderer.ShapeType.Line) shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.CYAN);
+            shapeRenderer.rect(pos.x, pos.y, origin.x, origin.y, size.x, size.y, scale.x, scale.y, rotation);
     }
 
     public void reset() {
@@ -124,6 +117,14 @@ public class Sprite extends GameObject implements Clickable {
         this.stateTime = stateTime;
     }
 
+    public void autoResize(float relX, float relY, float relWidth, float relHeight, Viewport viewport){
+        scaleToContain(viewport.getWorldWidth() * relWidth, viewport.getWorldHeight() * relHeight);
+
+        pos.set(viewport.getWorldWidth() * relX - size.x / 2,
+            viewport.getWorldHeight() * relY - size.y / 2);
+
+    }
+
     public void scaleToFit(Vector2 targetSize) {
         //System.out.println(targetSize.toString());
         float scaleX = targetSize.x / frameWidth;
@@ -156,36 +157,5 @@ public class Sprite extends GameObject implements Clickable {
 
     public void scale(float factor){
         size = new Vector2(frameWidth * factor, frameHeight * factor);
-    }
-
-    public void autoResize(float relX, float relY, float relWidth, float relHeight, Viewport viewport){
-        scaleToContain(viewport.getWorldWidth() * relWidth, viewport.getWorldHeight() * relHeight);
-
-        pos.set(viewport.getWorldWidth() * relX - size.x / 2,
-                viewport.getWorldHeight() * relY - size.y / 2);
-
-    }
-
-
-    @Override
-    public boolean isClickable() {
-        return clickable;
-    }
-
-    @Override
-    public boolean contains(float x, float y) {
-        return pos.x <= x && pos.x + size.x >= x &&
-            pos.y <= y && pos.y + size.y >= y;
-    }
-
-    @Override
-    public void onClick() {}
-
-    public void setClickable(boolean clickable) {
-        this.clickable = clickable;
-    }
-
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
     }
 }

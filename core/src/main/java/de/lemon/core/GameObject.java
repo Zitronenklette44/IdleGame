@@ -35,17 +35,19 @@ public abstract class GameObject {
         this.size = size;
     }
 
-    protected void onShapeRender(ShapeRenderer shapeRenderer, float delta){}
-    protected void onSpriteRender(Batch batch, float delta){}
+    public void onShapeRender(ShapeRenderer shapeRenderer, float delta){}
+    public void onSpriteRender(Batch batch, float delta){}
+    public void onDebug(ShapeRenderer shapeRenderer, float delta){};
 
-    protected void update(float delta){}
+    public void update(float delta){}
 
-    protected void onKeyDown(int keycode){}
-    protected void onKeyUp(int keycode){}
-    protected void onKeyTyped(char character){}
-    protected void onTouchDown(int screenX, int screenY, int button){}
-    protected void onTouchUp(int screenX, int screenY, int button){}
-    protected void onTouchDragged(int screenX, int screenY){}
-    protected void onMouseMoved(int screenX, int screenY){}
-    protected void onScrolled(float amountX, float amountY){}
+    public void onKeyDown(int keycode){}
+    public void onKeyUp(int keycode){}
+    public void onKeyTyped(char character){}
+    public void onTouchDown(int screenX, int screenY, int button){}
+    public void onTouchUp(int screenX, int screenY, int button){}
+    public void onTouchDragged(int screenX, int screenY){}
+    public void onMouseMoved(int screenX, int screenY){}
+    public void onScrolled(float amountX, float amountY){}
+
 }

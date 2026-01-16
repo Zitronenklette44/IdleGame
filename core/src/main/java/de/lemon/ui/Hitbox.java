@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import de.lemon.logic.animation.Sprite;
+import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.core.Resources;
 import de.lemon.logic.GameLogic;
 
@@ -38,7 +38,7 @@ public class Hitbox extends Button {
 
     public void onClick() {}
 
-    public void autoresize(Sprite reference, float addX, float addY, float relWidth, float relHeight){
+    public void autoresize(AnimatedSprite reference, float addX, float addY, float relWidth, float relHeight){
         Vector2 pos = reference.getPos().cpy();
         Vector2 size = reference.getSize().cpy();
 

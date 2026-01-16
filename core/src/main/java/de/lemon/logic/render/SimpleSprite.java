@@ -1,9 +1,9 @@
-package de.lemon.logic.animation;
+package de.lemon.logic.render;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
-public class SimpleSprite extends Sprite{
+public class SimpleSprite extends AnimatedSprite {
     public SimpleSprite(Texture texture, int frameWidth, int frameHeight, boolean loop, Vector2 pos) {
         super(texture, frameWidth, frameHeight, 1f, loop, pos);
         autoPlay = false;

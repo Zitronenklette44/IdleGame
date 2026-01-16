@@ -2,21 +2,20 @@ package de.lemon.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.lemon.logic.animation.Sprite;
+import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.core.Resources;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.logic.GameLogic;
 import de.lemon.main.Main;
 import de.lemon.mechanics.Inventory;
 import de.lemon.save.SaveManager;
-import de.lemon.ui.Hitbox;
 
 import java.util.EnumSet;
 
 public class GameScreen extends CoreScreen{
-    private Sprite background;
+    private AnimatedSprite background;
 //    private Hitbox door;
-    private Sprite door;
+    private AnimatedSprite door;
 
 
     @Override
@@ -50,13 +49,13 @@ public class GameScreen extends CoreScreen{
 
     @Override
     protected void createWorld() {
-        background = new Sprite(Resources._instance.gameScreen_background, 512, 320, 0.1f, true, new Vector2(0, 0));
+        background = new AnimatedSprite(Resources._instance.gameScreen_background, 512, 320, 0.1f, true, new Vector2(0, 0));
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
         worldRenderer.addObject(background);
 
-        door = new Sprite(Resources._instance.door, 72, 16, 0.1f, true, new Vector2()){
+        door = new AnimatedSprite(Resources._instance.door, 72, 16, 0.1f, true, new Vector2()){
             @Override
-            public void onClick() {
+            public void onClick(int button) {
                 Main._instance.switchScreen(Main.GARDEN_SCREEN);
             }
         };

@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import de.lemon.logic.animation.AnimationController;
-import de.lemon.logic.animation.Sprite;
+import de.lemon.logic.render.AnimationController;
+import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.core.Resources;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.main.Main;
@@ -16,7 +16,7 @@ import java.util.EnumSet;
 
 public class StartScreen extends CoreScreen{
 
-    private Sprite name;
+    private AnimatedSprite name;
     private TButton startGame;
     private TButton options;
     private TButton quit;

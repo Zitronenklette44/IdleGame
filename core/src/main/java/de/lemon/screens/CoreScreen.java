@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.core.GameObject;
-import de.lemon.core.WorldRenderer;
+import de.lemon.logic.render.WorldRenderer;
 import de.lemon.logic.enums.ScreenFeatures;
 
 import java.util.EnumSet;
@@ -55,7 +55,7 @@ public abstract class CoreScreen implements Screen {
 
         background = new GameObject(new Vector2(0, 0), new Vector2(viewport.getWorldWidth(),viewport.getWorldHeight())) {
             @Override
-            protected void onShapeRender(ShapeRenderer shapeRenderer, float delta) {
+            public void onShapeRender(ShapeRenderer shapeRenderer, float delta) {
                 super.onShapeRender(shapeRenderer, delta);
                 shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
                 shapeRenderer.setColor(backgroundColor);
