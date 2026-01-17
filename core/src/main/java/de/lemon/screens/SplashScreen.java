@@ -39,10 +39,10 @@ public class SplashScreen extends CoreScreen{
     @Override
     protected void createWorld() {
         simpleSprite = new SimpleSprite(Resources._instance.splashScreen_loadingBar, 128, 16, false, new Vector2());
-        worldRenderer.addObject(simpleSprite);
+        addWorldObject(simpleSprite, 0.5f, 0.5f, 1f/3, 1);
 
         name = new AnimationController(Resources._instance.startScreen_name, new int[]{0, 1, 2, 3}, new Vector2(), 256, 48, 0.1f, 5);
-        worldRenderer.addObject(name);
+        addWorldObject(name, 0.5f, 0.8f, 0.5f, 0.1f);
     }
 
     int frameCounter = -1;
@@ -98,7 +98,5 @@ public class SplashScreen extends CoreScreen{
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        simpleSprite.autoResize(0.5f, 0.5f, 1f/3, 1, viewport);
-        name.autoResize(0.5f, 0.8f, 0.5f, 0.1f, viewport);
     }
 }

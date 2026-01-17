@@ -1,6 +1,6 @@
 package de.lemon.mechanics;
 
-import de.lemon.mechanics.plants.Plants;
+import de.lemon.logic.enums.Plants;
 
 public class Inventory {
     public static Inventory _instance;

@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -27,6 +28,8 @@ public class Resources {
     public Texture startScreen_name;
     public Skin skin;
     public FileHandle font1;
+
+    public NinePatch UI_Button;
 
 
     public Resources(){
@@ -51,6 +54,8 @@ public class Resources {
 
         assetManager.load("sprites/plants/plant_01.png", Texture.class);
 
+        assetManager.load("sprites/ui/button1.png", Texture.class);
+
         assetManager.load("skins/template.json", Skin.class);
 
         assetManager.load("skins/customSkin/skin.atlas", TextureAtlas.class);
@@ -71,6 +76,8 @@ public class Resources {
             if (gardenScreen_pots == null) gardenScreen_pots = assetManager.get("sprites/pots.png", Texture.class);
 
             if (plants_01 == null) plants_01 = assetManager.get("sprites/plants/plant_01.png", Texture.class);
+
+            if (UI_Button == null) UI_Button = new NinePatch(assetManager.get("sprites/ui/button1.png", Texture.class), 16, 16, 16, 16);
 
             if (skin == null) skin = assetManager.get("skins/template.json", Skin.class);
 //            if (skin == null)  skin = assetManager.get("skins/customSkin/skin.json", Skin.class);

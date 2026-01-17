@@ -60,7 +60,7 @@ public class GameScreen extends CoreScreen{
             }
         };
         door.setClickable(true);
-        worldRenderer.addObject(door);
+        addWorldObject(door, 4 / 10f, 2.6f/100f, 1/7.2f, 3/10f);
     }
 
     @Override
@@ -77,9 +77,5 @@ public class GameScreen extends CoreScreen{
     public void resize(int width, int height) {
         super.resize(width, height);
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
-
-        //Vector2 size = background.getSize().cpy();
-        door.autoResize(4 / 10f, 2.6f/100f, 1/7.2f, 3/10f, viewport);
-
     }
 }

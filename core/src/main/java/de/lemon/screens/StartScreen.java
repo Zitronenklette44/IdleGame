@@ -9,7 +9,9 @@ import de.lemon.logic.render.AnimationController;
 import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.core.Resources;
 import de.lemon.logic.enums.ScreenFeatures;
+import de.lemon.logic.render.NineSprite;
 import de.lemon.main.Main;
+import de.lemon.ui.STextButton;
 import de.lemon.ui.TButton;
 
 import java.util.EnumSet;
@@ -21,6 +23,8 @@ public class StartScreen extends CoreScreen{
     private TButton options;
     private TButton quit;
 
+    private STextButton testButton;
+
     @Override
     protected EnumSet<ScreenFeatures> getFeatures() {
         return EnumSet.of(ScreenFeatures.WORLD, ScreenFeatures.UI);
@@ -31,7 +35,7 @@ public class StartScreen extends CoreScreen{
         Table table = new Table();
         table.setFillParent(true);
         table.defaults().width(200).height(60).pad(10);
-        stage.addActor(table);
+//        stage.addActor(table);
 
         startGame = new TButton("Start Game",Resources._instance.skin);
         startGame.bindCell(table.add(startGame));
@@ -63,7 +67,15 @@ public class StartScreen extends CoreScreen{
     protected void createWorld() {
         setBackgroundColor(Color.GRAY);
         name = new AnimationController(Resources._instance.startScreen_name,new int[]{0, 1, 2, 3},new Vector2(), 256, 48, 0.11f, 10);
-        worldRenderer.addObject(name);
+        addWorldObject(name, 0.5f, 0.9f, 0.5f, 0.1f);
+
+        testButton = new STextButton("Start Game",Resources._instance.UI_Button){
+            @Override
+            public void onClick(int button) {
+                Main._instance.switchScreen(Main.LOAD_SCREEN);
+            }
+        };
+        addWorldObject(testButton, 1/2f, 1/2f, 2/10f, 1/10f);
     }
 
     @Override
@@ -74,7 +86,6 @@ public class StartScreen extends CoreScreen{
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        name.autoResize(0.5f, 0.9f, 0.5f, 0.1f, viewport);
 
         startGame.autoResize(1/5f, 1/10f, stage.getViewport());
         options.autoResize(1/5f, 1/10f, stage.getViewport());

@@ -76,13 +76,6 @@ public class AnimatedSprite extends Sprite implements Clickable {
         //System.out.println("drawn ->" + pos.toString() + " size: " + size.toString());
     }
 
-    @Override
-    public void onDebug(ShapeRenderer shapeRenderer, float delta) {
-            if(shapeRenderer.getCurrentType() != ShapeRenderer.ShapeType.Line) shapeRenderer.set(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(Color.CYAN);
-            shapeRenderer.rect(pos.x, pos.y, origin.x, origin.y, size.x, size.y, scale.x, scale.y, rotation);
-    }
-
     public void reset() {
         stateTime = 0f;
     }
@@ -117,11 +110,12 @@ public class AnimatedSprite extends Sprite implements Clickable {
         this.stateTime = stateTime;
     }
 
-    public void autoResize(float relX, float relY, float relWidth, float relHeight, Viewport viewport){
-        scaleToContain(viewport.getWorldWidth() * relWidth, viewport.getWorldHeight() * relHeight);
+    @Override
+    public void applyLayout(Viewport viewport) {
+        scaleToContain(viewport.getWorldWidth() * relSize.x, viewport.getWorldHeight() * relSize.y);
 
-        pos.set(viewport.getWorldWidth() * relX - size.x / 2,
-            viewport.getWorldHeight() * relY - size.y / 2);
+        pos.set(viewport.getWorldWidth() * relPos.x - size.x / 2,
+            viewport.getWorldHeight() * relPos.y - size.y / 2);
 
     }
 

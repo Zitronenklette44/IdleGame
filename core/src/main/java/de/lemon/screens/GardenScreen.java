@@ -13,7 +13,7 @@ import de.lemon.logic.enums.Upgrades;
 import de.lemon.main.Main;
 import de.lemon.mechanics.plants.Plant;
 import de.lemon.mechanics.plants.PlantLogic;
-import de.lemon.mechanics.plants.Plants;
+import de.lemon.logic.enums.Plants;
 
 import java.util.EnumSet;
 
@@ -68,7 +68,7 @@ public class GardenScreen extends CoreScreen{
         worldRenderer.addObject(pots);
 
 //        for(PlantLogic plant : plants) worldRenderer.addObject(plant);
-        worldRenderer.addObject(plants[0]);
+        addWorldObject(plants[0], 1.2f/10f, 7.25f/10f, 2/5f, 2/5f);
 
         door = new AnimatedSprite(Resources._instance.door, 1, 72, 16, 0.1f, true, new Vector2()){
             @Override
@@ -78,7 +78,7 @@ public class GardenScreen extends CoreScreen{
         };
         door.setClickable(true);
         door.setRotation(AnimatedSprite.CW_90);
-        worldRenderer.addObject(door);
+        addWorldObject(door, 3.4f/100f, 1.2f/3f, 1/7.2f, 3/10f);
 
     }
 
@@ -94,11 +94,7 @@ public class GardenScreen extends CoreScreen{
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
         pots.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
 
-        plants[0].autoResize(1.2f/10f, 7.25f/10f, 2/5f, 2/5f, viewport);
-
         cell.height(stage.getViewport().getScreenHeight() / 5f);
-
-        door.autoResize(3.4f/100f, 1.2f/3f, 1/7.2f, 3/10f, viewport);
     }
 
     @Override

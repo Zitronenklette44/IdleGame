@@ -2,6 +2,7 @@ package de.lemon.mechanics.plants;
 
 import com.badlogic.gdx.graphics.Texture;
 import de.lemon.core.Resources;
+import de.lemon.logic.enums.Plants;
 
 public class Plant {
 

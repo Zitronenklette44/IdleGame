@@ -3,6 +3,7 @@ package de.lemon.mechanics.plants;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import de.lemon.logic.enums.Plants;
 import de.lemon.logic.render.SimpleSprite;
 import de.lemon.listeners.TickListener;
 import de.lemon.main.Main;

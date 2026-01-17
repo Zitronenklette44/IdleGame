@@ -1,0 +1,21 @@
+package de.lemon.ui;
+
+import com.badlogic.gdx.utils.viewport.Viewport;
+import de.lemon.logic.interfaces.LayoutItem;
+
+import java.util.ArrayList;
+
+public class LayoutManager {
+
+    ArrayList<LayoutItem> items = new ArrayList<>();
+
+    public void resize(Viewport viewport){
+        for(LayoutItem i : items){
+            i.applyLayout(viewport);
+        }
+    }
+
+    public void add(LayoutItem item){
+        items.add(item);
+    }
+}

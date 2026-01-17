@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import de.lemon.core.GameObject;
 import de.lemon.logic.GameLogic;
 import de.lemon.logic.interfaces.Clickable;
+import de.lemon.logic.interfaces.Hoverable;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,8 @@ public class WorldRenderer {
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     SpriteBatch spriteBatch = new SpriteBatch();
+
+    private Hoverable hoverable;
 
     public WorldRenderer(OrthographicCamera camera){
         this.camera = camera;
@@ -91,11 +95,15 @@ public class WorldRenderer {
                 Vector3 world = new Vector3(screenX, screenY, 0);
                 camera.unproject(world);
 
-                for (GameObject o : objects) {
-                    o.onTouchDown(screenX, screenY, button);
+                for (GameObject o : objects) o.onTouchDown(screenX, screenY, button);
+                for (int i = objects.size() - 1; i >= 0 ; i--) {
+                    GameObject o = objects.get(i);
                     if(o instanceof Clickable){
                         Clickable c = (Clickable) o;
-                        if(c.isClickable() && c.contains(world.x, world.y)) c.onClick(button);
+                        if(c.isClickable() && c.contains(world.x, world.y)) {
+                            c.onClick(button);
+                            break;
+                        }
                     }
                 }
                 return false;
@@ -120,7 +128,28 @@ public class WorldRenderer {
 
             @Override
             public boolean mouseMoved(int screenX, int screenY) {
+                Vector3 world = new Vector3(screenX, screenY, 0);
+                camera.unproject(world);
+
                 for (GameObject o : objects) o.onMouseMoved(screenX, screenY);
+
+                if(!hoverable.contains(world.x, world.y)){
+                    hoverable.onExit();
+                    hoverable = null;
+                }
+
+                for (int i = objects.size() - 1; i >= 0 ; i--) {
+                    GameObject o = objects.get(i);
+                    if(o instanceof Hoverable){
+                        Hoverable h = (Hoverable) o;
+                        if(h.contains(world.x, world.y)){
+                            if(hoverable != null) hoverable.onExit();
+                            hoverable = h;
+                            h.onEnter();
+                            break;
+                        }
+                    }
+                }
                 return false;
             }
 

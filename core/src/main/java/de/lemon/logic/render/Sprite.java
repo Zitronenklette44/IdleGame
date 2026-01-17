@@ -1,5 +1,7 @@
 package de.lemon.logic.render;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.core.GameObject;
@@ -66,5 +68,12 @@ public abstract class Sprite extends GameObject implements Clickable {
 
     public void setRotation(float rotation) {
         this.rotation = rotation;
+    }
+
+    @Override
+    public void onDebug(ShapeRenderer shapeRenderer, float delta) {
+        if(shapeRenderer.getCurrentType() != ShapeRenderer.ShapeType.Line) shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.CYAN);
+        shapeRenderer.rect(pos.x, pos.y, origin.x, origin.y, size.x, size.y, scale.x, scale.y, rotation);
     }
 }

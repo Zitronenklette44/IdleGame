@@ -13,8 +13,10 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.core.GameObject;
+import de.lemon.logic.interfaces.LayoutItem;
 import de.lemon.logic.render.WorldRenderer;
 import de.lemon.logic.enums.ScreenFeatures;
+import de.lemon.ui.LayoutManager;
 
 import java.util.EnumSet;
 
@@ -28,6 +30,7 @@ public abstract class CoreScreen implements Screen {
     protected Stage stage;
     protected Stage worldStage;
     protected WorldRenderer worldRenderer;
+    protected LayoutManager layout = new LayoutManager();
 
     OrthographicCamera camera = new OrthographicCamera();
     Viewport viewport = new ExtendViewport(800, 480,camera);
@@ -99,6 +102,14 @@ public abstract class CoreScreen implements Screen {
         }
     }
 
+    public void addWorldObject(GameObject item, float relX, float relY, float relWidth, float relHeight){
+        item.setRelLayout(relX, relY, relWidth, relHeight);
+        layout.add(item);
+        if (worldRenderer != null){
+            worldRenderer.addObject(item);
+        }
+    }
+
     @Override
     public void resize(int width, int height) {
         // If the window is minimized on a desktop (LWJGL3) platform, width and height are 0, which causes problems.
@@ -115,7 +126,8 @@ public abstract class CoreScreen implements Screen {
         if(stage != null){
             stage.getViewport().update(width, height, true);
         }
-        if(worldStage != null){
+        if(getFeatures().contains(ScreenFeatures.WORLD)){
+            layout.resize(viewport);
             worldStage.getViewport().update(width, height, true);
         }
 

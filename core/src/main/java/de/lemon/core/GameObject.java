@@ -3,11 +3,16 @@ package de.lemon.core;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import de.lemon.logic.interfaces.LayoutItem;
 
-public abstract class GameObject {
+public abstract class GameObject implements LayoutItem {
 
     protected Vector2 pos;
     protected Vector2 size;
+    protected Vector2 relPos = new Vector2();
+    protected Vector2 relSize = new Vector2();
+
 
     public GameObject(Vector2 pos, Vector2 size){
         this.pos = pos;
@@ -50,4 +55,15 @@ public abstract class GameObject {
     public void onMouseMoved(int screenX, int screenY){}
     public void onScrolled(float amountX, float amountY){}
 
+    @Override
+    public void applyLayout(Viewport viewport) {
+        pos.set(viewport.getWorldWidth() * relPos.x, viewport.getWorldHeight() * relPos.y);
+        size.set(viewport.getWorldWidth() * relSize.x, viewport.getWorldHeight() * relSize.y);
+    }
+
+    @Override
+    public void setRelLayout(float relX, float relY, float relWidth, float relHeight) {
+        relPos = new Vector2(relX, relY);
+        relSize = new Vector2(relWidth, relHeight);
+    }
 }
