@@ -4,84 +4,44 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.core.GameObject;
-import de.lemon.logic.interfaces.Clickable;
-import de.lemon.logic.interfaces.Hoverable;
 
-public class STextButton extends GameObject implements Clickable, Hoverable {
+public class SLabel extends GameObject {
 
     private String text;
-    private final NinePatch sprite;
     private Color textColor = Color.WHITE;
     private final GlyphLayout layout = new GlyphLayout();
     private BitmapFont font;
     private final Vector2 textPos = new Vector2();
-    private int fontAddition = 0;
 
-
-    public STextButton(String text, NinePatch sprite, Vector2 pos, Vector2 size) {
-        super(pos, size);
+    public SLabel(String text, Vector2 pos, Color textColor){
+        super(pos, new Vector2());
         this.text = text;
-        this.sprite = sprite;
+        this.textColor = textColor;
         recalculateFont();
+    }
+
+    public SLabel(String text, Vector2 pos) {
+        this(text, pos, Color.WHITE);
     }
 
     @Override
     public void onSpriteRender(Batch batch, float delta) {
-        sprite.draw(batch, pos.x, pos.y, size.x, size.y);
-
-        font.draw(batch, layout, textPos.x, textPos.y);
+        super.onSpriteRender(batch, delta);
+        font.draw(batch, layout, pos.x, pos.y);
     }
-
-
-    public STextButton(String text, NinePatch sprite){
-        this(text, sprite, new Vector2(), new Vector2());
-    }
-
-    @Override
-    public void onDebug(ShapeRenderer shapeRenderer, float delta) {
-        shapeRenderer.rect(pos.x, pos.y, size.x, size.y);
-    }
-
-    @Override
-    public boolean isClickable() {
-        return true;
-    }
-
-    @Override
-    public void onEnter() {
-        fontAddition = 5;
-        recalculateFont();
-    }
-
-    @Override
-    public void onExit() {
-        fontAddition = 0;
-        recalculateFont();
-    }
-
-    @Override
-    public boolean contains(float x, float y) {
-        return x >= pos.x && x <= pos.x + size.x &&
-            y >= pos.y && y <= pos.y + size.y;
-    }
-
-    @Override
-    public void onClick(int button) {}
 
     public void setText(String text) {
         this.text = text;
         recalculateFont();
+        size.set(layout.width, layout.height);
     }
 
     public void setTextColor(Color textColor) {
         this.textColor = textColor;
-        recalculateFont();
     }
 
     @Override
@@ -97,7 +57,7 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
     }
 
     private void recalculateFont(){
-        int fontSize = FontCache.calculateFontSize(size.x) + fontAddition;
+        int fontSize = FontCache.calculateFontSize(size.x);
         font = FontCache.getFont(fontSize, textColor);
 
         float paddingX = size.x * 0.1f;

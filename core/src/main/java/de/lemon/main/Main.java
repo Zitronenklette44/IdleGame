@@ -21,6 +21,7 @@ public class Main extends Game {
     public static final int LOAD_SCREEN = 2;
     public static final int GAME_SCREEN = 3;
     public static final int GARDEN_SCREEN = 4;
+    public static final int OPTIONS_SCREEN = 5;
 
     public final ArrayList<CoreScreen> screens = new ArrayList<>();
 
@@ -42,6 +43,7 @@ public class Main extends Game {
         screens.add(new LoadScreen());
         screens.add(new GameScreen());
         screens.add(new GardenScreen());
+        screens.add(new OptionScreen());
     }
 
     @Override

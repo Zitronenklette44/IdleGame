@@ -133,7 +133,7 @@ public class WorldRenderer {
 
                 for (GameObject o : objects) o.onMouseMoved(screenX, screenY);
 
-                if(!hoverable.contains(world.x, world.y)){
+                if(hoverable != null && !hoverable.contains(world.x, world.y)){
                     hoverable.onExit();
                     hoverable = null;
                 }
@@ -143,10 +143,15 @@ public class WorldRenderer {
                     if(o instanceof Hoverable){
                         Hoverable h = (Hoverable) o;
                         if(h.contains(world.x, world.y)){
-                            if(hoverable != null) hoverable.onExit();
+                            if(hoverable == null){
+                                hoverable = h;
+                                h.onEnter();
+                                break;
+                            }
+                            if(hoverable.equals(h)) break;
+                            hoverable.onExit();
                             hoverable = h;
                             h.onEnter();
-                            break;
                         }
                     }
                 }
