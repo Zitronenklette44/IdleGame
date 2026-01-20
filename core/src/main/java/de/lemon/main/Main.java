@@ -11,7 +11,9 @@ import de.lemon.mechanics.Inventory;
 import de.lemon.save.SaveManager;
 import de.lemon.screens.*;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {
@@ -24,10 +26,12 @@ public class Main extends Game {
     public static final int OPTIONS_SCREEN = 5;
 
     public final ArrayList<CoreScreen> screens = new ArrayList<>();
+    public final Deque<Integer> lastScreens = new ArrayDeque<>();
+    private int currentIndex = -1;
 
     public static Main _instance;
 
-    public ScreenMode screenMode = ScreenMode.WINDOWED;
+    public ScreenMode screenMode = ScreenMode.BORDERLESS;
 
     public Tick tick;
     public GameLogic gameLogic;
@@ -51,7 +55,6 @@ public class Main extends Game {
         new Resources();
         SaveManager.init();
         setWindowsMode();
-//        screens.add(new SplashScreen());
         switchScreen(SPLASH_SCREEN);
     }
 
@@ -102,9 +105,9 @@ public class Main extends Game {
             System.out.println("[ERROR] invalid screen id (" + id + ")");
             return;
         }
-        if(!force){
-            if(getScreen() == screens.get(id)) return;
-        }
+        if(!force && currentIndex == id) return;
+        if(currentIndex != -1) lastScreens.push(currentIndex);
+        currentIndex = id;
         setScreen(screens.get(id));
     }
 
@@ -114,5 +117,25 @@ public class Main extends Game {
 
     public void initScreens(){
         for(CoreScreen cS : screens) cS.init();
+    }
+
+    public void popScreens(int amount) {
+        if (lastScreens.isEmpty()) return;
+
+        int target = -1;
+
+        for (int i = 0; i < amount; i++) {
+            if (lastScreens.isEmpty()) break;
+            target = lastScreens.pop();
+        }
+
+        if (target != -1) {
+            currentIndex = target;
+            setScreen(screens.get(target));
+        }
+    }
+
+    public void popScreens(){
+        popScreens(1);
     }
 }

@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.core.GameObject;
-import de.lemon.logic.interfaces.LayoutItem;
 import de.lemon.logic.render.WorldRenderer;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.ui.LayoutManager;
@@ -24,8 +23,8 @@ import java.util.EnumSet;
  * Core Template for all Screens
  */
 public abstract class CoreScreen implements Screen {
-    private GameObject background;
     protected Color backgroundColor = Color.BLACK;
+    private GameObject background;
 
     protected Stage stage;
     protected Stage worldStage;
@@ -56,17 +55,17 @@ public abstract class CoreScreen implements Screen {
         }
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        background = new GameObject(new Vector2(0, 0), new Vector2(viewport.getWorldWidth(),viewport.getWorldHeight())) {
+        background = new GameObject(new Vector2(0, 0), new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight())) {
             @Override
             public void onShapeRender(ShapeRenderer shapeRenderer, float delta) {
                 super.onShapeRender(shapeRenderer, delta);
                 shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
                 shapeRenderer.setColor(backgroundColor);
-                shapeRenderer.rect(pos.x,pos.y, size.x, size.y);
+                shapeRenderer.rect(pos.x, pos.y, size.x, size.y);
 
             }
         };
-        worldRenderer.addObject(background);
+        addWorldObject(background, 0, 0, 1, 1);
 
         createComponents();
         createWorld();
@@ -126,10 +125,10 @@ public abstract class CoreScreen implements Screen {
         if(stage != null){
             stage.getViewport().update(width, height, true);
         }
-        if(getFeatures().contains(ScreenFeatures.WORLD)){
-            layout.resize(viewport);
+        if(worldStage != null){
             worldStage.getViewport().update(width, height, true);
         }
+        layout.resize(viewport);
 
     }
 
@@ -153,12 +152,8 @@ public abstract class CoreScreen implements Screen {
     public void dispose() {
         // Destroy screen's assets here.
         if (stage != null) stage.dispose();
-        if ( worldRenderer != null) worldRenderer.dispose();
-        if (worldRenderer != null) worldStage.dispose();
-    }
-
-    public Color getBackgroundColor() {
-        return backgroundColor;
+        if (worldRenderer != null) worldRenderer.dispose();
+        if (worldStage != null) worldStage.dispose();
     }
 
     public void setBackgroundColor(Color backgroundColor) {
