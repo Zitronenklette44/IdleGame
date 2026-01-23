@@ -31,7 +31,7 @@ public class Main extends Game {
 
     public static Main _instance;
 
-    public ScreenMode screenMode = ScreenMode.BORDERLESS;
+    public ScreenMode screenMode = ScreenMode.WINDOWED;
 
     public Tick tick;
     public GameLogic gameLogic;

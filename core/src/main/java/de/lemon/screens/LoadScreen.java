@@ -1,16 +1,19 @@
 package de.lemon.screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.core.Resources;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.main.Main;
 import de.lemon.save.SaveManager;
 import de.lemon.save.SavePreview;
+import de.lemon.ui.STextButton;
 import de.lemon.ui.TButton;
 
 import java.util.EnumSet;
@@ -65,7 +68,32 @@ public class LoadScreen extends CoreScreen{
         buttonTable.add(deleteGame).pad(10);
         buttonTable.add(createGame).pad(10);
 
-        table.add(buttonTable).center().padBottom(20);
+        STextButton loadSelected = new STextButton("Load Game", Resources._instance.UI_Button, new Vector2(), new Vector2()){
+            @Override
+            public void onClick(int button) {
+                System.out.println("load clicked");
+            }
+        };
+        loadSelected.setMaxFontAddition(5);
+        STextButton deleteSelected = new STextButton("Delete Game", Resources._instance.UI_Button, new Vector2(), new Vector2()){
+            @Override
+            public void onClick(int button) {
+                System.out.println("del clicked");
+            }
+        };
+        deleteSelected.setMaxFontAddition(5);
+        STextButton createSelected = new STextButton("Create Game", Resources._instance.UI_Button, new Vector2(), new Vector2()){
+            @Override
+            public void onClick(int button) {
+                System.out.println("create clicked");
+            }
+        };
+        createSelected.setMaxFontAddition(5);
+        addWorldObject(createSelected, 0.5f, 0.1f, 0.16f, 0.1f, Float.MAX_VALUE, 80);
+        addWorldObject(loadSelected, 0.32f, 0.1f, 0.16f, 0.1f, Float.MAX_VALUE, 80);
+        addWorldObject(deleteSelected, 0.68f, 0.1f, 0.16f, 0.1f, Float.MAX_VALUE, 80);
+
+//        table.add(buttonTable).center().padBottom(20);
 
 //        table.debugAll();
 

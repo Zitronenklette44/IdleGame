@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.ui.FontCache;
 
 public class NineSprite extends Sprite {
-    private NinePatch sprite;
+    private final NinePatch sprite;
     private String text;
     private Color textColor;
 

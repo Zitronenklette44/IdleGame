@@ -12,7 +12,7 @@ import de.lemon.core.GameObject;
 public class SLabel extends GameObject {
 
     private String text;
-    private Color textColor = Color.WHITE;
+    private Color textColor;
     private final GlyphLayout layout = new GlyphLayout();
     private BitmapFont font;
     private final Vector2 textPos = new Vector2();
@@ -31,7 +31,7 @@ public class SLabel extends GameObject {
     @Override
     public void onSpriteRender(Batch batch, float delta) {
         super.onSpriteRender(batch, delta);
-        font.draw(batch, layout, pos.x, pos.y);
+        font.draw(batch, layout, textPos.x, textPos.y);
     }
 
     public void setText(String text) {
@@ -47,10 +47,10 @@ public class SLabel extends GameObject {
     @Override
     public void applyLayout(Viewport viewport) {
         Vector2 newSize = new Vector2(viewport.getWorldWidth() * relSize.x, viewport.getWorldHeight() * relSize.y);
-        Vector2 newPos = new Vector2(viewport.getWorldWidth() * relPos.x - newSize.x / 2, viewport.getWorldHeight() * relPos.y - newSize.y / 2);
+        Vector2 newPos = new Vector2(viewport.getWorldWidth() * relPos.x - newSize.x / 2, viewport.getWorldHeight() * relPos.y - newSize.y);
 
         if(!newSize.equals(size) || !newPos.equals(pos)) {
-            size.set(newSize);
+            desiredSize.set(newSize);
             pos.set(newPos);
             recalculateFont();
         }

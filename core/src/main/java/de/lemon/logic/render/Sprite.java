@@ -28,6 +28,7 @@ public abstract class Sprite extends GameObject implements Clickable {
         super(pos, size);
         origin.x = size.x / 2f;
         origin.y = size.y / 2f;
+        manualSize = true;
     }
 
     @Override

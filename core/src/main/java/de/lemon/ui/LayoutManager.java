@@ -12,6 +12,7 @@ public class LayoutManager {
     public void resize(Viewport viewport){
         for(LayoutItem i : items){
             i.applyLayout(viewport);
+            i.finaliseLayout();
         }
     }
 

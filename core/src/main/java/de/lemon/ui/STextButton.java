@@ -22,6 +22,7 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
     private BitmapFont font;
     private final Vector2 textPos = new Vector2();
     private int fontAddition = 0;
+    private int maxFontAddition = 5;
 
 
     public STextButton(String text, NinePatch sprite, Vector2 pos, Vector2 size) {
@@ -55,7 +56,7 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
 
     @Override
     public void onEnter() {
-        fontAddition = 5;
+        fontAddition = maxFontAddition;
         recalculateFont();
     }
 
@@ -90,14 +91,15 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
         Vector2 newPos = new Vector2(viewport.getWorldWidth() * relPos.x - newSize.x / 2, viewport.getWorldHeight() * relPos.y - newSize.y / 2);
 
         if(!newSize.equals(size) || !newPos.equals(pos)) {
-            size.set(newSize);
+            desiredSize.set(newSize);
             pos.set(newPos);
             recalculateFont();
         }
     }
 
     private void recalculateFont(){
-        int fontSize = FontCache.calculateFontSize(size.x) + fontAddition;
+        int fontSize = FontCache.calculateFontSize(size.x - fontAddition * 10) + fontAddition;
+        System.out.println("FontAddition: " + fontAddition + " width: " + size.x);
         font = FontCache.getFont(fontSize, textColor);
 
         float paddingX = size.x * 0.1f;
@@ -108,5 +110,16 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
 
         textPos.x = pos.x + paddingX;
         textPos.y = pos.y + (size.y + layout.height) / 2f;
+    }
+
+    @Override
+    public void applyMaxSize() {
+        super.applyMaxSize();
+        recalculateFont();
+    }
+
+    public void setMaxFontAddition(int maxFontAddition) {
+        if(maxFontAddition < 0) return;
+        this.maxFontAddition = maxFontAddition;
     }
 }

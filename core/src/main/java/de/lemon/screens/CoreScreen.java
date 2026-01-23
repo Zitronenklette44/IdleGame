@@ -102,7 +102,16 @@ public abstract class CoreScreen implements Screen {
     }
 
     public void addWorldObject(GameObject item, float relX, float relY, float relWidth, float relHeight){
+        addWorldObject(item, relX, relY, relWidth, relHeight, Float.MAX_VALUE, Float.MAX_VALUE);
+    }
+
+    public void addWorldObject(GameObject item, float relX, float relY, float relWidth, float relHeight, float maxWidth, float maxHeight){
+        addWorldObject(item, relX, relY, relWidth, relHeight, maxWidth, maxHeight, 0, 0);
+    }
+
+    public void addWorldObject(GameObject item, float relX, float relY, float relWidth, float relHeight, float maxWidth, float maxHeight, float minWidth, float minHeight){
         item.setRelLayout(relX, relY, relWidth, relHeight);
+        item.setMaxSize(maxWidth, maxHeight, minWidth, minHeight);
         layout.add(item);
         if (worldRenderer != null){
             worldRenderer.addObject(item);
@@ -111,8 +120,6 @@ public abstract class CoreScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        // If the window is minimized on a desktop (LWJGL3) platform, width and height are 0, which causes problems.
-        // In that case, we don't resize anything, and wait for the window to be a normal size before updating.
         if(width <= 0 || height <= 0) return;
         viewport.update(width, height, true);
         camera.position.set(
@@ -133,24 +140,18 @@ public abstract class CoreScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-        // Invoked when your application is paused.
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-        // Invoked when your application is resumed after pause.
-    }
+    public void resume() {}
 
     @Override
     public void hide() {
-        // This method is called when another screen replaces this one.
         Gdx.input.setInputProcessor(null);
     }
 
     @Override
     public void dispose() {
-        // Destroy screen's assets here.
         if (stage != null) stage.dispose();
         if (worldRenderer != null) worldRenderer.dispose();
         if (worldStage != null) worldStage.dispose();
