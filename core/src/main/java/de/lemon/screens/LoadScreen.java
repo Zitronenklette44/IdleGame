@@ -24,6 +24,8 @@ public class LoadScreen extends CoreScreen{
     private ScrollPane scrollPane;
     private Cell<ScrollPane> cell;
     private Table buttonTable;
+    private STextButton loadSelected;
+    private STextButton deleteSelected;
 
     private SavePreview selectedSave = null;
 
@@ -60,6 +62,7 @@ public class LoadScreen extends CoreScreen{
         table.row();
 
         buttonTable = new Table();
+        buttonTable.setVisible(false);
         TButton loadGame = new TButton("Load Game", Resources._instance.skin);
         TButton deleteGame = new TButton("Delete Game", Resources._instance.skin);
         TButton createGame = new TButton("Create Game", Resources._instance.skin);
@@ -68,43 +71,48 @@ public class LoadScreen extends CoreScreen{
         buttonTable.add(deleteGame).pad(10);
         buttonTable.add(createGame).pad(10);
 
-        STextButton loadSelected = new STextButton("Load Game", Resources._instance.UI_Button, new Vector2(), new Vector2()){
-            @Override
-            public void onClick(int button) {
-                System.out.println("load clicked");
-            }
-        };
-        loadSelected.setMaxFontAddition(5);
-        STextButton deleteSelected = new STextButton("Delete Game", Resources._instance.UI_Button, new Vector2(), new Vector2()){
-            @Override
-            public void onClick(int button) {
-                System.out.println("del clicked");
-            }
-        };
-        deleteSelected.setMaxFontAddition(5);
-        STextButton createSelected = new STextButton("Create Game", Resources._instance.UI_Button, new Vector2(), new Vector2()){
-            @Override
-            public void onClick(int button) {
-                System.out.println("create clicked");
-            }
-        };
-        createSelected.setMaxFontAddition(5);
+        loadSelected = new STextButton("Load Game", Resources._instance.UI_Button, new Vector2(), new Vector2());
+        loadSelected.setGlobalFontDecrease(4);
+
+        deleteSelected = new STextButton("Delete Game", Resources._instance.UI_Button, new Vector2(), new Vector2());
+        deleteSelected.setGlobalFontDecrease(4);
+
+        STextButton createSelected = new STextButton("Create Game", Resources._instance.UI_Button, new Vector2(), new Vector2());
+        createSelected.setGlobalFontDecrease(4);
+
+        loadSelected.setOnClickAction(() -> {
+            System.out.println("load clicked");
+            Main._instance.switchScreen(Main.GAME_SCREEN);
+            Main._instance.tick.start();
+        });
+        deleteSelected.setOnClickAction(() -> {
+            System.out.println("del clicked");
+            SaveManager.delete(selectedSave.getId());
+//            Table wrapper = (Table) scrollPane.getActor();
+//            Table content = (Table) wrapper.getChildren().first();
+            content.removeActor(selectedSave);
+            loadSelected.setEnabled(false);
+            deleteSelected.setEnabled(false);
+            rebuildSaves();
+            selectedSave = null;
+        });
+
+        createSelected.setOnClickAction(()->{
+            System.out.println("create clicked");
+            showNameInputDialog();
+        });
+
         addWorldObject(createSelected, 0.5f, 0.1f, 0.16f, 0.1f, Float.MAX_VALUE, 80);
         addWorldObject(loadSelected, 0.32f, 0.1f, 0.16f, 0.1f, Float.MAX_VALUE, 80);
         addWorldObject(deleteSelected, 0.68f, 0.1f, 0.16f, 0.1f, Float.MAX_VALUE, 80);
 
-//        table.add(buttonTable).center().padBottom(20);
+        table.add(buttonTable).center().padBottom(20);
 
-//        table.debugAll();
-
-        float value = loadGame.getMinWidth() + deleteGame.getMinWidth() + createGame.getMinWidth() + 60;
-//        System.out.println("Value: "+ value);
-        cell.minWidth(value);
+        table.debugAll();
         addSaves();
-        addListeners();
 
-        disableButton(buttonTable.getChildren().get(0));
-        disableButton(buttonTable.getChildren().get(1));
+        loadSelected.setEnabled(false);
+        deleteSelected.setEnabled(false);
     }
 
     private Table createHeader() {
@@ -119,44 +127,6 @@ public class LoadScreen extends CoreScreen{
             .width(150).right();
 
         return header;
-    }
-
-    private void addListeners() {
-        //Load game
-        buttonTable.getChildren().get(0).addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Main._instance.switchScreen(Main.GAME_SCREEN);
-                Main._instance.tick.start();
-                super.clicked(event, x, y);
-            }
-        });
-
-        // delete Game
-        buttonTable.getChildren().get(1).addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("deleting entry " + selectedSave.getId());
-                SaveManager.delete(selectedSave.getId());
-                Table wrapper = (Table) scrollPane.getActor();
-                Table content = (Table) wrapper.getChildren().first();
-                content.removeActor(selectedSave);
-                rebuildSaves();
-                selectedSave = null;
-                disableButton(buttonTable.getChildren().get(0));
-                disableButton(buttonTable.getChildren().get(1));
-                super.clicked(event, x, y);
-            }
-        });
-
-        // New Game
-        buttonTable.getChildren().get(2).addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                showNameInputDialog();
-                super.clicked(event, x, y);
-            }
-        });
     }
 
     public void showNameInputDialog() {
@@ -224,25 +194,13 @@ public class LoadScreen extends CoreScreen{
                     selectedSave = sP;
                     sP.setSelected(true);
                     Main._instance.currentGameStateId = sP.getId();
-                    enableButton(buttonTable.getChildren().get(0));
-                    enableButton(buttonTable.getChildren().get(1));
+                    loadSelected.setEnabled(true);
+                    deleteSelected.setEnabled(true);
                     super.clicked(event, x, y);
                 }
             });
         }
 //        table.debugAll();
-    }
-
-    private void disableButton(Actor actor) {
-        Button button = (Button) (actor);
-        button.setDisabled(true);
-        button.setTouchable(Touchable.disabled);
-    }
-
-    private void enableButton(Actor actor) {
-        Button button = (Button) (actor);
-        button.setDisabled(false);
-        button.setTouchable(Touchable.enabled);
     }
 
     private void rebuildSaves() {
@@ -263,6 +221,8 @@ public class LoadScreen extends CoreScreen{
                     selectedSave = sP;
                     sP.setSelected(true);
                     Main._instance.currentGameStateId = sP.getId();
+                    loadSelected.setEnabled(true);
+                    deleteSelected.setEnabled(true);
                 }
             });
         }
@@ -271,20 +231,12 @@ public class LoadScreen extends CoreScreen{
         scrollPane.layout();
     }
 
-
-
     @Override
-    protected void createWorld() {
-
-    }
+    protected void createWorld() {}
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-
         cell.prefWidth(stage.getWidth() * 0.5f);
-//        System.out.println("ValueMax: "+ stage.getWidth() * 0.5f);
-//        System.out.println("ValueTrue: "+cell.getActorWidth());
-
     }
 }

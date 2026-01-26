@@ -23,7 +23,9 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
     private final Vector2 textPos = new Vector2();
     private int fontAddition = 0;
     private int maxFontAddition = 5;
-
+    private int globalFontDecrease = 0;
+    private boolean enabled = true;
+    private Runnable onClickAction;
 
     public STextButton(String text, NinePatch sprite, Vector2 pos, Vector2 size) {
         super(pos, size);
@@ -51,7 +53,7 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
 
     @Override
     public boolean isClickable() {
-        return true;
+        return enabled;
     }
 
     @Override
@@ -73,7 +75,9 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
     }
 
     @Override
-    public void onClick(int button) {}
+    public void onClick(int button) {
+        if(onClickAction != null) onClickAction.run();
+    }
 
     public void setText(String text) {
         this.text = text;
@@ -98,8 +102,8 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
     }
 
     private void recalculateFont(){
-        int fontSize = FontCache.calculateFontSize(size.x - fontAddition * 10) + fontAddition;
-        System.out.println("FontAddition: " + fontAddition + " width: " + size.x);
+        int fontSize = FontCache.calculateFontSize(size.x) + fontAddition - globalFontDecrease;
+//        System.out.println("FontAddition: " + fontAddition + " width: " + size.x);
         font = FontCache.getFont(fontSize, textColor);
 
         float paddingX = size.x * 0.1f;
@@ -121,5 +125,22 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
     public void setMaxFontAddition(int maxFontAddition) {
         if(maxFontAddition < 0) return;
         this.maxFontAddition = maxFontAddition;
+    }
+
+    public void setGlobalFontDecrease(int globalFontDecrease) {
+        this.globalFontDecrease = globalFontDecrease;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        System.out.println("set Enabled: " + enabled);
+        this.enabled = enabled;
+    }
+
+    public void setOnClickAction(Runnable onClickAction) {
+        this.onClickAction = onClickAction;
     }
 }
