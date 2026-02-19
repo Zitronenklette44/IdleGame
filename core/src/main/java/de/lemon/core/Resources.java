@@ -7,8 +7,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import de.lemon.logic.enums.ParticleEmissionType;
+import de.lemon.logic.enums.ParticlePresent;
+import de.lemon.mechanics.particleSystem.GeneratorSettings;
 
 public class Resources {
 
@@ -17,6 +21,7 @@ public class Resources {
 
     public Texture splashScreen_loadingBar;
     public Texture door;
+    public Texture redParticle;
 
     public Texture gameScreen_background;
 
@@ -30,6 +35,9 @@ public class Resources {
     public FileHandle font1;
 
     public NinePatch UI_Button;
+
+    private GeneratorSettings particle_fire;
+    private GeneratorSettings particle_fire_mov;
 
 
     public Resources(){
@@ -56,13 +64,17 @@ public class Resources {
 
         assetManager.load("sprites/ui/button1.png", Texture.class);
 
+        assetManager.load("sprites/red_particle.png", Texture.class);
+
+
+        //skin
         assetManager.load("skins/template.json", Skin.class);
 
         assetManager.load("skins/customSkin/skin.atlas", TextureAtlas.class);
         SkinLoader.SkinParameter skinParam = new SkinLoader.SkinParameter("skins/customSkin/skin.atlas");
         assetManager.load("skins/customSkin/skin.json", Skin.class, skinParam);
 
-
+        //fonts
         font1 = Gdx.files.internal("fonts/font1.ttf");
     }
 
@@ -77,19 +89,47 @@ public class Resources {
 
             if (plants_01 == null) plants_01 = assetManager.get("sprites/plants/plant_01.png", Texture.class);
 
+            if (redParticle == null) redParticle = assetManager.get("sprites/red_particle.png", Texture.class);
+
             if (UI_Button == null) UI_Button = new NinePatch(assetManager.get("sprites/ui/button1.png", Texture.class), 16, 16, 16, 16);
 
             if (skin == null) skin = assetManager.get("skins/template.json", Skin.class);
 //            if (skin == null)  skin = assetManager.get("skins/customSkin/skin.json", Skin.class);
             loadedAll = true;
         }
-    }
-    int counter = 0;
-    public boolean isAllLoaded(){
-        if(counter < 100) {
-            counter++;
-            return false;
+        if(loadedAll){
+            createParticleSheets();
         }
+    }
+
+    private void createParticleSheets() {
+        particle_fire = new GeneratorSettings().builder()
+            .texture(redParticle)
+            .particleSize(new Vector2(10, 10))
+            .startSpeed(10f)
+            .lifetime(5)
+            .friction(-3.0f)
+            .generation(12, 20)
+            .emissionType(ParticleEmissionType.CONTINUOUS)
+            .interval(0.2f)
+            .build();
+
+        particle_fire_mov = new GeneratorSettings().builder()
+            .texture(redParticle)
+            .particleSize(new Vector2(10, 10))
+            .startSpeed(10f)
+            .lifetime(5)
+            .friction(-3.0f)
+            .generation(12, 20)
+            .emissionType(ParticleEmissionType.CONTINUOUS)
+            .interval(0.2f)
+            .movementSpeed(100f)
+            .traceBack(true)
+            .build();
+
+    }
+
+    public boolean isAllLoaded(){
         return assetManager.isFinished() && loadedAll;
     }
 
@@ -97,4 +137,19 @@ public class Resources {
         assetManager.dispose();
     }
 
+    public GeneratorSettings getParticle(ParticlePresent particlePresent) {
+        switch (particlePresent) {
+            case FIRE:
+                return particle_fire.cpy();
+            case SMOKE:
+                break;
+            case SPARK:
+                return particle_fire_mov.cpy();
+            case GROWTH:
+                break;
+            case SPLASH:
+                break;
+        }
+        return null;
+    }
 }

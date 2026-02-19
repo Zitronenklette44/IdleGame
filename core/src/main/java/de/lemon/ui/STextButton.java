@@ -136,7 +136,7 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
     }
 
     public void setEnabled(boolean enabled) {
-        System.out.println("set Enabled: " + enabled);
+//        System.out.println("set Enabled: " + enabled);
         this.enabled = enabled;
     }
 

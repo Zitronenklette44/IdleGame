@@ -11,6 +11,7 @@ import de.lemon.core.GameObject;
 import de.lemon.logic.GameLogic;
 import de.lemon.logic.interfaces.Clickable;
 import de.lemon.logic.interfaces.Hoverable;
+import de.lemon.mechanics.particleSystem.ParticleManager;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,8 @@ public class WorldRenderer {
 
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     SpriteBatch spriteBatch = new SpriteBatch();
+
+    ParticleManager particleManager = new ParticleManager(spriteBatch);
 
     private Hoverable hoverable;
 
@@ -47,12 +50,14 @@ public class WorldRenderer {
 
         spriteBatch.begin();
         for (GameObject o : objects) o.onSpriteRender(spriteBatch, delta);
+        particleManager.render(delta);
         spriteBatch.end();
 
         if(GameLogic.debug){
             shapeRenderer.setAutoShapeType(true);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             for (GameObject o : objects) o.onDebug(shapeRenderer, delta);
+            particleManager.onDebug(shapeRenderer, delta);
             shapeRenderer.end();
         }
 
@@ -176,9 +181,14 @@ public class WorldRenderer {
         for (GameObject gO : objects){
             gO.update(delta);
         }
+        particleManager.update(delta);
     }
 
     public ArrayList<GameObject> getObjects() {
         return objects;
+    }
+
+    public ParticleManager getParticleManager() {
+        return particleManager;
     }
 }

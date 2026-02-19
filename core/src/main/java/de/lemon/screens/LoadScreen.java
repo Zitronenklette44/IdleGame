@@ -108,7 +108,7 @@ public class LoadScreen extends CoreScreen{
 
         table.add(buttonTable).center().padBottom(20);
 
-        table.debugAll();
+//        table.debugAll();
         addSaves();
 
         loadSelected.setEnabled(false);

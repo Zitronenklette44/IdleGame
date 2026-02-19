@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.core.GameObject;
 import de.lemon.logic.render.WorldRenderer;
 import de.lemon.logic.enums.ScreenFeatures;
+import de.lemon.mechanics.particleSystem.ParticleSource;
+import de.lemon.mechanics.particleSystem.sources.MovingParticleSource;
 import de.lemon.ui.LayoutManager;
 
 import java.util.EnumSet;
@@ -113,8 +115,18 @@ public abstract class CoreScreen implements Screen {
         item.setRelLayout(relX, relY, relWidth, relHeight);
         item.setMaxSize(maxWidth, maxHeight, minWidth, minHeight);
         layout.add(item);
+        if(item instanceof ParticleSource){
+            addParticleSource((ParticleSource) item, relX, relY);
+            return;
+        }
         if (worldRenderer != null){
             worldRenderer.addObject(item);
+        }
+    }
+
+    public void addParticleSource(ParticleSource item, float relX, float relY) {
+        if(item instanceof MovingParticleSource){
+            ((MovingParticleSource) item).relStartPos.set(relX, relY);
         }
     }
 
