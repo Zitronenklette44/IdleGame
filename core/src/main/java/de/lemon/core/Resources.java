@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.logic.enums.ParticlePresent;
+import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
 
 public class Resources {
@@ -22,6 +24,9 @@ public class Resources {
     public Texture splashScreen_loadingBar;
     public Texture door;
     public Texture redParticle;
+    public Texture animatedParticle;
+    public Texture tintableParticle;
+    public Texture smoke_particle;
 
     public Texture gameScreen_background;
 
@@ -37,7 +42,7 @@ public class Resources {
     public NinePatch UI_Button;
 
     private GeneratorSettings particle_fire;
-    private GeneratorSettings particle_fire_mov;
+    private GeneratorSettings particle_smoke;
 
 
     public Resources(){
@@ -65,7 +70,10 @@ public class Resources {
         assetManager.load("sprites/ui/button1.png", Texture.class);
 
         assetManager.load("sprites/red_particle.png", Texture.class);
-
+        assetManager.load("sprites/animatedParticle.png", Texture.class);
+        assetManager.load("sprites/tintableParticle.png", Texture.class);
+        assetManager.load("sprites/tintableParticle.png", Texture.class);
+        assetManager.load("sprites/smoke_particle.png", Texture.class);
 
         //skin
         assetManager.load("skins/template.json", Skin.class);
@@ -90,6 +98,9 @@ public class Resources {
             if (plants_01 == null) plants_01 = assetManager.get("sprites/plants/plant_01.png", Texture.class);
 
             if (redParticle == null) redParticle = assetManager.get("sprites/red_particle.png", Texture.class);
+            if (animatedParticle == null) animatedParticle = assetManager.get("sprites/animatedParticle.png", Texture.class);
+            if (tintableParticle == null) tintableParticle = assetManager.get("sprites/tintableParticle.png", Texture.class);
+            if (smoke_particle == null) smoke_particle = assetManager.get("sprites/smoke_particle.png", Texture.class);
 
             if (UI_Button == null) UI_Button = new NinePatch(assetManager.get("sprites/ui/button1.png", Texture.class), 16, 16, 16, 16);
 
@@ -104,29 +115,30 @@ public class Resources {
 
     private void createParticleSheets() {
         particle_fire = new GeneratorSettings().builder()
-            .texture(redParticle)
+            .texture(tintableParticle)
             .particleSize(new Vector2(10, 10))
-            .startSpeed(10f)
+            .startSpeed(30f)
             .lifetime(5)
-            .friction(-3.0f)
-            .generation(12, 20)
+            .friction(0.2f)
+            .generation(0, 8)
             .emissionType(ParticleEmissionType.CONTINUOUS)
             .interval(0.2f)
+            .color(Color.BLUE)
             .build();
 
-        particle_fire_mov = new GeneratorSettings().builder()
-            .texture(redParticle)
-            .particleSize(new Vector2(10, 10))
-            .startSpeed(10f)
-            .lifetime(5)
-            .friction(-3.0f)
-            .generation(12, 20)
-            .emissionType(ParticleEmissionType.CONTINUOUS)
-            .interval(0.2f)
-            .movementSpeed(100f)
-            .traceBack(true)
+        particle_smoke = new GeneratorSettings().builder()
+            .sprite(new AnimatedSprite(smoke_particle, 32, 32, 0.2f, false, Vector2.Zero.cpy()))
+            .particleSize(new Vector2(50, 50))
+            .startSpeed(15f)
+            .lifetime(10)
+            .friction(0.2f)
+            .generation(1, 1)
+            .emissionType(ParticleEmissionType.BURST)
+            .interval(0.5f)
+            .burst(50, 75)
+            .color(Color.GRAY)
+            .rotationSpeed(0)
             .build();
-
     }
 
     public boolean isAllLoaded(){
@@ -142,9 +154,9 @@ public class Resources {
             case FIRE:
                 return particle_fire.cpy();
             case SMOKE:
-                break;
+                return particle_smoke.cpy();
             case SPARK:
-                return particle_fire_mov.cpy();
+                break;
             case GROWTH:
                 break;
             case SPLASH:

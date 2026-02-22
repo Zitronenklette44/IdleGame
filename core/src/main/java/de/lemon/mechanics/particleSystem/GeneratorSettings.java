@@ -1,29 +1,37 @@
 package de.lemon.mechanics.particleSystem;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.logic.interfaces.Copyable;
+import de.lemon.logic.render.Sprite;
 
 public class GeneratorSettings implements Copyable<GeneratorSettings> {
     // Particles
     public Texture particleTexture;
+    public Sprite particleSprite;
     public Vector2 particleSize = Vector2.Zero.cpy();
-    public float particleStartSpeed;
-    public float particleLifetime;
-    public float particleFriction;
+    public float particleStartSpeed = 1;
+    public float particleLifetime = 5;
+    public float particleFriction = 1f;
+    public Color particleTint = null;
+    public float particleRotationSpeed = 10;
 
     // Generation
-    public int minGeneration;
-    public int maxGeneration;
+    public int minGeneration = 0;
+    public int maxGeneration = 5;
+    public int minBurst = 10;
+    public int maxBurst = 25;
     public ParticleEmissionType emissionType;
-    public float generationInterval;
+    public float generationInterval = 0.5f;
 
     //optional
     public float TTL = -1;
 
-    public float movementSpeed;
-    public boolean traceBack;
+    public float movementSpeed = 0;
+    public boolean traceBack = false;
+    public int maxEmissions = -1;
 
     public Builder builder(){
         return new Builder(this);
@@ -33,13 +41,18 @@ public class GeneratorSettings implements Copyable<GeneratorSettings> {
     public GeneratorSettings cpy() {
         GeneratorSettings copy = new GeneratorSettings();
         copy.particleTexture = this.particleTexture;
+        if(particleSprite != null) copy.particleSprite = this.particleSprite.cpy();
         copy.particleSize = this.particleSize.cpy();
         copy.particleStartSpeed = this.particleStartSpeed;
         copy.particleLifetime = this.particleLifetime;
         copy.particleFriction = this.particleFriction;
+        copy.particleTint = this.particleTint;
+        copy.particleRotationSpeed = this.particleRotationSpeed;
 
         copy.minGeneration = this.minGeneration;
         copy.maxGeneration = this.maxGeneration;
+        copy.minBurst = this.minBurst;
+        copy.maxBurst = this.maxBurst;
         copy.emissionType = this.emissionType;
         copy.generationInterval = this.generationInterval;
 
@@ -47,6 +60,7 @@ public class GeneratorSettings implements Copyable<GeneratorSettings> {
 
         copy.movementSpeed = this.movementSpeed;
         copy.traceBack = this.traceBack;
+        copy.maxEmissions = this.maxEmissions;
         return copy;
     }
 
@@ -61,6 +75,11 @@ public class GeneratorSettings implements Copyable<GeneratorSettings> {
 
         public Builder texture(Texture texture) {
             settings.particleTexture = texture;
+            return this;
+        }
+
+        public Builder sprite(Sprite sprite) {
+            settings.particleSprite = sprite;
             return this;
         }
 
@@ -112,6 +131,27 @@ public class GeneratorSettings implements Copyable<GeneratorSettings> {
 
         public Builder traceBack(boolean traceBack){
             settings.traceBack = traceBack;
+            return this;
+        }
+
+        public Builder color(Color color){
+            settings.particleTint = color;
+            return this;
+        }
+
+        public Builder rotationSpeed(float rotationSpeed){
+            settings.particleRotationSpeed = rotationSpeed;
+            return this;
+        }
+
+        public Builder burst(int min, int max){
+            settings.minBurst = min;
+            settings.maxBurst = max;
+            return this;
+        }
+
+        public Builder emissions(int emissions){
+            settings.maxEmissions = emissions;
             return this;
         }
 

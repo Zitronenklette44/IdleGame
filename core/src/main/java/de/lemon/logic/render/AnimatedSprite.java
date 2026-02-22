@@ -1,11 +1,9 @@
 package de.lemon.logic.render;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -151,5 +149,24 @@ public class AnimatedSprite extends Sprite implements Clickable {
 
     public void scale(float factor){
         size = new Vector2(frameWidth * factor, frameHeight * factor);
+    }
+
+    @Override
+    public AnimatedSprite cpy() {
+        AnimatedSprite copy = new AnimatedSprite(frameWidth, frameHeight);
+
+        copy.pos.set(this.pos);
+        copy.size.set(this.size);
+
+        copy.rotation = this.rotation;
+        copy.scale.set(this.scale);
+        copy.origin.set(this.origin);
+
+        copy.animation = this.animation;
+        copy.autoPlay = this.autoPlay;
+        copy.loop = this.loop;
+        copy.clickable = this.clickable;
+
+        return copy;
     }
 }

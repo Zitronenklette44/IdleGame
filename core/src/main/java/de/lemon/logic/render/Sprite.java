@@ -6,8 +6,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.core.GameObject;
 import de.lemon.logic.interfaces.Clickable;
+import de.lemon.logic.interfaces.Copyable;
 
-public abstract class Sprite extends GameObject implements Clickable {
+public abstract class Sprite extends GameObject implements Clickable, Copyable<Sprite> {
 
     public static final float CW_180 = 180;
     public static final float CW_90 = -90;

@@ -50,4 +50,12 @@ public class NineSprite extends Sprite {
         size.set(viewport.getWorldWidth() * relSize.x, viewport.getWorldHeight() * relSize.y);
         pos.set(viewport.getWorldWidth() * relPos.x - size.x / 2f, viewport.getWorldHeight() * relPos.y - size.y / 2f);
     }
+
+    @Override
+    public Sprite cpy() {
+        NineSprite copy = new NineSprite(sprite, pos, size);
+        copy.text = text;
+        copy.textColor = textColor;
+        return copy;
+    }
 }

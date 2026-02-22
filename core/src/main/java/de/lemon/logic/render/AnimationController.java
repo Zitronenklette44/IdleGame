@@ -11,9 +11,28 @@ import java.util.ArrayList;
 
 public class AnimationController extends AnimatedSprite {
 
-    private final int delay;
+    private int delay;
     private final ArrayList<Animation<TextureRegion>> animationList = new ArrayList<>();
     private int currentAnimation = 0;
+
+    @Override
+    public AnimationController cpy() {
+        AnimationController copy = new AnimationController(frameWidth, frameHeight);
+        copy.pos.set(this.pos);
+        copy.size.set(this.size);
+        copy.rotation = this.rotation;
+        copy.scale.set(this.scale);
+        copy.origin.set(this.origin);
+
+        copy.animationList.addAll(this.animationList);
+        copy.delay = this.delay;
+
+        return copy;
+    }
+
+    private AnimationController(int frameWidth, int frameHeight){
+        super(frameWidth, frameHeight);
+    }
 
     public AnimationController(Texture texture, int[] rows, Vector2 pos, int frameWidth, int frameHeight, float frameDuration, int delay){
         super(frameWidth, frameHeight);

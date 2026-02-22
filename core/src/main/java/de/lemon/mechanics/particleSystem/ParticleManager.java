@@ -19,13 +19,14 @@ public class ParticleManager {
 
     public void update(float delta){
 //        System.out.println("Particle Sources: " + sources.size());
-        for(ParticleSource s : sources){
+        for (int i = sources.size() - 1; i >= 0; i--) {
+            ParticleSource s = sources.get(i);
             s.update(delta);
         }
         for (int i = particles.size() - 1; i >= 0; i--) {
             Particle p = particles.get(i);
             p.update(delta);
-            if (!p.isAlive()) {
+            if (p.isDead()) {
                 p.dispose();
                 particles.remove(i);
             }

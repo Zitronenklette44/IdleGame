@@ -17,7 +17,6 @@ import java.util.EnumSet;
 
 public class GameScreen extends CoreScreen{
     private AnimatedSprite background;
-//    private Hitbox door;
     private AnimatedSprite door;
 
 
@@ -38,16 +37,6 @@ public class GameScreen extends CoreScreen{
     @Override
     protected void createComponents() {
         Main._instance.played = true;
-        /*door = new Hitbox(){
-            @Override
-            public void onClick() {
-                Main._instance.switchScreen(Main.GARDEN_SCREEN);
-            }
-        };
-        worldStage.addActor(door);
-        */
-
-
     }
 
     @Override
@@ -65,8 +54,8 @@ public class GameScreen extends CoreScreen{
         door.setClickable(true);
         addWorldObject(door, 4 / 10f, 2.6f/100f, 1/7.2f, 3/10f);
 
-        MovingParticleSource test = new MovingParticleSource(Vector2.Zero.cpy(), worldRenderer.getParticleManager(), Resources._instance.getParticle(ParticlePresent.SPARK));
-        test.relTargetPos.set(0.8f, 0.3f);
+        StaticParticleSource test = new StaticParticleSource(Vector2.Zero.cpy(), worldRenderer.getParticleManager(), Resources._instance.getParticle(ParticlePresent.SMOKE));
+//        test.relTargetPos.set(0.8f, 0.3f);
         addWorldObject(test, 0.5f, 0.5f, 0, 0);
     }
 

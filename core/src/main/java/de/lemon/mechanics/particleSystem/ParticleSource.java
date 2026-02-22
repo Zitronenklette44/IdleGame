@@ -1,6 +1,7 @@
 package de.lemon.mechanics.particleSystem;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.core.GameObject;
 import de.lemon.logic.enums.ParticleEmissionType;
@@ -16,6 +17,8 @@ public abstract class ParticleSource extends GameObject  {
     protected  int minParticleGeneration;
     protected boolean alive = true;
     protected float survivedTime = 0;
+    protected int minParticleBurst;
+    protected int maxParticleBurst;
 
     public ParticleSource(Vector2 pos, ParticleManager particleManager, GeneratorSettings settings) {
         super(pos, Vector2.Zero.cpy());
@@ -23,6 +26,8 @@ public abstract class ParticleSource extends GameObject  {
         emissionType = settings.emissionType;
         minParticleGeneration = settings.minGeneration;
         maxParticleGeneration = settings.maxGeneration;
+        minParticleBurst = settings.minBurst;
+        maxParticleBurst = settings.maxBurst;
         particleGenerationTime = settings.generationInterval;
         this.settings = settings;
         particleManager.sources.add(this);
@@ -32,18 +37,38 @@ public abstract class ParticleSource extends GameObject  {
     public void update(float delta) {
         if(!alive) return;
         lastParticleGeneration += delta;
-        if(lastParticleGeneration >= particleGenerationTime && emissionType != ParticleEmissionType.ONCE){
-            generateParticles();
-            lastParticleGeneration = 0;
+        if(lastParticleGeneration >= particleGenerationTime){
+            generateParticles(emissionType == ParticleEmissionType.BURST);
+            if(emissionType == ParticleEmissionType.ONCE || emissionType == ParticleEmissionType.BURST) dispose();
+            lastParticleGeneration -= particleGenerationTime;
         }
 
         survivedTime += delta;
         if(settings.TTL != -1 && survivedTime >= settings.TTL) dispose();
-//        System.out.println("State: lPG:" + lastParticleGeneration + " pGT: " + particleGenerationTime + " emT: " + emissionType);
         super.update(delta);
     }
 
-    protected abstract void generateParticles();
+    protected void generateParticles(boolean burst){
+        if(!canEmitParticles()) return;
+        int generationNumber;
+        if(burst) generationNumber = MathUtils.random(minParticleBurst, maxParticleBurst);
+        else generationNumber = MathUtils.random(minParticleGeneration, maxParticleGeneration);
+        for (int i = 0; i < generationNumber; i++) {
+            Vector2 velocity = new Vector2(1, 0).setToRandomDirection().scl(settings.particleStartSpeed);
+            Particle newParticle;
+            if(settings.particleTexture != null) newParticle = new Particle(pos.cpy(), settings.particleSize, settings.particleLifetime, velocity, settings.particleTexture);
+            else if (settings.particleSprite != null) newParticle = new Particle(pos.cpy(), settings.particleSize, settings.particleLifetime, velocity, settings.particleSprite.cpy());
+            else throw new IllegalArgumentException("No Texture or Sprite declared for Particle");
+            newParticle.setFriction(settings.particleFriction);
+            newParticle.setTintColor(settings.particleTint);
+            newParticle.setRotationSpeed(settings.particleRotationSpeed);
+            particleManager.particles.add(newParticle);
+        }
+    }
+
+    public boolean canEmitParticles(){
+        return true;
+    }
 
     public void dispose(){
         alive = false;
@@ -52,12 +77,6 @@ public abstract class ParticleSource extends GameObject  {
 
     public boolean isAlive() {
         return alive;
-    }
-
-    @Override
-    public void onSpriteRender(Batch batch, float delta) {
-        if(!alive) return;
-        super.onSpriteRender(batch, delta);
     }
 
 

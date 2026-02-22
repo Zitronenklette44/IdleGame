@@ -3,5 +3,6 @@ package de.lemon.logic.enums;
 public enum ParticleEmissionType {
     ONCE,
     CONTINUOUS,
-    LIMITED
+    LIMITED,
+    BURST
 }

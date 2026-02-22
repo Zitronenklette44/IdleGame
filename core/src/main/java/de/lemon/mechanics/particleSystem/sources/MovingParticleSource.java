@@ -39,7 +39,7 @@ public class MovingParticleSource extends ParticleSource {
         if (toGoal.len2() <= move * move) {
             pos.set(goal);
 
-            if (settings.traceBack) {
+            if (settings.traceBack && emissionType != ParticleEmissionType.LIMITED) {
                 targetGoal = !targetGoal;
             } else {
                 reachedEndOfMovement = true;
@@ -50,19 +50,9 @@ public class MovingParticleSource extends ParticleSource {
         pos.mulAdd(toGoal.nor(), move);
     }
 
-
     @Override
-    protected void generateParticles() {
-        if(emissionType == ParticleEmissionType.LIMITED && reachedEndOfMovement) return;
-//        ArrayList<Particle> newParticles = new ArrayList<>();
-        int generationNumber = MathUtils.random(minParticleGeneration, maxParticleGeneration);
-        for (int i = 0; i < generationNumber; i++) {
-            Vector2 velocity = new Vector2(1, 0).setToRandomDirection().scl(settings.particleStartSpeed);
-            Particle newParticle =  new Particle(pos.cpy(), settings.particleSize, settings.particleLifetime, velocity, settings.particleTexture);
-            newParticle.setFriction(settings.particleFriction);
-//            newParticles.add(newParticle);
-            particleManager.particles.add(newParticle);
-        }
+    public boolean canEmitParticles() {
+        return emissionType != ParticleEmissionType.LIMITED || !reachedEndOfMovement;
     }
 
     @Override
