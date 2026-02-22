@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import de.lemon.logic.enums.Direction;
+import de.lemon.logic.enums.Geometric;
 import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.logic.enums.ParticlePresent;
 import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
+import de.lemon.mechanics.particleSystem.SpawnArea;
 
 public class Resources {
 
@@ -43,6 +45,8 @@ public class Resources {
 
     private GeneratorSettings particle_fire;
     private GeneratorSettings particle_smoke;
+
+    private SpawnArea testArea;
 
 
     public Resources(){
@@ -139,6 +143,12 @@ public class Resources {
             .color(Color.GRAY)
             .rotationSpeed(0)
             .build();
+
+        testArea = new SpawnArea().builder()
+            .geometric(Geometric.CIRCLE)
+            .direction(Direction.INWARDS)
+            .rotation(0)
+            .build();
     }
 
     public boolean isAllLoaded(){
@@ -161,6 +171,13 @@ public class Resources {
                 break;
             case SPLASH:
                 break;
+        }
+        return null;
+    }
+
+    public SpawnArea getSpawnAreaPresent(int id){
+        switch (id){
+            case 1: return testArea;
         }
         return null;
     }

@@ -68,7 +68,7 @@ public class GardenScreen extends CoreScreen{
         worldRenderer.addObject(pots);
 
 //        for(PlantLogic plant : plants) worldRenderer.addObject(plant);
-        addWorldObject(plants[0], 1.2f/10f, 7.25f/10f, 2/5f, 2/5f);
+        addWorldObject(plants[0], 1.2f/10f, 8.2f/10f, 1.4f/5f, 1.4f/5f);
 
         door = new AnimatedSprite(Resources._instance.door, 1, 72, 16, 0.1f, true, new Vector2()){
             @Override

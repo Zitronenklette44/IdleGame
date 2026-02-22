@@ -25,7 +25,7 @@ public class Plant {
     public static Plant getNewPlant(Plants plant){
         switch (plant){
             case BLATTRUBIN:
-                return new Plant(Resources._instance.plants_01, 64, 64, 15, 3, Plants.BLATTRUBIN);
+                return new Plant(Resources._instance.plants_01, 32, 40, 15, 3, Plants.BLATTRUBIN);
         }
 
         return new Plant(null, 0, 0, 0, 0, null);
