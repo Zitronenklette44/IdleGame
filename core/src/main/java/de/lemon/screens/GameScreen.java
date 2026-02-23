@@ -55,7 +55,7 @@ public class GameScreen extends CoreScreen{
         door.setClickable(true);
         addWorldObject(door, 4 / 10f, 2.6f/100f, 1/7.2f, 3/10f);
 
-//        StaticParticleSource test = new StaticParticleSource(Vector2.Zero.cpy(), worldRenderer.getParticleManager(), Resources._instance.getParticle(ParticlePresent.SMOKE));
+//        StaticParticleSource test = new StaticParticleSource(Vector2.Zero.cpy(), worldRenderer.getParticleManager(), Resources._instance.getParticle(ParticlePresent.FIRE));
 //        test.relTargetPos.set(0.8f, 0.3f);
 
         GeometricParticleSource test = new GeometricParticleSource(

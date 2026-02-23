@@ -127,7 +127,7 @@ public class Resources {
             .generation(0, 8)
             .emissionType(ParticleEmissionType.CONTINUOUS)
             .interval(0.2f)
-            .color(Color.BLUE)
+            .color(Color.WHITE)
             .build();
 
         particle_smoke = new GeneratorSettings().builder()
@@ -145,7 +145,7 @@ public class Resources {
             .build();
 
         testArea = new SpawnArea().builder()
-            .geometric(Geometric.CIRCLE)
+            .geometric(Geometric.RECTANGLE)
             .direction(Direction.INWARDS)
             .rotation(0)
             .build();

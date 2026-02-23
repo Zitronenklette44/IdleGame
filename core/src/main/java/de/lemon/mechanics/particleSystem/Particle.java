@@ -19,6 +19,8 @@ public class Particle extends Sprite {
     private float rotationSpeed = 10;
     private final boolean rotDirection;
     private Color tintColor = null;
+    private Vector2 killPoint;
+    private float killDist;
 
     public Particle(Vector2 pos, Vector2 size, float lifetime, Vector2 velocity, Texture texture) {
         super(pos, size);
@@ -71,7 +73,7 @@ public class Particle extends Sprite {
     }
 
     public boolean isDead(){
-        return !(age < lifetime);
+        return !(age < lifetime) || pos.dst(killPoint) <= killDist;
     }
 
     @Override
@@ -120,10 +122,18 @@ public class Particle extends Sprite {
         copy.friction = this.friction;
         copy.rotationSpeed = this.rotationSpeed;
 
+        copy.killPoint = this.killPoint;
+        copy.killDist = this.killDist;
+
         return copy;
     }
 
     public void setTintColor(Color tintColor) {
         this.tintColor = tintColor;
+    }
+
+    public void setKillPoint(Vector2 killPoint, float killDist) {
+        this.killPoint = killPoint;
+        this.killDist = killDist;
     }
 }

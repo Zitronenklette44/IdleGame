@@ -4,10 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import de.lemon.mechanics.particleSystem.GeneratorSettings;
-import de.lemon.mechanics.particleSystem.ParticleManager;
-import de.lemon.mechanics.particleSystem.ParticleSource;
-import de.lemon.mechanics.particleSystem.SpawnArea;
+import de.lemon.mechanics.particleSystem.*;
 
 public class GeometricParticleSource extends ParticleSource {
     private final SpawnArea spawnArea;
@@ -19,6 +16,20 @@ public class GeometricParticleSource extends ParticleSource {
 
     @Override
     protected void generateParticles(boolean burst) {
+        Vector2 position = spawnArea.getRandomParticlePos();
+        Vector2 velocity = spawnArea.getMovementDirection(position).scl(settings.particleStartSpeed);
+//        System.out.println("scalar: " + settings.particleStartSpeed + " velocity: " + spawnArea);
+
+        Particle newParticle;
+        if(settings.particleTexture != null) newParticle = new Particle(position.cpy(), settings.particleSize, settings.particleLifetime, velocity, settings.particleTexture);
+        else if (settings.particleSprite != null) newParticle = new Particle(position.cpy(), settings.particleSize, settings.particleLifetime, velocity, settings.particleSprite.cpy());
+        else throw new IllegalArgumentException("No Texture or Sprite declared for Particle");
+        newParticle.setFriction(settings.particleFriction);
+        newParticle.setTintColor(settings.particleTint);
+        newParticle.setRotationSpeed(settings.particleRotationSpeed);
+        newParticle.setKillPoint(pos.cpy(), 0.5f);
+        particleManager.particles.add(newParticle);
+
 
     }
 

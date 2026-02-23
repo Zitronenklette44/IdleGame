@@ -27,52 +27,16 @@ public class SpawnArea {
         Vector2 direction = new Vector2();
         switch(this.direction) {
             case FILLED:
+            case OUTWARDS:
                 direction.set(MathUtils.random(-1f,1f), MathUtils.random(-1f,1f)).nor();
                 break;
             case INWARDS:
                 direction.set(pos).sub(particlePos).nor();
                 break;
-            case OUTWARDS:
-                direction.set(MathUtils.random(-1f,1f), MathUtils.random(-1f,1f)).nor();
-//                direction.set(particlePos).sub(pos).nor();
-                break;
-        }
-        return direction;
-//        switch (geometric){
-//            case LINE:
-//                return randomDirLINE(particlePos);
-//            case RECTANGLE:
-//                return randomDirRECT(particlePos);
-//            case CIRCLE:
-//                return randomDirCIRC(particlePos);
-//        }
-//        return null;
-    }
-
-    private Vector2 randomDirRECT(Vector2 particlePos){
-        Vector2 direction = new Vector2();
-        switch(this.direction) {
-            case FILLED:
-                direction.set(MathUtils.random(-1f,1f), MathUtils.random(-1f,1f)).nor();
-                break;
-            case INWARDS:
-                direction.set(pos).sub(particlePos).nor();
-                break;
-            case OUTWARDS:
-                direction.set(MathUtils.random(-1f,1f), MathUtils.random(-1f,1f)).nor();
-//                direction.set(particlePos).sub(pos).nor();
-                break;
         }
         return direction;
     }
 
-    private Vector2 randomDirCIRC(Vector2 particlePos){
-        return new Vector2();
-    }
-
-    private Vector2 randomDirLINE(Vector2 particlePos){
-        return new Vector2();
-    }
 
     public Vector2 getRandomParticlePos(){
         Vector2 returnValue = null;
