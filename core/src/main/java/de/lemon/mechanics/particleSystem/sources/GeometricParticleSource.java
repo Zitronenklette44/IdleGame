@@ -71,4 +71,7 @@ public class GeometricParticleSource extends ParticleSource {
     public void dispose() {
         super.dispose();
     }
+
+    @Override
+    public void onApplySettings() {}
 }

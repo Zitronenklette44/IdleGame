@@ -2,23 +2,19 @@ package de.lemon.mechanics.particleSystem.sources;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
-import de.lemon.mechanics.particleSystem.Particle;
 import de.lemon.mechanics.particleSystem.ParticleManager;
 import de.lemon.mechanics.particleSystem.ParticleSource;
-
-import java.util.ArrayList;
 
 public class MovingParticleSource extends ParticleSource {
     boolean targetGoal = true;
     boolean reachedEndOfMovement = false;
 
-    private Vector2 startPos = Vector2.Zero.cpy();
-    private Vector2 targetPos = Vector2.Zero.cpy();
+    private final Vector2 startPos = Vector2.Zero.cpy();
+    private final Vector2 targetPos = Vector2.Zero.cpy();
     public Vector2 relTargetPos = Vector2.Zero.cpy();
     public Vector2 relStartPos = Vector2.Zero.cpy();
 
@@ -56,6 +52,17 @@ public class MovingParticleSource extends ParticleSource {
     }
 
     @Override
+    public void onApplySettings() {}
+
+    @Override
+    public void reset() {
+        super.reset();
+        pos.set(startPos);
+        reachedEndOfMovement = false;
+        targetGoal = true;
+    }
+
+    @Override
     public void onDebug(ShapeRenderer shapeRenderer, float delta) {
         super.onDebug(shapeRenderer, delta);
         shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
@@ -77,6 +84,6 @@ public class MovingParticleSource extends ParticleSource {
         super.applyLayout(viewport);
         startPos.set(viewport.getWorldWidth() * relStartPos.x, viewport.getWorldHeight() * relStartPos.y);
         targetPos.set(viewport.getWorldWidth() * relTargetPos.x, viewport.getWorldHeight() * relTargetPos.y);
-        System.out.println("relStar:" + relStartPos.toString() + " startPos: "+ startPos.toString());
+//        System.out.println("relStar:" + relStartPos.toString() + " startPos: "+ startPos.toString());
     }
 }

@@ -1,0 +1,27 @@
+plugins {
+  id "application"
+}
+
+application {
+  mainClass = "de.lemon.main.EditorLauncher"
+}
+
+dependencies {
+  implementation project(":core")
+
+  implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+  implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+  implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}
+
+sourceSets {
+  main {
+    resources.srcDirs += ["../assets"]
+  }
+}

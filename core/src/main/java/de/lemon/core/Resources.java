@@ -73,11 +73,10 @@ public class Resources {
 
         assetManager.load("sprites/ui/button1.png", Texture.class);
 
-        assetManager.load("sprites/red_particle.png", Texture.class);
-        assetManager.load("sprites/animatedParticle.png", Texture.class);
-        assetManager.load("sprites/tintableParticle.png", Texture.class);
-        assetManager.load("sprites/tintableParticle.png", Texture.class);
-        assetManager.load("sprites/smoke_particle.png", Texture.class);
+        assetManager.load("sprites/particle/red_particle.png", Texture.class);
+        assetManager.load("sprites/particle/animatedParticle.png", Texture.class);
+        assetManager.load("sprites/particle/tintableParticle.png", Texture.class);
+        assetManager.load("sprites/particle/smoke_particle.png", Texture.class);
 
         //skin
         assetManager.load("skins/template.json", Skin.class);
@@ -101,10 +100,10 @@ public class Resources {
 
             if (plants_01 == null) plants_01 = assetManager.get("sprites/plants/plant_01.png", Texture.class);
 
-            if (redParticle == null) redParticle = assetManager.get("sprites/red_particle.png", Texture.class);
-            if (animatedParticle == null) animatedParticle = assetManager.get("sprites/animatedParticle.png", Texture.class);
-            if (tintableParticle == null) tintableParticle = assetManager.get("sprites/tintableParticle.png", Texture.class);
-            if (smoke_particle == null) smoke_particle = assetManager.get("sprites/smoke_particle.png", Texture.class);
+            if (redParticle == null) redParticle = assetManager.get("sprites/particle/red_particle.png", Texture.class);
+            if (animatedParticle == null) animatedParticle = assetManager.get("sprites/particle/animatedParticle.png", Texture.class);
+            if (tintableParticle == null) tintableParticle = assetManager.get("sprites/particle/tintableParticle.png", Texture.class);
+            if (smoke_particle == null) smoke_particle = assetManager.get("sprites/particle/smoke_particle.png", Texture.class);
 
             if (UI_Button == null) UI_Button = new NinePatch(assetManager.get("sprites/ui/button1.png", Texture.class), 16, 16, 16, 16);
 

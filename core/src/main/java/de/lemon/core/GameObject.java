@@ -143,7 +143,7 @@ public abstract class GameObject implements LayoutItem {
     public void onKeyUp(int keycode){}
     /**
      * Listener for Key typed
-     * @param keycode LibGDX keyCode
+     * @param character LibGDX keyCode
      * @see com.badlogic.gdx.InputProcessor
      */
     public void onKeyTyped(char character){}

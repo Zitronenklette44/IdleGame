@@ -2,6 +2,7 @@ package de.lemon.mechanics.particleSystem;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
@@ -17,15 +18,17 @@ public class ParticleManager {
         this.spriteBatch = spriteBatch;
     }
 
+    private float particleSpeedModifier = 1f;
+    private float sourceSpeedModifier = 1f;
+
     public void update(float delta){
-//        System.out.println("Particle Sources: " + sources.size());
         for (int i = sources.size() - 1; i >= 0; i--) {
             ParticleSource s = sources.get(i);
-            s.update(delta);
+            s.update(delta * sourceSpeedModifier);
         }
         for (int i = particles.size() - 1; i >= 0; i--) {
             Particle p = particles.get(i);
-            p.update(delta);
+            p.update(delta * particleSpeedModifier);
             if (p.isDead()) {
                 p.dispose();
                 particles.remove(i);
@@ -39,5 +42,26 @@ public class ParticleManager {
 
     public void onDebug(ShapeRenderer sR, float delta){
         for(ParticleSource s : sources) s.onDebug(sR, delta);
+    }
+
+    public void setParticleSpeedModifier(float particleSpeedModifier) {
+        this.particleSpeedModifier = particleSpeedModifier;
+    }
+
+    public void setSourceSpeedModifier(float sourceSpeedModifier) {
+        this.sourceSpeedModifier = sourceSpeedModifier;
+    }
+
+    public void setSpeed(float speed){
+        particleSpeedModifier = speed;
+        sourceSpeedModifier = speed;
+    }
+
+    public void setSpriteBatch(SpriteBatch spriteBatch) {
+        this.spriteBatch = spriteBatch;
+    }
+
+    public Vector2 getSpeed(){
+        return new Vector2(particleSpeedModifier, sourceSpeedModifier);
     }
 }

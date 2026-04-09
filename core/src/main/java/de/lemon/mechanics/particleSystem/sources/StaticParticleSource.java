@@ -26,4 +26,16 @@ public class StaticParticleSource extends ParticleSource {
     public boolean canEmitParticles() {
         return maxEmissions == -1 || currentEmissions < maxEmissions;
     }
+
+    @Override
+    public void onApplySettings() {
+        if(emissionType == ParticleEmissionType.LIMITED) maxEmissions = settings.maxEmissions;
+        else maxEmissions = -1;
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        currentEmissions = 0;
+    }
 }

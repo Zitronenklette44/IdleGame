@@ -1,6 +1,5 @@
 package de.lemon.mechanics.particleSystem;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.core.GameObject;
@@ -10,7 +9,7 @@ public abstract class ParticleSource extends GameObject  {
 
     protected final ParticleManager particleManager;
     protected float particleGenerationTime;
-    protected final GeneratorSettings settings;
+    protected GeneratorSettings settings;
     protected float lastParticleGeneration;
     protected ParticleEmissionType emissionType;
     protected int maxParticleGeneration;
@@ -23,13 +22,9 @@ public abstract class ParticleSource extends GameObject  {
     public ParticleSource(Vector2 pos, ParticleManager particleManager, GeneratorSettings settings) {
         super(pos, Vector2.Zero.cpy());
         this.particleManager = particleManager;
-        emissionType = settings.emissionType;
-        minParticleGeneration = settings.minGeneration;
-        maxParticleGeneration = settings.maxGeneration;
-        minParticleBurst = settings.minBurst;
-        maxParticleBurst = settings.maxBurst;
-        particleGenerationTime = settings.generationInterval;
-        this.settings = settings;
+
+        applySettings(settings);
+//        System.out.println("created Source: " + this);
         particleManager.sources.add(this);
     }
 
@@ -45,6 +40,8 @@ public abstract class ParticleSource extends GameObject  {
 
         survivedTime += delta;
         if(settings.TTL != -1 && survivedTime >= settings.TTL) dispose();
+//        System.out.println("Delta : " + delta);
+//        System.out.println("Particle Manager Source: " + particleManager);
         super.update(delta);
     }
 
@@ -79,5 +76,23 @@ public abstract class ParticleSource extends GameObject  {
         return alive;
     }
 
+    public void applySettings(GeneratorSettings settings){
+        this.settings = settings;
+
+        emissionType = settings.emissionType;
+        minParticleGeneration = settings.minGeneration;
+        maxParticleGeneration = settings.maxGeneration;
+        minParticleBurst = settings.minBurst;
+        maxParticleBurst = settings.maxBurst;
+        particleGenerationTime = settings.generationInterval;
+
+        lastParticleGeneration = 0f;
+        onApplySettings();
+    }
+
+    public void onApplySettings(){}
+    public void reset(){
+        survivedTime = 0;
+    }
 
 }
