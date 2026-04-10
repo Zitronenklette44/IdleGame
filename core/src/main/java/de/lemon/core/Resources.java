@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import de.lemon.logic.enums.Direction;
 import de.lemon.logic.enums.Geometric;
 import de.lemon.logic.enums.ParticleEmissionType;
@@ -18,27 +19,15 @@ import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
 import de.lemon.mechanics.particleSystem.SpawnArea;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Resources {
 
     public static Resources _instance;
     private final AssetManager assetManager;
 
-    public Texture splashScreen_loadingBar;
-    public Texture door;
-    public Texture redParticle;
-    public Texture animatedParticle;
-    public Texture tintableParticle;
-    public Texture smoke_particle;
-
-    public Texture gameScreen_background;
-
-    public Texture gardenScreen_background;
-    public Texture gardenScreen_pots;
-
-    public Texture plants_01;
-
-    public Texture startScreen_name;
-    public Skin skin;
     public FileHandle font1;
 
     public NinePatch UI_Button;
@@ -47,43 +36,38 @@ public class Resources {
     private GeneratorSettings particle_smoke;
 
     private SpawnArea testArea;
+    // <globalDeclaration>
+    // </globalDeclaration>
 
+    private final Map<String, String> assetRegistry = new HashMap<>();
 
     public Resources(){
         _instance = this;
 
         assetManager = new AssetManager();
-        assetManager.load("sprites/loadingBar.png", Texture.class);
-        assetManager.load("sprites/idlePotions.png", Texture.class);
+        registerAsset("loadingBar", "sprites/loadingBar.png", Texture.class);
+        registerAsset("gameName", "sprites/idlePotions.png", Texture.class);
 
         assetManager.finishLoading();
-        splashScreen_loadingBar = assetManager.get("sprites/loadingBar.png", Texture.class);
-        startScreen_name = assetManager.get("sprites/idlePotions.png", Texture.class);
+    }
 
+    private void registerAsset(String name, String path, Class clazz){
+        assetManager.load(path, clazz);
+        assetRegistry.put(name, path);
     }
 
     public void startLoading(){
-        assetManager.load("sprites/door.png", Texture.class);
-
-        assetManager.load("sprites/gameScreen.png", Texture.class);
-        assetManager.load("sprites/garden.png", Texture.class);
-        assetManager.load("sprites/pots.png", Texture.class);
-
-        assetManager.load("sprites/plants/plant_01.png", Texture.class);
-
-        assetManager.load("sprites/ui/button1.png", Texture.class);
-
-        assetManager.load("sprites/particle/red_particle.png", Texture.class);
-        assetManager.load("sprites/particle/animatedParticle.png", Texture.class);
-        assetManager.load("sprites/particle/tintableParticle.png", Texture.class);
-        assetManager.load("sprites/particle/smoke_particle.png", Texture.class);
-
-        //skin
-        assetManager.load("skins/template.json", Skin.class);
-
-        assetManager.load("skins/customSkin/skin.atlas", TextureAtlas.class);
-        SkinLoader.SkinParameter skinParam = new SkinLoader.SkinParameter("skins/customSkin/skin.atlas");
-        assetManager.load("skins/customSkin/skin.json", Skin.class, skinParam);
+        registerAsset("door", "sprites/door.png", Texture.class);
+        registerAsset("gameScreen", "sprites/gameScreen.png", Texture.class);
+        registerAsset("garden", "sprites/garden.png", Texture.class);
+        registerAsset("pots", "sprites/pots.png", Texture.class);
+        registerAsset("plant_01", "sprites/plants/plant_01.png", Texture.class);
+        registerAsset("button_01", "sprites/ui/button1.png", Texture.class);
+        registerAsset("red_particle", "sprites/particle/red_particle.png", Texture.class);
+        registerAsset("animated_particle", "sprites/particle/animatedParticle.png", Texture.class);
+        registerAsset("tintable_particle", "sprites/particle/tintableParticle.png", Texture.class);
+        registerAsset("smoke_particle", "sprites/particle/smoke_particle.png", Texture.class);
+        registerAsset("skin", "skins/template.json", Skin.class);
 
         //fonts
         font1 = Gdx.files.internal("fonts/font1.ttf");
@@ -92,23 +76,7 @@ public class Resources {
     boolean loadedAll = false;
     public void update() {
         if (assetManager.update()) { // true, if all loaded
-            if (door == null) door = assetManager.get("sprites/door.png", Texture.class);
-
-            if (gameScreen_background == null) gameScreen_background = assetManager.get("sprites/gameScreen.png", Texture.class);
-            if (gardenScreen_background == null) gardenScreen_background = assetManager.get("sprites/garden.png", Texture.class);
-            if (gardenScreen_pots == null) gardenScreen_pots = assetManager.get("sprites/pots.png", Texture.class);
-
-            if (plants_01 == null) plants_01 = assetManager.get("sprites/plants/plant_01.png", Texture.class);
-
-            if (redParticle == null) redParticle = assetManager.get("sprites/particle/red_particle.png", Texture.class);
-            if (animatedParticle == null) animatedParticle = assetManager.get("sprites/particle/animatedParticle.png", Texture.class);
-            if (tintableParticle == null) tintableParticle = assetManager.get("sprites/particle/tintableParticle.png", Texture.class);
-            if (smoke_particle == null) smoke_particle = assetManager.get("sprites/particle/smoke_particle.png", Texture.class);
-
-            if (UI_Button == null) UI_Button = new NinePatch(assetManager.get("sprites/ui/button1.png", Texture.class), 16, 16, 16, 16);
-
-            if (skin == null) skin = assetManager.get("skins/template.json", Skin.class);
-//            if (skin == null)  skin = assetManager.get("skins/customSkin/skin.json", Skin.class);
+            if(getTexture("button_01") != null) UI_Button = new NinePatch(assetManager.get("sprites/ui/button1.png", Texture.class), 16, 16, 16, 16);;
             loadedAll = true;
         }
         if(loadedAll){
@@ -116,9 +84,34 @@ public class Resources {
         }
     }
 
+    public Texture getTexture(String name){
+        try {
+            return assetManager.get(getPath(name), Texture.class);
+        }catch (GdxRuntimeException e){
+            System.out.println("Error getting Asset: " + name + " Error:" + Arrays.toString(e.getStackTrace()));
+        }
+        return null;
+    }
+
+    public <T> T getAsset(String name, Class<T> clazz){
+        try {
+            return assetManager.get(getPath(name), clazz);
+        }catch (GdxRuntimeException e){
+            System.out.println("Error getting Asset: " + name + " Error:" + Arrays.toString(e.getStackTrace()));
+        }
+        return null;
+    }
+
+    private String getPath(String name){
+        String path = assetRegistry.get(name);
+        if(path == null)
+            throw new RuntimeException("Asset not registered: " + name);
+        return path;
+    }
+
     private void createParticleSheets() {
         particle_fire = new GeneratorSettings().builder()
-            .texture(tintableParticle)
+            .texture(getTexture("tintable_particle"))
             .particleSize(new Vector2(10, 10))
             .startSpeed(30f)
             .lifetime(5)
@@ -130,7 +123,7 @@ public class Resources {
             .build();
 
         particle_smoke = new GeneratorSettings().builder()
-            .sprite(new AnimatedSprite(smoke_particle, 32, 32, 0.2f, false, Vector2.Zero.cpy()))
+            .sprite(new AnimatedSprite("smoke_particle", 32, 32, 0.2f, false, Vector2.Zero.cpy()))
             .particleSize(new Vector2(50, 50))
             .startSpeed(15f)
             .lifetime(10)
@@ -148,6 +141,10 @@ public class Resources {
             .direction(Direction.INWARDS)
             .rotation(0)
             .build();
+
+        // <particlePresent>
+        // </particlePresent>
+
     }
 
     public boolean isAllLoaded(){
@@ -176,7 +173,7 @@ public class Resources {
 
     public SpawnArea getSpawnAreaPresent(int id){
         switch (id){
-            case 1: return testArea;
+            case 0: return testArea;
         }
         return null;
     }

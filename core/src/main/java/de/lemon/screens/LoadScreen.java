@@ -63,9 +63,9 @@ public class LoadScreen extends CoreScreen{
 
         buttonTable = new Table();
         buttonTable.setVisible(false);
-        TButton loadGame = new TButton("Load Game", Resources._instance.skin);
-        TButton deleteGame = new TButton("Delete Game", Resources._instance.skin);
-        TButton createGame = new TButton("Create Game", Resources._instance.skin);
+        TButton loadGame = new TButton("Load Game", Resources._instance.getAsset("skin", Skin.class));
+        TButton deleteGame = new TButton("Delete Game", Resources._instance.getAsset("skin", Skin.class));
+        TButton createGame = new TButton("Create Game", Resources._instance.getAsset("skin", Skin.class));
 
         buttonTable.add(loadGame).pad(10);
         buttonTable.add(deleteGame).pad(10);
@@ -119,18 +119,18 @@ public class LoadScreen extends CoreScreen{
         Table header = new Table();
         header.defaults().pad(10);
 
-        header.add(new Label("Name", Resources._instance.skin))
+        header.add(new Label("Name", Resources._instance.getAsset("skin", Skin.class)))
             .expandX().left();
-        header.add(new Label("Playtime", Resources._instance.skin))
+        header.add(new Label("Playtime", Resources._instance.getAsset("skin", Skin.class)))
             .width(100).center();
-        header.add(new Label("Last played", Resources._instance.skin))
+        header.add(new Label("Last played", Resources._instance.getAsset("skin", Skin.class)))
             .width(150).right();
 
         return header;
     }
 
     public void showNameInputDialog() {
-        Skin skin = Resources._instance.skin;
+        Skin skin = Resources._instance.getAsset("skin", Skin.class);
 
         TextField textField = new TextField("", skin);
         textField.setMessageText("Save Name");

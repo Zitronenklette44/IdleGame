@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 public class SimpleSprite extends AnimatedSprite {
-    public SimpleSprite(Texture texture, int frameWidth, int frameHeight, boolean loop, Vector2 pos) {
-        super(texture, frameWidth, frameHeight, 1f, loop, pos);
+    public SimpleSprite(String textureName, int frameWidth, int frameHeight, boolean loop, Vector2 pos) {
+        super(textureName, frameWidth, frameHeight, 1f, loop, pos);
         autoPlay = false;
     }
 

@@ -1,8 +1,10 @@
 package de.lemon.ui;
 
+import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.core.Resources;
@@ -13,7 +15,7 @@ public class Hitbox extends Button {
     private boolean absorbFirstHit;
 
     public Hitbox(boolean absorbFirstHit){
-        super(Resources._instance.skin);
+        super(Resources._instance.getAsset("skin", Skin.class));
         this.absorbFirstHit = absorbFirstHit;
         setColor( 1, 1, 1, 0);
         setDebug(GameLogic.debug);

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import de.lemon.core.Resources;
 import de.lemon.ui.FontCache;
 
 public class NineSprite extends Sprite {
@@ -14,9 +15,17 @@ public class NineSprite extends Sprite {
     private String text;
     private Color textColor;
 
-    public NineSprite(NinePatch sprite, Vector2 pos, Vector2 size) {
+    private final String textureName;
+    private final int left,right,top,bottom;
+
+    public NineSprite(String textureName, int left, int right, int top, int bottom, Vector2 pos, Vector2 size) {
         super(pos, size);
-        this.sprite = sprite;
+        this.left = left;
+        this.right = right;
+        this.top = top;
+        this.bottom = bottom;
+        this.textureName = textureName;
+        this.sprite = new NinePatch(Resources._instance.getTexture(textureName), left, right, top, bottom);
     }
 
     @Override
@@ -53,9 +62,29 @@ public class NineSprite extends Sprite {
 
     @Override
     public Sprite cpy() {
-        NineSprite copy = new NineSprite(sprite, pos, size);
+        NineSprite copy = new NineSprite(textureName, left, right, top, bottom, pos, size);
         copy.text = text;
         copy.textColor = textColor;
         return copy;
+    }
+
+    public int left(){
+        return left;
+    }
+
+    public int right() {
+        return right;
+    }
+
+    public int top() {
+        return top;
+    }
+
+    public int bottom() {
+        return bottom;
+    }
+
+    public String getTextureName() {
+        return textureName;
     }
 }

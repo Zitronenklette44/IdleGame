@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
-import de.lemon.mechanics.particleSystem.ParticleSource;
 import de.lemon.parameter.EditorNode;
 import de.lemon.parameter.window.Window;
 
@@ -14,8 +13,9 @@ public class Logic {
     public static Logic _instance = new Logic();
 
     public void btnNew(){
-//        ParticleEditor.startScreen.particleSettings.settings = new GeneratorSettings();
-//        ParticleEditor.startScreen.getParticleManager().particles.clear();
+        ParticleStartScreen._instance.particleSettings = new GeneratorSettings();
+        ParticleStartScreen._instance.getParticleManager().particles.clear();
+        updateSourceSettings();
     }
 
 
@@ -35,10 +35,6 @@ public class Logic {
 
     public void changeValue(EditorNode node, Object value){
         GeneratorSettings.Builder builder = ParticleStartScreen._instance.particleSettings.builder();
-//        int intValue;
-//        float floatValue;
-//        if(node.getValueType() == EditorNode.ValueType.INTEGER) intValue = (int) value;
-//        if(node.getValueType() == EditorNode.ValueType.FLOAT)floatValue = (float) value;
 
         switch (node) {
             case SIZE:
@@ -101,7 +97,11 @@ public class Logic {
 
     public void updateSourceSettings(){
         ParticleStartScreen._instance.source.applySettings(ParticleStartScreen._instance.particleSettings);
-//        System.out.println("Lifetime V2: " + ParticleStartScreen._instance.particleSettings.particleLifetime);
-//        System.out.println("new settings for source:" + ParticleStartScreen._instance.source);
+    }
+
+    public void btnLoad() {
+    }
+
+    public void btnCreateCode() {
     }
 }

@@ -38,10 +38,10 @@ public class SplashScreen extends CoreScreen{
 
     @Override
     protected void createWorld() {
-        simpleSprite = new SimpleSprite(Resources._instance.splashScreen_loadingBar, 128, 16, false, new Vector2());
+        simpleSprite = new SimpleSprite("loadingBar", 128, 16, false, new Vector2());
         addWorldObject(simpleSprite, 0.5f, 0.5f, 1f/3, 1);
 
-        name = new AnimationController(Resources._instance.startScreen_name, new int[]{0, 1, 2, 3}, new Vector2(), 256, 48, 0.1f, 5);
+        name = new AnimationController("gameName", new int[]{0, 1, 2, 3}, new Vector2(), 256, 48, 0.1f, 5);
         addWorldObject(name, 0.5f, 0.8f, 0.5f, 0.1f);
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -31,12 +32,12 @@ public class SavePreview extends Table {
         this.id = id;
         createPreview();
 
-        normalBg = Resources._instance.skin.newDrawable(
+        normalBg = Resources._instance.getAsset("skin", Skin.class).newDrawable(
             "white",
             0.8f, 0.8f, 0.8f, 1f
         );
 
-        selectedBg = Resources._instance.skin.newDrawable(
+        selectedBg = Resources._instance.getAsset("skin", Skin.class).newDrawable(
             "white",
             0.4f, 0.4f, 0.4f, 1f
         );
@@ -48,11 +49,11 @@ public class SavePreview extends Table {
     }
 
     private void createPreview() {
-        left = new Label(gameState.getName(), Resources._instance.skin);
-        middle = new Label(gameState.getPlaytime() + "", Resources._instance.skin);
+        left = new Label(gameState.getName(), Resources._instance.getAsset("skin", Skin.class));
+        middle = new Label(gameState.getPlaytime() + "", Resources._instance.getAsset("skin", Skin.class));
         String date = DateFormat.getInstance().format(new Date(gameState.getLastPlayed()));
 
-        right = new Label(date, Resources._instance.skin);
+        right = new Label(date, Resources._instance.getAsset("skin", Skin.class));
         add(left).expandX().left();
         add(middle).width(100).center();
         add(right).width(150).right();

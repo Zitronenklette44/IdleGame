@@ -3,6 +3,7 @@ package de.lemon.mechanics.plants;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import de.lemon.core.Resources;
 import de.lemon.logic.enums.Plants;
 import de.lemon.logic.render.SimpleSprite;
 import de.lemon.listeners.TickListener;
@@ -20,8 +21,8 @@ public class PlantLogic extends SimpleSprite {
 
     private TickListener tickListener;
 
-    public PlantLogic(Texture texture, int frameWidth, int frameHeight, Vector2 pos, float growTime, int dropAmount, Plants plantID) {
-        super(texture, frameWidth, frameHeight, false, pos);
+    public PlantLogic(String textureName, int frameWidth, int frameHeight, Vector2 pos, float growTime, int dropAmount, Plants plantID) {
+        super(textureName, frameWidth, frameHeight, false, pos);
         this.growTime = growTime;
         this.dropAmount = dropAmount;
         this.plantID = plantID;
@@ -41,16 +42,16 @@ public class PlantLogic extends SimpleSprite {
     }
 
     public PlantLogic(Plant plant){
-        this(plant.texture, plant.frameWidth, plant.frameHeight, new Vector2() ,plant.growTime, plant.dropAmount, plant.plantID);
+        this(plant.textureName, plant.frameWidth, plant.frameHeight, new Vector2() ,plant.growTime, plant.dropAmount, plant.plantID);
     }
 
-    public void changePlant(Texture texture, int frameWidth, int frameHeight, float growTime, int dropAmount, Plants plantID){
+    public void changePlant(String textureName, int frameWidth, int frameHeight, float growTime, int dropAmount, Plants plantID){
         this.dropAmount = dropAmount;
         this.plantID = plantID;
         this.growTime = growTime;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
-        createAnimation(splitTexture(texture, 0), 1, false);
+        createAnimation(splitTexture(Resources._instance.getTexture(textureName), 0), 1, false);
         stage = 0;
         tickListener.dispose();
         addListener();
@@ -58,7 +59,7 @@ public class PlantLogic extends SimpleSprite {
     }
 
     public void changePlant(Plant plant){
-        changePlant(plant.texture, plant.frameWidth, plant.frameHeight, plant.growTime, plant.dropAmount, plant.plantID);
+        changePlant(plant.textureName, plant.frameWidth, plant.frameHeight, plant.growTime, plant.dropAmount, plant.plantID);
     }
 
     public void onTick() {

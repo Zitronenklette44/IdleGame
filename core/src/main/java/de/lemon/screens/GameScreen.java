@@ -42,11 +42,11 @@ public class GameScreen extends CoreScreen{
 
     @Override
     protected void createWorld() {
-        background = new AnimatedSprite(Resources._instance.gameScreen_background, 512, 320, 0.1f, true, new Vector2(0, 0));
+        background = new AnimatedSprite("gameScreen", 512, 320, 0.1f, true, new Vector2(0, 0));
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
         worldRenderer.addObject(background);
 
-        door = new AnimatedSprite(Resources._instance.door, 72, 16, 0.1f, true, new Vector2()){
+        door = new AnimatedSprite("door", 72, 16, 0.1f, true, new Vector2()){
             @Override
             public void onClick(int button) {
                 Main._instance.switchScreen(Main.GARDEN_SCREEN);
@@ -61,7 +61,7 @@ public class GameScreen extends CoreScreen{
         GeometricParticleSource test = new GeometricParticleSource(
             worldRenderer.getParticleManager(),
             Resources._instance.getParticle(ParticlePresent.FIRE),
-            Resources._instance.getSpawnAreaPresent(1)
+            Resources._instance.getSpawnAreaPresent(0)
         );
 
         addWorldObject(test, 0.5f, 0.5f, 0.1f, 0.1f);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import de.lemon.logic.render.SimpleSprite;
 import de.lemon.logic.render.AnimatedSprite;
@@ -45,17 +46,17 @@ public class GardenScreen extends CoreScreen{
         Table tools = new Table();
         main.bottom();
         cell = main.add(tools).expandX().fillX().height(50);
-        tools.setBackground(Resources._instance.skin.newDrawable("white", Color.valueOf("A0522D")));
+        tools.setBackground(Resources._instance.getAsset("skin", Skin.class).newDrawable("white", Color.valueOf("A0522D")));
         tools.setDebug(true);
 
     }
 
     @Override
     protected void createWorld() {
-        background = new AnimatedSprite(Resources._instance.gardenScreen_background, 512, 256, 0.1f, false, new Vector2());
+        background = new AnimatedSprite("garden", 512, 256, 0.1f, false, new Vector2());
         worldRenderer.addObject(background);
 
-        pots = new SimpleSprite(Resources._instance.gardenScreen_pots,512, 256, false, new Vector2()){
+        pots = new SimpleSprite("pots",512, 256, false, new Vector2()){
             @Override
             public void onKeyDown(int keycode) {
                 if(keycode == Input.Keys.U){
@@ -70,7 +71,7 @@ public class GardenScreen extends CoreScreen{
 //        for(PlantLogic plant : plants) worldRenderer.addObject(plant);
         addWorldObject(plants[0], 1.2f/10f, 8.2f/10f, 1.4f/5f, 1.4f/5f);
 
-        door = new AnimatedSprite(Resources._instance.door, 1, 72, 16, 0.1f, true, new Vector2()){
+        door = new AnimatedSprite("door", 1, 72, 16, 0.1f, true, new Vector2()){
             @Override
             public void onClick(int button) {
                 Main._instance.switchScreen(Main.GAME_SCREEN);

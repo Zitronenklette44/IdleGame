@@ -25,7 +25,7 @@ public class StartScreen extends CoreScreen{
     @Override
     protected void createWorld() {
         setBackgroundColor(Color.GRAY);
-        AnimatedSprite name = new AnimationController(Resources._instance.startScreen_name, new int[]{0, 1, 2, 3}, new Vector2(), 256, 48, 0.11f, 10);
+        AnimatedSprite name = new AnimationController("gameName", new int[]{0, 1, 2, 3}, new Vector2(), 256, 48, 0.11f, 10);
         addWorldObject(name, 0.5f, 0.9f, 0.5f, 0.1f);
 
         STextButton startButton = new STextButton("Start Game", Resources._instance.UI_Button) {

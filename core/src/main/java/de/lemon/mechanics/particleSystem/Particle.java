@@ -86,9 +86,7 @@ public class Particle extends Sprite {
         super.onSpriteRender(batch, delta);
     }
 
-    public void dispose() {
-//        texture.dispose();
-    }
+    public void dispose() {}
 
     @Override
     public Particle cpy() {

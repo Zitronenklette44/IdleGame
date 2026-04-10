@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import de.lemon.core.Resources;
 
 import java.util.ArrayList;
 
 public class AnimationController extends AnimatedSprite {
 
+    private int[] rows;
     private int delay;
     private final ArrayList<Animation<TextureRegion>> animationList = new ArrayList<>();
     private int currentAnimation = 0;
@@ -26,6 +28,7 @@ public class AnimationController extends AnimatedSprite {
 
         copy.animationList.addAll(this.animationList);
         copy.delay = this.delay;
+        copy.textureName = this.textureName;
 
         return copy;
     }
@@ -34,13 +37,15 @@ public class AnimationController extends AnimatedSprite {
         super(frameWidth, frameHeight);
     }
 
-    public AnimationController(Texture texture, int[] rows, Vector2 pos, int frameWidth, int frameHeight, float frameDuration, int delay){
+    public AnimationController(String textureName, int[] rows, Vector2 pos, int frameWidth, int frameHeight, float frameDuration, int delay){
         super(frameWidth, frameHeight);
+        this.rows = rows;
         this.delay = delay;
+        this.textureName = textureName;
         currentAnimation = MathUtils.random(rows.length - 1);
 
         setPos(pos);
-
+        Texture texture = Resources._instance.getTexture(textureName);
         TextureRegion[][] regions = TextureRegion.split(texture, frameWidth, frameHeight);
 
         for (int row : rows) {
@@ -83,5 +88,13 @@ public class AnimationController extends AnimatedSprite {
         stateTime = 0;
         currentDelay = 0;
         this.currentAnimation = currentAnimation;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public int[] getRows() {
+        return rows;
     }
 }

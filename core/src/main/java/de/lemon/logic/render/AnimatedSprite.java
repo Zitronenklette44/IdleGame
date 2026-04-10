@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import de.lemon.core.Resources;
 import de.lemon.logic.interfaces.Clickable;
 
 public class AnimatedSprite extends Sprite implements Clickable {
@@ -15,9 +16,12 @@ public class AnimatedSprite extends Sprite implements Clickable {
     protected float stateTime;
 
     protected boolean autoPlay;
-    protected boolean loop;
+    private boolean loop;
+    private int row; // needed to save Object
     protected int frameWidth;
     protected int frameHeight;
+    private float frameDuration; //needed to save Object
+    protected String textureName;
 
     protected AnimatedSprite(int frameWidth, int frameHeight){
         super(new Vector2(), new Vector2());
@@ -25,23 +29,27 @@ public class AnimatedSprite extends Sprite implements Clickable {
         this.frameHeight = frameHeight;
     }
 
-    public AnimatedSprite(Texture texture, int row, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos) {
+    public AnimatedSprite(String textureName, int row, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos) {
         super(pos, new Vector2(frameWidth, frameHeight));
+        this.textureName = textureName;
+        this.row = row;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
+        this.frameDuration = frameDuration;
 
         this.autoPlay = true;
         this.loop = loop;
+        Texture texture = Resources._instance.getTexture(textureName);
 
         createAnimation(splitTexture(texture, row), frameDuration, loop);
 
         stateTime = 0f;
     }
-    public AnimatedSprite(Texture texture, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos){
-        this(texture, 0, frameWidth, frameHeight, frameDuration, loop, pos);
+    public AnimatedSprite(String textureName, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos){
+        this(textureName, 0, frameWidth, frameHeight, frameDuration, loop, pos);
     }
-    public AnimatedSprite(Texture texture, int frameWidth, int frameHeight, boolean loop, Vector2 pos){
-        this(texture, 0, frameWidth, frameHeight, 0, loop, pos);
+    public AnimatedSprite(String textureName, int frameWidth, int frameHeight, boolean loop, Vector2 pos){
+        this(textureName, 0, frameWidth, frameHeight, 0, loop, pos);
     }
 
     protected TextureRegion[] splitTexture(Texture texture, int row){
@@ -166,7 +174,32 @@ public class AnimatedSprite extends Sprite implements Clickable {
         copy.autoPlay = this.autoPlay;
         copy.loop = this.loop;
         copy.clickable = this.clickable;
+        copy.textureName = this.textureName;
 
         return copy;
+    }
+
+    public int getFrameHeight() {
+        return frameHeight;
+    }
+
+    public int getFrameWidth() {
+        return frameWidth;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public String getTextureName() {
+        return textureName;
+    }
+
+    public boolean getLoop() {
+        return loop;
+    }
+
+    public float getFrameDuration() {
+        return frameDuration;
     }
 }

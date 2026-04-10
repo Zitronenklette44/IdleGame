@@ -52,19 +52,22 @@ public class Window extends JFrame {
         menuBar.add(mnNewMenu);
 
         JMenuItem mntmNewMenuItem = new JMenuItem("Neu");
+        mntmNewMenuItem.addActionListener(e -> Logic._instance.btnNew());
         mnNewMenu.add(mntmNewMenuItem);
 
         JMenuItem mntmNewMenuItem_2 = new JMenuItem("Partikel laden");
+        mntmNewMenuItem_2.addActionListener(e -> Logic._instance.btnLoad());
         mnNewMenu.add(mntmNewMenuItem_2);
 
         JSeparator separator = new JSeparator();
         mnNewMenu.add(separator);
 
         JMenuItem mntmNewMenuItem_1 = new JMenuItem("Code erstellen");
+        mntmNewMenuItem_1.addActionListener(e -> Logic._instance.btnCreateCode());
         mnNewMenu.add(mntmNewMenuItem_1);
 
-        JMenuItem mntmNewMenuItem_6 = new JMenuItem("Code einfügen");
-        mnNewMenu.add(mntmNewMenuItem_6);
+//        JMenuItem mntmNewMenuItem_6 = new JMenuItem("Code einfügen");
+//        mnNewMenu.add(mntmNewMenuItem_6);
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);

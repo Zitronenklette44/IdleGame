@@ -1,0 +1,11 @@
+{
+  "size" : 10,
+  "startSpeed" : 30,
+  "lifetime" : 5,
+  "friction" : 0.2,
+  "generationMin" : 0,
+  "generationMax" : 8,
+  "emissionType" : "CONTINUOUS",
+  "interval" : 0.2,
+  "color" : [1, 1, 1, 1]
+}
