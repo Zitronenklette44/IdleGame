@@ -48,6 +48,7 @@ public class Resources {
         assetManager.finishLoading();
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private void registerAsset(String name, String path, Class clazz){
         assetManager.load(path, clazz);
         assetRegistry.put(name, path);

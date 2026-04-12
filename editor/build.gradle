@@ -20,8 +20,6 @@ java {
   }
 }
 
-sourceSets {
-  main {
-    resources.srcDirs += ["../assets"]
-  }
+run {
+  workingDir = rootProject.file("assets").path
 }
