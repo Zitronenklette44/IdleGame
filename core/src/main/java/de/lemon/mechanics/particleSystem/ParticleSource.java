@@ -53,8 +53,8 @@ public abstract class ParticleSource extends GameObject  {
         for (int i = 0; i < generationNumber; i++) {
             Vector2 velocity = new Vector2(1, 0).setToRandomDirection().scl(settings.particleStartSpeed);
             Particle newParticle;
-            if(settings.particleTexture != null) newParticle = new Particle(pos.cpy(), settings.particleSize, settings.particleLifetime, velocity, settings.particleTexture);
-            else if (settings.particleSprite != null) newParticle = new Particle(pos.cpy(), settings.particleSize, settings.particleLifetime, velocity, settings.particleSprite.cpy());
+            if(settings.particleTexture != null) newParticle = new Particle(pos.cpy(), new Vector2(settings.particleSize, settings.particleSize), settings.particleLifetime, velocity, settings.particleTexture);
+            else if (settings.particleSprite != null) newParticle = new Particle(pos.cpy(), new Vector2(settings.particleSize, settings.particleSize), settings.particleLifetime, velocity, settings.particleSprite.cpy());
             else throw new IllegalArgumentException("No Texture or Sprite declared for Particle");
             newParticle.setFriction(settings.particleFriction);
             newParticle.setTintColor(settings.particleTint);

@@ -2,16 +2,18 @@ package de.lemon.mechanics.particleSystem;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
+import de.lemon.core.Resources;
 import de.lemon.logic.enums.ParticleEmissionType;
+import de.lemon.logic.enums.ParticlePresets;
 import de.lemon.logic.interfaces.Copyable;
 import de.lemon.logic.render.Sprite;
 
 public class GeneratorSettings implements Copyable<GeneratorSettings> {
     // Particles
+    public String textureName;
     public Texture particleTexture;
     public Sprite particleSprite;
-    public Vector2 particleSize = Vector2.Zero.cpy();
+    public float particleSize;
     public float particleStartSpeed = 1;
     public float particleLifetime = 5;
     public float particleFriction = 1f;
@@ -32,6 +34,7 @@ public class GeneratorSettings implements Copyable<GeneratorSettings> {
     public float movementSpeed = 0;
     public boolean traceBack = false;
     public int maxEmissions = -1;
+//    public ParticlePresets particlePreset;
 
     public Builder builder(){
         return new Builder(this);
@@ -41,8 +44,10 @@ public class GeneratorSettings implements Copyable<GeneratorSettings> {
     public GeneratorSettings cpy() {
         GeneratorSettings copy = new GeneratorSettings();
         copy.particleTexture = this.particleTexture;
+        copy.textureName = this.textureName;
+//        copy.particlePreset = this.particlePreset;
         if(particleSprite != null) copy.particleSprite = this.particleSprite.cpy();
-        copy.particleSize = this.particleSize.cpy();
+        copy.particleSize = this.particleSize;
         copy.particleStartSpeed = this.particleStartSpeed;
         copy.particleLifetime = this.particleLifetime;
         copy.particleFriction = this.particleFriction;
@@ -73,8 +78,9 @@ public class GeneratorSettings implements Copyable<GeneratorSettings> {
         }
 
 
-        public Builder texture(Texture texture) {
-            settings.particleTexture = texture;
+        public Builder texture(String textureName) {
+            settings.particleTexture = Resources._instance.getTexture(textureName);
+            settings.textureName = textureName;
             return this;
         }
 
@@ -83,8 +89,8 @@ public class GeneratorSettings implements Copyable<GeneratorSettings> {
             return this;
         }
 
-        public Builder particleSize(Vector2 size) {
-            settings.particleSize.set(size);
+        public Builder particleSize(float size) {
+            settings.particleSize = size;
             return this;
         }
 
@@ -154,6 +160,11 @@ public class GeneratorSettings implements Copyable<GeneratorSettings> {
             settings.maxEmissions = emissions;
             return this;
         }
+
+//        public Builder particlePreset(ParticlePresets preset){
+//            settings.particlePreset = preset;
+//            return this;
+//        }
 
         public GeneratorSettings build() {
             return settings;

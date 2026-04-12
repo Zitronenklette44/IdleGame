@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import de.lemon.components.PreviewFrame;
 import de.lemon.components.StatFrame;
 import de.lemon.core.Resources;
-import de.lemon.logic.enums.ParticlePresent;
+import de.lemon.logic.enums.ParticlePresets;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
 import de.lemon.mechanics.particleSystem.ParticleManager;
@@ -38,7 +38,7 @@ public class ParticleStartScreen extends CoreScreen{
 
     @Override
     protected void createComponents() {
-        particleSettings = Resources._instance.getParticle(ParticlePresent.FIRE);
+        particleSettings = Resources._instance.getParticle(ParticlePresets.FIRE);
         skin = new Skin(Gdx.files.internal("skins/template.json"));
         Table main = new Table();
         main.setFillParent(true);

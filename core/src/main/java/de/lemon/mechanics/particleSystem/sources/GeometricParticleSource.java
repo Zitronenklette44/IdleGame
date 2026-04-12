@@ -21,8 +21,8 @@ public class GeometricParticleSource extends ParticleSource {
 //        System.out.println("scalar: " + settings.particleStartSpeed + " velocity: " + spawnArea);
 
         Particle newParticle;
-        if(settings.particleTexture != null) newParticle = new Particle(position.cpy(), settings.particleSize, settings.particleLifetime, velocity, settings.particleTexture);
-        else if (settings.particleSprite != null) newParticle = new Particle(position.cpy(), settings.particleSize, settings.particleLifetime, velocity, settings.particleSprite.cpy());
+        if(settings.particleTexture != null) newParticle = new Particle(position.cpy(), new Vector2(settings.particleSize, settings.particleSize), settings.particleLifetime, velocity, settings.particleTexture);
+        else if (settings.particleSprite != null) newParticle = new Particle(position.cpy(), new Vector2(settings.particleSize, settings.particleSize), settings.particleLifetime, velocity, settings.particleSprite.cpy());
         else throw new IllegalArgumentException("No Texture or Sprite declared for Particle");
         newParticle.setFriction(settings.particleFriction);
         newParticle.setTintColor(settings.particleTint);

@@ -2,8 +2,7 @@ package de.lemon.editor;
 
 import com.badlogic.gdx.Game;
 import de.lemon.core.Resources;
-import de.lemon.logic.enums.ParticlePresent;
-import de.lemon.main.EditorLauncher;
+import de.lemon.logic.enums.ParticlePresets;
 import de.lemon.parameter.EditorNode;
 
 public class ParticleEditor extends Game {
@@ -42,7 +41,7 @@ public class ParticleEditor extends Game {
         new ParticleStartScreen();
 
         setScreen(ParticleStartScreen._instance);
-        ParticleStartScreen._instance.particleSettings = Resources._instance.getParticle(ParticlePresent.FIRE);
+        ParticleStartScreen._instance.particleSettings = Resources._instance.getParticle(ParticlePresets.FIRE);
         EditorNode.setDefaultValues(ParticleStartScreen._instance.particleSettings);
         Logic._instance.updateSourceSettings();
         System.out.println("Finished loading!");

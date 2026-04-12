@@ -1,5 +1,6 @@
 package de.lemon.save.particle;
 
+import com.badlogic.gdx.math.Vector2;
 import de.lemon.logic.render.*;
 
 public class SpritePreset {
@@ -22,6 +23,22 @@ public class SpritePreset {
 
     // nine sprite
     public int left, right, top, bottom;
+
+    public static Sprite generateFromPreset(SpritePreset preset) {
+        SpriteType type = preset.type;
+        switch (type) {
+            case SIMPLE:
+                return new SimpleSprite(preset.textureName, preset.frameWidth, preset.frameHeight, preset.loop, Vector2.Zero.cpy());
+            case ANIMATED:
+                return new AnimatedSprite(preset.textureName, preset.row, preset.frameWidth, preset.frameHeight, preset.frameDuration, preset.loop, Vector2.Zero.cpy());
+            case CONTROLLER:
+                return new AnimationController(preset.textureName, preset.rows, Vector2.Zero.cpy(), preset.frameWidth, preset.frameHeight, preset.frameDuration, preset.delay);
+            case NINE:
+                return new NineSprite(preset.textureName, preset.left, preset.right, preset.top, preset.bottom, Vector2.Zero.cpy(), Vector2.Zero.cpy());
+        }
+        System.out.println("Invalid SpriteType " + type);
+        return null;
+    }
 
     public enum SpriteType {
         SIMPLE,

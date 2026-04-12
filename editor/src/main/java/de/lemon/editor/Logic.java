@@ -1,12 +1,16 @@
 package de.lemon.editor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
 import de.lemon.parameter.EditorNode;
 import de.lemon.parameter.window.Window;
+import de.lemon.save.particle.JsonParser;
+
+import javax.swing.*;
 
 public class Logic {
 
@@ -38,7 +42,7 @@ public class Logic {
 
         switch (node) {
             case SIZE:
-                builder.particleSize(new Vector2((Float) value, (Float) value));
+                builder.particleSize((Float) value);
                 break;
             case START_SPEED:
                 builder.startSpeed((Float) value);
@@ -103,5 +107,17 @@ public class Logic {
     }
 
     public void btnCreateCode() {
+        String name = JOptionPane.showInputDialog(null, "Namen der Einstellungen festlegen", "Name festlegen", JOptionPane.QUESTION_MESSAGE);
+        JsonParser.saveSettings(ParticleStartScreen._instance.particleSettings, name);
+        FileHandle file = Gdx.files.absolute(
+            System.getProperty("user.dir") + "/core/src/main/java/de/lemon/logic/enums/ParticlePresets.java"
+        );
+        String content = file.readString();
+        int startPos = content.lastIndexOf("<EDITOR - PRESETS>");
+//        int endPos = content.indexOf("</EDITOR - PRESETS>");
+        StringBuilder builder = new StringBuilder(content);
+        builder.insert(startPos, "    " + name.toUpperCase() + ",");
+        content = builder.toString();
+        file.writeString(content, false);
     }
 }

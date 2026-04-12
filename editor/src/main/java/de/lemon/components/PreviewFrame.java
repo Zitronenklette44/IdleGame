@@ -1,17 +1,9 @@
 package de.lemon.components;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import de.lemon.core.Resources;
-import de.lemon.editor.ParticleEditor;
 import de.lemon.editor.ParticleStartScreen;
-import de.lemon.logic.enums.ParticlePresent;
 import de.lemon.mechanics.particleSystem.ParticleManager;
 import de.lemon.mechanics.particleSystem.ParticleSource;
 import de.lemon.mechanics.particleSystem.SpawnArea;

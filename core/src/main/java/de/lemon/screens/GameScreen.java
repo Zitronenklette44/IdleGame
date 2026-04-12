@@ -2,7 +2,7 @@ package de.lemon.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.lemon.logic.enums.ParticlePresent;
+import de.lemon.logic.enums.ParticlePresets;
 import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.core.Resources;
 import de.lemon.logic.enums.ScreenFeatures;
@@ -10,8 +10,6 @@ import de.lemon.logic.GameLogic;
 import de.lemon.main.Main;
 import de.lemon.mechanics.Inventory;
 import de.lemon.mechanics.particleSystem.sources.GeometricParticleSource;
-import de.lemon.mechanics.particleSystem.sources.MovingParticleSource;
-import de.lemon.mechanics.particleSystem.sources.StaticParticleSource;
 import de.lemon.save.SaveManager;
 
 import java.util.EnumSet;
@@ -55,12 +53,12 @@ public class GameScreen extends CoreScreen{
         door.setClickable(true);
         addWorldObject(door, 4 / 10f, 2.6f/100f, 1/7.2f, 3/10f);
 
-//        StaticParticleSource test = new StaticParticleSource(Vector2.Zero.cpy(), worldRenderer.getParticleManager(), Resources._instance.getParticle(ParticlePresent.FIRE));
+//        StaticParticleSource test = new StaticParticleSource(Vector2.Zero.cpy(), worldRenderer.getParticleManager(), Resources._instance.getParticle(ParticlePresets.FIRE));
 //        test.relTargetPos.set(0.8f, 0.3f);
 
         GeometricParticleSource test = new GeometricParticleSource(
             worldRenderer.getParticleManager(),
-            Resources._instance.getParticle(ParticlePresent.FIRE),
+            Resources._instance.getParticle(ParticlePresets.FIRE),
             Resources._instance.getSpawnAreaPresent(0)
         );
 

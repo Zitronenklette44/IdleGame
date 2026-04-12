@@ -221,7 +221,7 @@ public enum EditorNode {
     }
 
     public static void setDefaultValues(GeneratorSettings settings){
-        SIZE.setDefaultValue(settings.particleSize.x);
+        SIZE.setDefaultValue(settings.particleSize);
         START_SPEED.setDefaultValue(settings.particleStartSpeed);
         LIFETIME.setDefaultValue(settings.particleLifetime);
         FRICTION.setDefaultValue(settings.particleFriction);

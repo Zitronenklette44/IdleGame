@@ -48,7 +48,7 @@ public class SplashScreen extends CoreScreen{
     int frameCounter = -1;
     @Override
     public void render(float delta) {
-        Resources._instance.update();
+        if(!loadProgress[0]) Resources._instance.update();
         checkProgress();
         if(amountLoaded() == loadProgress.length) {
             if(frameCounter == -1) frameCounter = 0;
