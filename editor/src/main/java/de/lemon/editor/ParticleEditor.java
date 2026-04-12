@@ -29,10 +29,11 @@ public class ParticleEditor extends Game {
     boolean loaded = false;
     @Override
     public void render() {
-        Resources._instance.update();
         if(Resources._instance.isAllLoaded()) {
             super.render();
             finishedLoading();
+        }else{
+            Resources._instance.update();
         }
     }
 

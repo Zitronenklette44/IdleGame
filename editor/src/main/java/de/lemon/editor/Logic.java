@@ -11,6 +11,7 @@ import de.lemon.parameter.window.Window;
 import de.lemon.save.particle.JsonParser;
 
 import javax.swing.*;
+import java.io.File;
 
 public class Logic {
 
@@ -108,16 +109,42 @@ public class Logic {
 
     public void btnCreateCode() {
         String name = JOptionPane.showInputDialog(null, "Namen der Einstellungen festlegen", "Name festlegen", JOptionPane.QUESTION_MESSAGE);
-        JsonParser.saveSettings(ParticleStartScreen._instance.particleSettings, name);
+        File repoRoot = new File(System.getProperty("user.dir")).getParentFile();
+
         FileHandle file = Gdx.files.absolute(
-            System.getProperty("user.dir") + "/core/src/main/java/de/lemon/logic/enums/ParticlePresets.java"
+            new File(repoRoot,
+                "core/src/main/java/de/lemon/logic/enums/ParticlePresets.java"
+            ).getAbsolutePath()
         );
+
         String content = file.readString();
-        int startPos = content.lastIndexOf("<EDITOR - PRESETS>");
-//        int endPos = content.indexOf("</EDITOR - PRESETS>");
+        int startPos = content.indexOf("<EDITOR - PRESETS>");
+
+        if (content.contains(name.toUpperCase() + ",")) {
+            JOptionPane.showMessageDialog(null, "Enum already exists!");
+            return;
+        }
+        JsonParser.saveSettings(ParticleStartScreen._instance.particleSettings, name);
+
         StringBuilder builder = new StringBuilder(content);
-        builder.insert(startPos, "    " + name.toUpperCase() + ",");
-        content = builder.toString();
-        file.writeString(content, false);
+        builder.insert(startPos + 18, "\n    " + name.toUpperCase() + ",");
+
+        file.writeString(builder.toString(), false);
+
+        Object[] options = {"Editor schließen", "Weiterarbeiten"};
+        int n = JOptionPane.showOptionDialog(null,
+            "Preset '" + name + "' wurde zu ParticlePresets.java hinzugefügt.\n" +
+                "Starte den Editor neu, um das neue Enum im Code zu verwenden.",
+            "Erfolgreich gespeichert",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.INFORMATION_MESSAGE,
+            null, options, options[0]);
+
+        if (n == JOptionPane.YES_OPTION) {
+            Gdx.app.exit();
+            Window.stop();
+            System.exit(0);
+        }
     }
+
 }

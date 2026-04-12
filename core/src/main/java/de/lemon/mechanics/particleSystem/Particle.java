@@ -73,7 +73,16 @@ public class Particle extends Sprite {
     }
 
     public boolean isDead(){
-        return !(age < lifetime) || (killPoint != null && pos.dst(killPoint) <= killDist);
+        boolean isDead = false;
+
+        if(age >= lifetime) isDead = true; // check age
+        if(lifetime == -1) isDead = false; // check if immortal
+
+        if(killPoint != null){ // check deletion point
+            if(pos.dst(killPoint) <= killDist) isDead = true;
+        }
+
+        return isDead;
     }
 
     @Override

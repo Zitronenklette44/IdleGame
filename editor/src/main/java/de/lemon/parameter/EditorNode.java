@@ -26,7 +26,7 @@ public enum EditorNode {
         "Lifetime",
         "Time the Particle is visible until it gets removed",
         ValueType.FLOAT,
-        0f, 5f, Float.MAX_VALUE
+        -1f, 5f, Float.MAX_VALUE
     ),
     FRICTION(
         "Friction",
