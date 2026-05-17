@@ -31,12 +31,21 @@ public abstract class Sprite extends GameObject implements Clickable, Copyable<S
         origin.y = size.y / 2f;
         manualSize = true;
     }
-
+    /**
+     * @return true if this sprite can be interacted with via input
+     */
     @Override
     public boolean isClickable() {
         return clickable;
     }
-
+    /**
+     * Checks whether a given point lies inside the rotated sprite bounds.
+     * The calculation transforms the point into the sprite's local coordinate system.
+     *
+     * @param x world X coordinate
+     * @param y world Y coordinate
+     * @return true if the point is inside the sprite
+     */
     @Override
     public boolean contains(float x, float y) {
         // move point into local sprite space
@@ -60,18 +69,36 @@ public abstract class Sprite extends GameObject implements Clickable, Copyable<S
             localY >= -origin.y &&
             localY <= (size.y - origin.y);
     }
-
+    /**
+     * Called when the sprite is clicked.
+     *
+     * @param button mouse button index
+     */
     @Override
     public void onClick(int button) {}
-
+    /**
+     * Enables or disables click interaction for this sprite.
+     *
+     * @param clickable true to make sprite interactable
+     */
     public void setClickable(boolean clickable) {
         this.clickable = clickable;
     }
-
+    /**
+     * Sets the rotation of the sprite in degrees.
+     *
+     * @param rotation rotation angle in degrees
+     */
     public void setRotation(float rotation) {
         this.rotation = rotation;
     }
-
+    /**
+     * Debug render method that draws the sprite bounds using ShapeRenderer.
+     * Only renders in line mode and shows a cyan rectangle with rotation applied.
+     *
+     * @param shapeRenderer renderer used for debug drawing
+     * @param delta time since last frame
+     */
     @Override
     public void onDebug(ShapeRenderer shapeRenderer, float delta) {
         if(shapeRenderer.getCurrentType() != ShapeRenderer.ShapeType.Line) shapeRenderer.set(ShapeRenderer.ShapeType.Line);

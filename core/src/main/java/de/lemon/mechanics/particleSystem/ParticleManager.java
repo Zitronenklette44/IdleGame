@@ -3,6 +3,7 @@ package de.lemon.mechanics.particleSystem;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
@@ -63,5 +64,12 @@ public class ParticleManager {
 
     public Vector2 getSpeed(){
         return new Vector2(particleSpeedModifier, sourceSpeedModifier);
+    }
+
+    public void resize(Viewport viewport) {
+        for (ParticleSource s: sources) {
+            s.applyLayout(viewport);
+            s.finaliseLayout();
+        }
     }
 }

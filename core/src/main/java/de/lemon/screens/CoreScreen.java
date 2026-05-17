@@ -34,7 +34,7 @@ public abstract class CoreScreen implements Screen {
     protected LayoutManager layout = new LayoutManager();
 
     OrthographicCamera camera = new OrthographicCamera();
-    Viewport viewport = new ExtendViewport(800, 480,camera);
+    protected Viewport viewport = new ExtendViewport(800, 480,camera);
 
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
@@ -141,12 +141,9 @@ public abstract class CoreScreen implements Screen {
         );
         camera.update();
 
-        if(stage != null){
-            stage.getViewport().update(width, height, true);
-        }
-        if(worldStage != null){
-            worldStage.getViewport().update(width, height, true);
-        }
+        if(stage != null) stage.getViewport().update(width, height, true);
+        if(worldStage != null) worldStage.getViewport().update(width, height, true);
+        if(worldRenderer != null) worldRenderer.resize(viewport);
         layout.resize(viewport);
 
     }

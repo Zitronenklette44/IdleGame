@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
+import de.lemon.mechanics.particleSystem.sources.MovingParticleSource;
 import de.lemon.parameter.EditorNode;
 import de.lemon.parameter.window.Window;
 import de.lemon.save.particle.JsonParser;
@@ -88,9 +89,11 @@ public class Logic {
                 break;
             case TRACE_BACK:
                 builder.traceBack((Boolean) value);
+                if(ParticleStartScreen._instance.source instanceof MovingParticleSource) ParticleStartScreen._instance.source.reset();
                 break;
             case MOVEMENT_SPEED:
                 builder.movementSpeed((Float) value);
+                if(ParticleStartScreen._instance.source instanceof MovingParticleSource) ParticleStartScreen._instance.source.reset();
                 break;
             case MAX_EMISSIONS:
                 builder.emissions((Integer) value);

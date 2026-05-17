@@ -1,5 +1,14 @@
 package de.lemon.parameter.window;
+import com.badlogic.gdx.math.Vector2;
+import de.lemon.components.PreviewFrame;
 import de.lemon.editor.Logic;
+import de.lemon.editor.ParticleStartScreen;
+import de.lemon.mechanics.particleSystem.GeneratorSettings;
+import de.lemon.mechanics.particleSystem.ParticleManager;
+import de.lemon.mechanics.particleSystem.ParticleSource;
+import de.lemon.mechanics.particleSystem.sources.GeometricParticleSource;
+import de.lemon.mechanics.particleSystem.sources.MovingParticleSource;
+import de.lemon.mechanics.particleSystem.sources.StaticParticleSource;
 import de.lemon.parameter.EditorNode;
 
 import java.awt.*;
@@ -66,6 +75,40 @@ public class Window extends JFrame {
         mntmNewMenuItem_1.addActionListener(e -> Logic._instance.btnCreateCode());
         mnNewMenu.add(mntmNewMenuItem_1);
 
+        JMenu source = new JMenu("Source");
+        menuBar.add(source);
+
+        JMenuItem item = new JMenuItem("Static Source");
+        item.addActionListener( e -> changeSourceType(PreviewFrame.SourceType.STATIC));
+        source.add(item);
+
+        JMenuItem item1 = new JMenuItem("Moving Source");
+        item1.addActionListener( e -> changeSourceType(PreviewFrame.SourceType.MOVING));
+        source.add(item1);
+
+        JMenuItem item2 = new JMenuItem("Geometric Source");
+        item2.addActionListener( e -> changeSourceType(PreviewFrame.SourceType.GEOMETRIC));
+        source.add(item2);
+
+        source.add(new JSeparator());
+
+        JMenu sourceSettings = new JMenu("Settings");
+        source.add(sourceSettings);
+
+        JLabel test = new JLabel("Geometric Source:");
+        sourceSettings.add(test);
+        sourceSettings.add(new JSeparator());
+
+        JMenuItem item3 = new JMenuItem("Direction");
+        sourceSettings.add(item3);
+
+        JMenuItem item4 = new JMenuItem("Geometric");
+        sourceSettings.add(item4);
+
+        JMenuItem item5 = new JMenuItem("Rotation");
+        sourceSettings.add(item5);
+
+
 //        JMenuItem mntmNewMenuItem_6 = new JMenuItem("Code einfügen");
 //        mnNewMenu.add(mntmNewMenuItem_6);
         JPanel contentPane = new JPanel();
@@ -129,7 +172,7 @@ public class Window extends JFrame {
 
         root.add(generation);
 
-        DefaultMutableTreeNode others = new DefaultMutableTreeNode("Others");
+        DefaultMutableTreeNode others = new DefaultMutableTreeNode("Source");
         nodes = EditorNode.getOtherEditorNodes();
         for (EditorNode editorNode : nodes) {
             others.add(new DefaultMutableTreeNode(editorNode));
@@ -141,8 +184,30 @@ public class Window extends JFrame {
 
     }
 
-    void changeSourceType() {
-
+    void changeSourceType(PreviewFrame.SourceType type) {
+        ParticleSource source = ParticleStartScreen._instance.source;
+        ParticleStartScreen._instance.source.dispose();
+//        System.out.println("sourceID: " + source + " called changeSource to: " + type);
+        Vector2 pos = source.getPos();
+        Vector2 relPos = source.getRelPos();
+        Vector2 relSize = source.getRelSize();
+        ParticleManager manager = ParticleStartScreen._instance.getParticleManager();
+        GeneratorSettings settings = ParticleStartScreen._instance.particleSettings;
+        switch (type) {
+            case MOVING:
+                source = new MovingParticleSource(pos, manager, settings);
+                break;
+            case GEOMETRIC:
+                source = new GeometricParticleSource(manager, settings, ParticleStartScreen._instance.spawnArea);
+                break;
+            case STATIC:
+                source = new StaticParticleSource(pos, manager, settings);
+                break;
+        }
+        source.setRelLayout(relPos.x, relPos.y, relSize.x, relSize.y);
+        ParticleStartScreen._instance.source = source;
+//        System.out.println("New sourceID: " + source);
+        ParticleStartScreen._instance.refreshLayout();
     }
 
 }

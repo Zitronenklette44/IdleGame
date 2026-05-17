@@ -7,6 +7,7 @@ import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.core.Resources;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.logic.GameLogic;
+import de.lemon.logic.render.AnimationController;
 import de.lemon.main.Main;
 import de.lemon.mechanics.Inventory;
 import de.lemon.mechanics.particleSystem.sources.GeometricParticleSource;
@@ -16,7 +17,6 @@ import java.util.EnumSet;
 
 public class GameScreen extends CoreScreen{
     private AnimatedSprite background;
-    private AnimatedSprite door;
 
 
     @Override
@@ -44,7 +44,7 @@ public class GameScreen extends CoreScreen{
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
         worldRenderer.addObject(background);
 
-        door = new AnimatedSprite("door", 72, 16, 0.1f, true, new Vector2()){
+        AnimatedSprite door = new AnimatedSprite("door", 72, 16, 0.1f, true, new Vector2()) {
             @Override
             public void onClick(int button) {
                 Main._instance.switchScreen(Main.GARDEN_SCREEN);
@@ -56,13 +56,16 @@ public class GameScreen extends CoreScreen{
 //        StaticParticleSource test = new StaticParticleSource(Vector2.Zero.cpy(), worldRenderer.getParticleManager(), Resources._instance.getParticle(ParticlePresets.FIRE));
 //        test.relTargetPos.set(0.8f, 0.3f);
 
-        GeometricParticleSource test = new GeometricParticleSource(
-            worldRenderer.getParticleManager(),
-            Resources._instance.getParticle(ParticlePresets.FIRE),
-            Resources._instance.getSpawnAreaPresent(0)
-        );
+//        GeometricParticleSource test = new GeometricParticleSource(
+//            worldRenderer.getParticleManager(),
+//            Resources._instance.getParticle(ParticlePresets.FIRE),
+//            Resources._instance.getSpawnAreaPresent(0)
+//        );
+//
+//        addWorldObject(test, 0.5f, 0.5f, 0.1f, 0.1f);
 
-        addWorldObject(test, 0.5f, 0.5f, 0.1f, 0.1f);
+        AnimationController cauldron = new AnimationController("cauldron", new int[] {0,1,2}, new Vector2(), 80, 112, 0.1f, 5);
+        addWorldObject(cauldron, 0.1f, 0.7f, 0.3f, 0.3f);
     }
 
     @Override

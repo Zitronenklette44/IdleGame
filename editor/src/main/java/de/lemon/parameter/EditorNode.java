@@ -1,6 +1,7 @@
 package de.lemon.parameter;
 
 import com.badlogic.gdx.graphics.Color;
+import de.lemon.logic.enums.Geometric;
 import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
 
@@ -109,6 +110,12 @@ public enum EditorNode {
         ValueType.INTEGER,
         -1f, 0f, Integer.MAX_VALUE + 0f
 
+    ),
+    GEOMETRIC_EMISSION_TYPE(
+        "Geometric Form",
+        "In what Form particles are emitted. NOT YET IMPLEMENTED",
+        ValueType.ENUM,
+        Geometric.class
     );
 
 
@@ -178,7 +185,7 @@ public enum EditorNode {
     }
 
     public static EnumSet<EditorNode> getGenerationEditorNodes(){
-        return EnumSet.of(EMISSION_TYPE);
+        return EnumSet.of(EMISSION_TYPE, GEOMETRIC_EMISSION_TYPE);
     }
 
     public static EnumSet<EditorNode> getOtherEditorNodes(){
@@ -208,6 +215,7 @@ public enum EditorNode {
             case "Trace Back": return  TRACE_BACK;
             case "Movement Speed": return MOVEMENT_SPEED;
             case "Max Emissions": return MAX_EMISSIONS;
+            case "Geometric Form": return GEOMETRIC_EMISSION_TYPE;
             default: throw new IllegalArgumentException("unknown Value: " + v);
         }
     }
@@ -238,6 +246,7 @@ public enum EditorNode {
         MOVEMENT_SPEED.setDefaultValue(settings.movementSpeed);
         MAX_EMISSIONS.setDefaultValue(settings.maxEmissions);
         MOVEMENT_SPEED.setDefaultValue(settings.movementSpeed);
+//        GEOMETRIC_EMISSION_TYPE.setDefaultValue(settings.);       //TODO: Implement
 //        SPRITE.setDefaultValue(settings.particleSprite);
 //        TEXTURE.setDefaultValue(settings.particleTexture);
     }

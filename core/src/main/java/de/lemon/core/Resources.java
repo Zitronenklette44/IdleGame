@@ -30,10 +30,7 @@ public class Resources {
 
     public NinePatch UI_Button;
 
-
     private SpawnArea testArea;
-    // <globalDeclaration>
-    // </globalDeclaration>
 
     private final Map<String, String> assetRegistry = new HashMap<>();
     private final Map<ParticlePresets, GeneratorSettings> particleRegistry = new HashMap<>();
@@ -48,24 +45,23 @@ public class Resources {
         assetManager.finishLoading();
     }
 
+    /**
+     * Registers an asset in the AssetManager and stores its logical name mapping.
+     *
+     * @param name logical name used to retrieve the asset later
+     * @param path file path of the asset
+     * @param clazz type of the asset (e.g. Texture.class)
+     */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void registerAsset(String name, String path, Class clazz){
         assetManager.load(path, clazz);
         assetRegistry.put(name, path);
     }
-
+    /**
+     * Starts loading additional assets dynamically from the sprites folder.
+     * Skips already registered core assets.
+     */
     public void startLoading(){
-//        registerAsset("door", "sprites/door.png", Texture.class);
-//        registerAsset("gameScreen", "sprites/gameScreen.png", Texture.class);
-//        registerAsset("garden", "sprites/garden.png", Texture.class);
-//        registerAsset("pots", "sprites/pots.png", Texture.class);
-//        registerAsset("plant_01", "sprites/plants/plant_01.png", Texture.class);
-//        registerAsset("button_01", "sprites/ui/button1.png", Texture.class);
-//        registerAsset("red_particle", "sprites/particle/red_particle.png", Texture.class);
-//        registerAsset("animated_particle", "sprites/particle/animatedParticle.png", Texture.class);
-//        registerAsset("tintable_particle", "sprites/particle/tintableParticle.png", Texture.class);
-//        registerAsset("smoke_particle", "sprites/particle/smoke_particle.png", Texture.class);
-
         ArrayList<FileHandle> textures = getAllFiles(Gdx.files.internal("sprites"), "png");
         for (FileHandle f : textures){
             String name = f.nameWithoutExtension();
@@ -79,7 +75,10 @@ public class Resources {
         //fonts
         font1 = Gdx.files.internal("fonts/font1.ttf");
     }
-
+    /**
+     * Updates the AssetManager loading process.
+     * When loading is complete, initializes UI and particle systems.
+     */
     public void update() {
         if (assetManager.update()) { // true, if all loaded
             if(getTexture("button_01") != null) UI_Button = new NinePatch(assetManager.get("sprites/ui/button_01.png", Texture.class), 16, 16, 16, 16);
@@ -88,7 +87,12 @@ public class Resources {
             createParticleSheets();
         }
     }
-
+    /**
+     * Retrieves a Texture by its registered logical name.
+     *
+     * @param name logical asset name
+     * @return Texture instance or null if not found
+     */
     public Texture getTexture(String name){
         try {
             return assetManager.get(getPath(name), Texture.class);
@@ -98,6 +102,13 @@ public class Resources {
         return null;
     }
 
+    /**
+     * Retrieves a generic asset by its registered logical name and type.
+     *
+     * @param name logical asset name
+     * @param clazz asset class type
+     * @return loaded asset instance or null if not found
+     */
     public <T> T getAsset(String name, Class<T> clazz){
         try {
             return assetManager.get(getPath(name), clazz);
@@ -106,14 +117,24 @@ public class Resources {
         }
         return null;
     }
-
+    /**
+     * Converts a logical asset name into its registered file path.
+     *
+     * @param name logical asset name
+     * @return file path of the asset
+     * @throws RuntimeException if the asset is not registered
+     */
     private String getPath(String name){
         String path = assetRegistry.get(name);
         if(path == null)
             throw new RuntimeException("Asset not registered: " + name);
         return path;
     }
-
+    /**
+     * Loads all particle definitions from the particles folder
+     * and registers them into the particle system.
+     * Also initializes predefined spawn areas.
+     */
     private void createParticleSheets() {
         ArrayList<FileHandle> particles = getAllFiles(Gdx.files.internal("particles"), "json");
 //        System.out.println("number of files: " + particles.size());
@@ -130,32 +151,51 @@ public class Resources {
             .rotation(0)
             .build();
 
-        // <particlePresent>
-        // </particlePresent>
-
     }
-
+    /**
+     * Checks whether all assets are fully loaded.
+     *
+     * @return true if AssetManager finished loading all assets
+     */
     public boolean isAllLoaded(){
         return assetManager.isFinished();
     }
-
+    /**
+     * Disposes all managed assets and frees memory.
+     */
     public void dispose(){
         assetManager.dispose();
     }
-
+    /**
+     * Returns a particle configuration for a given preset.
+     *
+     * @param particlePreset particle preset type
+     * @return copied GeneratorSettings or null if not found
+     */
     public GeneratorSettings getParticle(ParticlePresets particlePreset) {
         GeneratorSettings settings = particleRegistry.get(particlePreset);
         if (settings == null) return null;
         return settings.cpy();
     }
-
+    /**
+     * Returns a predefined spawn area based on an ID.
+     *
+     * @param id spawn area identifier
+     * @return SpawnArea instance or null if unknown
+     */
     public SpawnArea getSpawnAreaPresent(int id){
         switch (id){
             case 0: return testArea;
         }
         return null;
     }
-
+    /**
+     * Recursively collects all files with a specific extension in a folder.
+     *
+     * @param folder root folder to search in
+     * @param extension required file extension (null for all files)
+     * @return list of matching files
+     */
     private ArrayList<FileHandle> getAllFiles(FileHandle folder, String extension) {
         ArrayList<FileHandle> result = new ArrayList<>();
 

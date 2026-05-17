@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.core.GameObject;
 import de.lemon.logic.GameLogic;
 import de.lemon.logic.interfaces.Clickable;
@@ -190,5 +191,13 @@ public class WorldRenderer {
 
     public ParticleManager getParticleManager() {
         return particleManager;
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public void resize(Viewport viewport){
+        particleManager.resize(viewport);
     }
 }

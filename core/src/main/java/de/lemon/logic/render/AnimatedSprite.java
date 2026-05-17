@@ -51,12 +51,25 @@ public class AnimatedSprite extends Sprite implements Clickable {
     public AnimatedSprite(String textureName, int frameWidth, int frameHeight, boolean loop, Vector2 pos){
         this(textureName, 0, frameWidth, frameHeight, 0, loop, pos);
     }
-
+    /**
+     * Splits a texture into frames based on frameWidth and frameHeight.
+     *
+     * @param texture source texture containing animation sheet
+     * @param row row index to extract frames from
+     * @return array of TextureRegion frames for the given row
+     */
     protected TextureRegion[] splitTexture(Texture texture, int row){
         TextureRegion[][] regions = TextureRegion.split(texture, frameWidth, frameHeight);
         return regions[row];
     }
-
+    /**
+     * Creates an Animation from given frames and frame duration.
+     * If frameDuration <= 0, a default duration is calculated automatically.
+     *
+     * @param frames animation frames
+     * @param frameDuration time per frame in seconds
+     * @param loop whether the animation should loop
+     */
     protected void createAnimation(TextureRegion[] frames, float frameDuration, boolean loop){
         if(frameDuration <= 0){
             frameDuration = 1f / frames.length;
@@ -65,7 +78,12 @@ public class AnimatedSprite extends Sprite implements Clickable {
         animation = new Animation<>(frameDuration, frames);
         animation.setPlayMode(loop ? Animation.PlayMode.LOOP : Animation.PlayMode.NORMAL);
     }
-
+    /**
+     * Updates the animation state.
+     * Advances state time if autoPlay is enabled.
+     *
+     * @param delta time since last frame
+     */
     @Override
     public void update(float delta) {
         super.update(delta);
@@ -73,7 +91,12 @@ public class AnimatedSprite extends Sprite implements Clickable {
             stateTime += delta;
         }
     }
-
+    /**
+     * Renders the current animation frame.
+     *
+     * @param batch rendering batch
+     * @param delta time since last frame
+     */
     @Override
     public void onSpriteRender(Batch batch, float delta) {
         TextureRegion frame = animation.getKeyFrame(stateTime, loop);
@@ -81,28 +104,50 @@ public class AnimatedSprite extends Sprite implements Clickable {
         batch.draw(frame, pos.x, pos.y,origin.x, origin.y, size.x, size.y, scale.x, scale.y, rotation);
         //System.out.println("drawn ->" + pos.toString() + " size: " + size.toString());
     }
+    /**
+     * Resets the animation playback to the start.
+     */
 
     public void reset() {
         stateTime = 0f;
     }
-
+    /**
+     * @return true if the animation has reached its end (only relevant in non-loop mode)
+     */
     public boolean isFinished() {
         return animation.isAnimationFinished(stateTime);
     }
-
+    /**
+     * Changes the play mode of the animation (e.g. LOOP or NORMAL).
+     *
+     * @param playMode new animation play mode
+     */
     public void setPlayMode(Animation.PlayMode playMode){
         animation.setPlayMode(playMode);
     }
-
+    /**
+     * Enables or disables automatic animation playback.
+     *
+     * @param autoPlay true to let the animation advance automatically
+     */
     public void setAutoPlay(boolean autoPlay) {
         this.autoPlay = autoPlay;
     }
-
+    /**
+     * Enables or disables looping and updates the internal play mode accordingly.
+     *
+     * @param loop true for looping animation
+     */
     public void setLoop(boolean loop) {
         this.loop = loop;
         animation.setPlayMode(loop ? Animation.PlayMode.LOOP : Animation.PlayMode.NORMAL);
     }
-
+    /**
+     * Adds time to the current animation state time.
+     * The value is clamped to the animation duration.
+     *
+     * @param time time to add
+     */
     public void addStateTime(float time){
         float newTime = stateTime + time;
         stateTime = MathUtils.clamp(
@@ -111,11 +156,19 @@ public class AnimatedSprite extends Sprite implements Clickable {
             animation.getAnimationDuration()
         );
     }
-
+    /**
+     * Sets the current animation state time.
+     *
+     * @param stateTime new state time
+     */
     public void setStateTime(float stateTime) {
         this.stateTime = stateTime;
     }
-
+    /**
+     * Applies viewport-based layout scaling and positioning.
+     *
+     * @param viewport current viewport used for world scaling
+     */
     @Override
     public void applyLayout(Viewport viewport) {
         scaleToContain(viewport.getWorldWidth() * relSize.x, viewport.getWorldHeight() * relSize.y);
@@ -124,7 +177,11 @@ public class AnimatedSprite extends Sprite implements Clickable {
             viewport.getWorldHeight() * relPos.y - size.y / 2);
 
     }
-
+    /**
+     * Scales the sprite so it fits within the target size while preserving aspect ratio.
+     *
+     * @param targetSize target size vector
+     */
     public void scaleToFit(Vector2 targetSize) {
         //System.out.println(targetSize.toString());
         float scaleX = targetSize.x / frameWidth;
@@ -138,11 +195,21 @@ public class AnimatedSprite extends Sprite implements Clickable {
         //System.out.println("new Size->" + scaledWidth + ", " + scaledHeight);
         size.set(scaledWidth, scaledHeight);
     }
-
+    /**
+     * Scales the sprite so it fits within the given width and height.
+     *
+     * @param width target width
+     * @param height target height
+     */
     public void scaleToFit(float width, float height){
         scaleToFit(new Vector2(width, height));
     }
-
+    /**
+     * Scales the sprite so it completely fits inside the target area (no overflow).
+     *
+     * @param targetW target width
+     * @param targetH target height
+     */
     public void scaleToContain(float targetW, float targetH) {
         float scaleX = targetW / frameWidth;
         float scaleY = targetH / frameHeight;
@@ -150,15 +217,28 @@ public class AnimatedSprite extends Sprite implements Clickable {
 
         size.set(frameWidth * scale, frameHeight * scale);
     }
-
+    /**
+     * Scales the sprite so it fits inside the given size vector.
+     *
+     * @param size target size
+     */
     public void scaleToContain(Vector2 size){
         scaleToContain(size.x, size.y);
     }
-
+    /**
+     * Applies a uniform scale factor based on the original frame size.
+     *
+     * @param factor scaling factor
+     */
     public void scale(float factor){
         size = new Vector2(frameWidth * factor, frameHeight * factor);
     }
-
+    /**
+     * Creates a shallow copy of this AnimatedSprite.
+     * Note: animation reference is shared.
+     *
+     * @return copied AnimatedSprite instance
+     */
     @Override
     public AnimatedSprite cpy() {
         AnimatedSprite copy = new AnimatedSprite(frameWidth, frameHeight);
@@ -178,27 +258,39 @@ public class AnimatedSprite extends Sprite implements Clickable {
 
         return copy;
     }
-
+    /**
+     * @return height of a single animation frame
+     */
     public int getFrameHeight() {
         return frameHeight;
     }
-
+    /**
+     * @return width of a single animation frame
+     */
     public int getFrameWidth() {
         return frameWidth;
     }
-
+    /**
+     * @return texture row index used for this animation
+     */
     public int getRow() {
         return row;
     }
-
+    /**
+     * @return texture name used for this animation
+     */
     public String getTextureName() {
         return textureName;
     }
-
+    /**
+     * @return true if animation is looping
+     */
     public boolean getLoop() {
         return loop;
     }
-
+    /**
+     * @return duration of one frame in seconds
+     */
     public float getFrameDuration() {
         return frameDuration;
     }

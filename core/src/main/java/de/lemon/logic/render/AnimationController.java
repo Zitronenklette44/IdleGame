@@ -16,7 +16,12 @@ public class AnimationController extends AnimatedSprite {
     private int delay;
     private final ArrayList<Animation<TextureRegion>> animationList = new ArrayList<>();
     private int currentAnimation = 0;
-
+    /**
+     * Creates a deep copy of this AnimationController.
+     * Copies transformation state and animation list reference data.
+     *
+     * @return copied AnimationController instance
+     */
     @Override
     public AnimationController cpy() {
         AnimationController copy = new AnimationController(frameWidth, frameHeight);
@@ -58,13 +63,24 @@ public class AnimationController extends AnimatedSprite {
             animationList.add(a);
         }
     }
-
+    /**
+     * Updates the internal animation state time.
+     *
+     * @param delta time since last frame
+     */
     @Override
     public void update(float delta) {
         stateTime += delta;
     }
 
     float currentDelay = 0;
+    /**
+     * Renders the current animation frame.
+     * Handles animation looping, delay at end frame, and switching animations.
+     *
+     * @param batch rendering batch
+     * @param delta time since last frame
+     */
     @Override
     public void onSpriteRender(Batch batch, float delta) {
         Animation<TextureRegion> anim = animationList.get(currentAnimation);
@@ -83,17 +99,25 @@ public class AnimationController extends AnimatedSprite {
         TextureRegion frame = anim.getKeyFrame(stateTime, false);
         batch.draw(frame, pos.x, pos.y, size.x, size.y);
     }
-
+    /**
+     * Switches to a different animation and resets timing state.
+     *
+     * @param currentAnimation index of the animation in the list
+     */
     public void setCurrentAnimation(int currentAnimation) {
         stateTime = 0;
         currentDelay = 0;
         this.currentAnimation = currentAnimation;
     }
-
+    /**
+     * @return delay time applied after animation finishes
+     */
     public int getDelay() {
         return delay;
     }
-
+    /**
+     * @return row indices used to build animations from texture sheet
+     */
     public int[] getRows() {
         return rows;
     }

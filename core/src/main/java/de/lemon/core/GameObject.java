@@ -209,4 +209,12 @@ public abstract class GameObject implements LayoutItem {
     public void finaliseLayout(){
         applyMaxSize();
     }
+
+    public Vector2 getRelPos() {
+        return relPos;
+    }
+
+    public Vector2 getRelSize() {
+        return relSize;
+    }
 }

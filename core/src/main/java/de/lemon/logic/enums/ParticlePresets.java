@@ -4,7 +4,7 @@ public enum ParticlePresets {
     FIRE,
     SMOKE,
 
-
     // <EDITOR - PRESETS>
+    TEST,
     // </EDITOR - PRESETS>
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import de.lemon.logic.render.NineSprite;
 import de.lemon.logic.render.SimpleSprite;
 import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.core.Resources;
@@ -22,8 +23,9 @@ public class GardenScreen extends CoreScreen{
     private AnimatedSprite background;
     private SimpleSprite pots;
     private PlantLogic[] plants = new PlantLogic[5];
-    private Cell<Table> cell;
+//    private Cell<Table> cell;
     private AnimatedSprite door;
+    private NineSprite upgrades;
 
     @Override
     protected EnumSet<ScreenFeatures> getFeatures() {
@@ -39,15 +41,15 @@ public class GardenScreen extends CoreScreen{
     @Override
     protected void createComponents() {
 //        setBackgroundColor(Color.YELLOW);
-        Table main = new Table();
-        main.setFillParent(true);
-        stage.addActor(main);
-
-        Table tools = new Table();
-        main.bottom();
-        cell = main.add(tools).expandX().fillX().height(50);
-        tools.setBackground(Resources._instance.getAsset("skin", Skin.class).newDrawable("white", Color.valueOf("A0522D")));
-        tools.setDebug(true);
+//        Table main = new Table();
+//        main.setFillParent(true);
+//        stage.addActor(main);
+//
+//        Table tools = new Table();
+//        main.bottom();
+//        cell = main.add(tools).expandX().fillX().height(50);
+//        tools.setBackground(Resources._instance.getAsset("skin", Skin.class).newDrawable("white", Color.valueOf("A0522D")));
+//        tools.setDebug(true);
 
     }
 
@@ -81,6 +83,8 @@ public class GardenScreen extends CoreScreen{
         door.setRotation(AnimatedSprite.CW_90);
         addWorldObject(door, 3.4f/100f, 1.2f/3f, 1/7.2f, 3/10f);
 
+        upgrades = new NineSprite("border", 16, 16, 16, 16, new Vector2(0, 0), new Vector2(0, 0));
+        addWorldObject(upgrades, 1/100f * 50, 1/100f * 15, 1/100f * 98, 1/100f * 30);
     }
 
     private void createPlants() {
@@ -95,7 +99,7 @@ public class GardenScreen extends CoreScreen{
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
         pots.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
 
-        cell.height(stage.getViewport().getScreenHeight() / 5f);
+//        cell.height(stage.getViewport().getScreenHeight() / 5f);
     }
 
     @Override
