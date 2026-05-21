@@ -103,7 +103,6 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
 
     private void recalculateFont(){
         int fontSize = FontCache.calculateFontSize(size.x) + fontAddition - globalFontDecrease;
-//        System.out.println("FontAddition: " + fontAddition + " width: " + size.x);
         font = FontCache.getFont(fontSize, textColor);
 
         float paddingX = size.x * 0.1f;
@@ -136,7 +135,6 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
     }
 
     public void setEnabled(boolean enabled) {
-//        System.out.println("set Enabled: " + enabled);
         this.enabled = enabled;
     }
 

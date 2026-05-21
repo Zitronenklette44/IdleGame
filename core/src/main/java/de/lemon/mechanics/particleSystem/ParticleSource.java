@@ -24,7 +24,6 @@ public abstract class ParticleSource extends GameObject  {
         this.particleManager = particleManager;
 
         applySettings(settings);
-//        System.out.println("created Source: " + this);
         particleManager.sources.add(this);
     }
 
@@ -40,8 +39,6 @@ public abstract class ParticleSource extends GameObject  {
 
         survivedTime += delta;
         if(settings.TTL != -1 && survivedTime >= settings.TTL) dispose();
-//        System.out.println("Delta : " + delta);
-//        System.out.println("Particle Manager Source: " + particleManager);
         super.update(delta);
     }
 

@@ -84,6 +84,5 @@ public class MovingParticleSource extends ParticleSource {
         super.applyLayout(viewport);
         startPos.set(viewport.getWorldWidth() * relStartPos.x, viewport.getWorldHeight() * relStartPos.y);
         targetPos.set(viewport.getWorldWidth() * relTargetPos.x, viewport.getWorldHeight() * relTargetPos.y);
-        System.out.println("relStar:" + relStartPos.toString() + " startPos: "+ startPos.toString());
     }
 }

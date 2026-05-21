@@ -1,7 +1,5 @@
 package de.lemon.mechanics.plants;
 
-import com.badlogic.gdx.graphics.Texture;
-import de.lemon.core.Resources;
 import de.lemon.logic.enums.Plants;
 
 public class Plant {
@@ -25,7 +23,9 @@ public class Plant {
     public static Plant getNewPlant(Plants plant){
         switch (plant){
             case BLATTRUBIN:
-                return new Plant("plant_01", 32, 40, 15, 3, Plants.BLATTRUBIN);
+                return new Plant("plant_01", 16, 32, 15, 3, Plants.BLATTRUBIN);
+            case KARMINTRAUBEN:
+                return new Plant("plant_02", 16, 32, 23, 8, Plants.KARMINTRAUBEN);
         }
 
         return new Plant(null, 0, 0, 0, 0, null);

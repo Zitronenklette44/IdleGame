@@ -1,15 +1,10 @@
 package de.lemon.screens;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import de.lemon.logic.render.NineSprite;
 import de.lemon.logic.render.SimpleSprite;
 import de.lemon.logic.render.AnimatedSprite;
-import de.lemon.core.Resources;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.logic.enums.Upgrades;
 import de.lemon.main.Main;
@@ -72,6 +67,7 @@ public class GardenScreen extends CoreScreen{
 
 //        for(PlantLogic plant : plants) worldRenderer.addObject(plant);
         addWorldObject(plants[0], 1.2f/10f, 8.2f/10f, 1.4f/5f, 1.4f/5f);
+        addWorldObject(plants[1], 3.2f/10f, 8.2f/10f, 1.4f/5f, 1.4f/5f);
 
         door = new AnimatedSprite("door", 1, 72, 16, 0.1f, true, new Vector2()){
             @Override
@@ -90,6 +86,8 @@ public class GardenScreen extends CoreScreen{
     private void createPlants() {
         plants[0] = new PlantLogic(Plant.getNewPlant(Plants.BLATTRUBIN));
         plants[0].setClickable(true);
+        plants[1] = new PlantLogic(Plant.getNewPlant(Plants.KARMINTRAUBEN));
+        plants[1].setClickable(true);
 
     }
 

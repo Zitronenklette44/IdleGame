@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.logic.enums.ParticlePresets;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
+import de.lemon.utilities.DebugLogger;
 
 public class JsonParser {
 
@@ -117,7 +118,7 @@ public class JsonParser {
         if (json.has("type")) {
             preset.type = SpritePreset.SpriteType.valueOf(json.getString("type"));
         }else{
-            System.out.println("Error no type conversion could be made");
+            DebugLogger.printError("No type conversion could be made");
         }
 
         if (json.has("textureName")) preset.textureName = json.getString("textureName");

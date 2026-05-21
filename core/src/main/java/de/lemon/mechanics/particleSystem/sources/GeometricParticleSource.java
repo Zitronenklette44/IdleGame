@@ -18,7 +18,6 @@ public class GeometricParticleSource extends ParticleSource {
     protected void generateParticles(boolean burst) {
         Vector2 position = spawnArea.getRandomParticlePos();
         Vector2 velocity = spawnArea.getMovementDirection(position).scl(settings.particleStartSpeed);
-//        System.out.println("scalar: " + settings.particleStartSpeed + " velocity: " + spawnArea);
 
         Particle newParticle;
         if(settings.particleTexture != null) newParticle = new Particle(position.cpy(), new Vector2(settings.particleSize, settings.particleSize), settings.particleLifetime, velocity, settings.particleTexture);

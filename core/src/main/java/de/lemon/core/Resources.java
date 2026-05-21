@@ -18,6 +18,7 @@ import de.lemon.mechanics.particleSystem.GeneratorSettings;
 import de.lemon.mechanics.particleSystem.SpawnArea;
 import de.lemon.save.particle.JsonParser;
 import de.lemon.save.particle.ParticleLoader;
+import de.lemon.utilities.DebugLogger;
 
 import java.util.*;
 
@@ -97,7 +98,7 @@ public class Resources {
         try {
             return assetManager.get(getPath(name), Texture.class);
         }catch (GdxRuntimeException e){
-            System.out.println("Error getting Asset: " + name + " Error:" + Arrays.toString(e.getStackTrace()));
+            DebugLogger.printError("Error getting Asset: " + name , e);
         }
         return null;
     }
@@ -113,7 +114,7 @@ public class Resources {
         try {
             return assetManager.get(getPath(name), clazz);
         }catch (GdxRuntimeException e){
-            System.out.println("Error getting Asset: " + name + " Error:" + Arrays.toString(e.getStackTrace()));
+            DebugLogger.printError("Error getting Asset: " + name, e);
         }
         return null;
     }
@@ -137,7 +138,6 @@ public class Resources {
      */
     private void createParticleSheets() {
         ArrayList<FileHandle> particles = getAllFiles(Gdx.files.internal("particles"), "json");
-//        System.out.println("number of files: " + particles.size());
         for (FileHandle f : particles) {
             ParticleLoader loader = JsonParser.loadParticle(f);
             if (loader.settings == null || loader.preset == null) continue;

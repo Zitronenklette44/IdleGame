@@ -88,7 +88,6 @@ public abstract class CoreScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         viewport.apply();
-//        System.out.println("RENDER->" + getClass().getSimpleName());
         if(worldRenderer != null){
             worldRenderer.update(delta);
             worldRenderer.render(delta);

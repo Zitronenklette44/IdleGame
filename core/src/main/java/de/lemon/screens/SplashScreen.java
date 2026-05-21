@@ -87,7 +87,6 @@ public class SplashScreen extends CoreScreen{
     }
 
     public void setState(int newState){
-        //System.out.println("changed to frame "+ newState);
         simpleSprite.setFrame(newState);
     }
 

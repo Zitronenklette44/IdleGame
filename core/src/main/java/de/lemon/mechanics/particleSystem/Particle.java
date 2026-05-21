@@ -142,6 +142,5 @@ public class Particle extends Sprite {
     public void setKillPoint(Vector2 killPoint, float killDist) {
         this.killPoint = killPoint;
         this.killDist = killDist;
-//        System.out.println("killPos: " + killPoint + " killDist: " + killDist);
     }
 }

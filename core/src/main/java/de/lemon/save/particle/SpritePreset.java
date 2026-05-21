@@ -2,6 +2,7 @@ package de.lemon.save.particle;
 
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.logic.render.*;
+import de.lemon.utilities.DebugLogger;
 
 public class SpritePreset {
 
@@ -36,7 +37,7 @@ public class SpritePreset {
             case NINE:
                 return new NineSprite(preset.textureName, preset.left, preset.right, preset.top, preset.bottom, Vector2.Zero.cpy(), Vector2.Zero.cpy());
         }
-        System.out.println("Invalid SpriteType " + type);
+        DebugLogger.printError("Invalid SpriteType: " + type);
         return null;
     }
 

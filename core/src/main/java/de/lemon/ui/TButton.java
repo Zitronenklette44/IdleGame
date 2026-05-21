@@ -21,7 +21,6 @@ public class TButton extends TextButton {
 
     public void autoResize(float relWidth, float relHeight, Viewport viewport){
         if(cell == null) {
-            System.out.println("Cell null");
             return;
         }
         cell.width(viewport.getWorldWidth() * relWidth).height(viewport.getWorldHeight() * relHeight);
@@ -32,8 +31,6 @@ public class TButton extends TextButton {
             TextButtonStyle style = new TextButtonStyle(getStyle());
             style.font = FontCache.getFont(fontSize);
             setStyle(style);
-
-//            System.out.println("Resized to: " + cell.getActorWidth() + ", " + cell.getActorHeight() + " Viewport:" + viewport.getWorldWidth() + ", " + viewport.getWorldHeight());
         });
 
     }

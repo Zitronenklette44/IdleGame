@@ -81,12 +81,10 @@ public class LoadScreen extends CoreScreen{
         createSelected.setGlobalFontDecrease(4);
 
         loadSelected.setOnClickAction(() -> {
-            System.out.println("load clicked");
             Main._instance.switchScreen(Main.GAME_SCREEN);
             Main._instance.tick.start();
         });
         deleteSelected.setOnClickAction(() -> {
-            System.out.println("del clicked");
             SaveManager.delete(selectedSave.getId());
 //            Table wrapper = (Table) scrollPane.getActor();
 //            Table content = (Table) wrapper.getChildren().first();
@@ -98,7 +96,6 @@ public class LoadScreen extends CoreScreen{
         });
 
         createSelected.setOnClickAction(()->{
-            System.out.println("create clicked");
             showNameInputDialog();
         });
 

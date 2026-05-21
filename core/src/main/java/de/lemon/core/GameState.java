@@ -15,9 +15,7 @@ public class GameState {
     private long playtime = 0;
     private Inventory inventory;
 
-    public GameState(){
-        inventory = new Inventory();
-    }
+    public GameState(){}
 
     /**
      * @return current mana value. Never negative.
@@ -87,7 +85,6 @@ public class GameState {
         int currentLevel = upgrades.get(upgrade.name());
         int newLevel = Math.max(1, currentLevel + level);
         upgrades.put(upgrade.name(), newLevel);
-//        System.out.println("upgrade: "+ upgrade.name() + " currentLevel: " + currentLevel + " newLevel: " + newLevel + " savedLevel: " + upgrades.get(upgrade.name()));
     }
     /**
      * Increases the level of an upgrade by 1.

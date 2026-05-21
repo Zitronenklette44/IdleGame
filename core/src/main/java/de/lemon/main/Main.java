@@ -10,6 +10,7 @@ import de.lemon.logic.Tick;
 import de.lemon.mechanics.Inventory;
 import de.lemon.save.SaveManager;
 import de.lemon.screens.*;
+import de.lemon.utilities.DebugLogger;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -96,13 +97,12 @@ public class Main extends Game {
 
     @Override
     public void resize(int width, int height) {
-//        System.out.println("Current Width:" + width + " current Height:" + height);
         super.resize(width, height);
     }
 
     public void switchScreen(int id, boolean force){
         if(id < 0 || id >= screens.size()){
-            System.out.println("[ERROR] invalid screen id (" + id + ")");
+            DebugLogger.printError("Invalid screen id: " + id);
             return;
         }
         if(!force && currentIndex == id) return;

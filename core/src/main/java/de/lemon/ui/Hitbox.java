@@ -22,10 +22,8 @@ public class Hitbox extends Button {
         addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                System.out.println("fired");
                 if(Hitbox.this.absorbFirstHit){
                     Hitbox.this.absorbFirstHit = false;
-//                    System.out.println("absorbed");
                 }else{
                     onClick();
                 }
