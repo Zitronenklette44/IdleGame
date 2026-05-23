@@ -9,16 +9,14 @@ public class Item extends GameObject implements Copyable<Item> {
 
     public String name;
     public int quantity;
-    public int maxStackSize;
     public final int frameWidth;
     public final int frameHeight;
     private AnimatedSprite sprite;
 
-    public Item(String name, int quantity, int maxStackSize, int frameWidth, int frameHeight) {
+    public Item(String name, int quantity, int frameWidth, int frameHeight) {
         super(0, 0, 0, 0);
         this.name = name;
         this.quantity = quantity;
-        this.maxStackSize = maxStackSize;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
 
@@ -45,7 +43,7 @@ public class Item extends GameObject implements Copyable<Item> {
 
     @Override
     public Item cpy() {
-        Item item = new Item(name, quantity, maxStackSize, frameWidth, frameHeight);
+        Item item = new Item(name, quantity, frameWidth, frameHeight);
         item.relPos = relPos;
         item.relSize = relSize;
         item.maxSize = maxSize;

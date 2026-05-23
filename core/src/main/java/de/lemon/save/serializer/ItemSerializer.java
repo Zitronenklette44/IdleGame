@@ -10,7 +10,6 @@ public class ItemSerializer implements Json.Serializer<Item> {
         json.writeObjectStart();
         json.writeValue("name", object.name);
         json.writeValue("quantity", object.quantity);
-        json.writeValue("maxStackSize", object.maxStackSize);
         json.writeValue("frameWidth", object.frameWidth);
         json.writeValue("frameHeight", object.frameHeight);
         json.writeObjectEnd();
@@ -23,6 +22,6 @@ public class ItemSerializer implements Json.Serializer<Item> {
         int maxStackSize = jsonData.getInt("maxStackSize");
         int frameWidth = jsonData.getInt("frameWidth");
         int frameHeight = jsonData.getInt("frameHeight");
-        return new Item(name, quantity, maxStackSize, frameWidth, frameHeight);
+        return new Item(name, quantity, frameWidth, frameHeight);
     }
 }

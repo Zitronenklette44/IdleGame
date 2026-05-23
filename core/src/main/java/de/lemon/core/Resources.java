@@ -36,6 +36,7 @@ public class Resources {
     private final Map<String, String> assetRegistry = new HashMap<>();
     private final Map<ParticlePresets, GeneratorSettings> particleRegistry = new HashMap<>();
     private final Map<String, String> itemNameTexture = new HashMap<>();
+    private final Map<String, Item> items = new HashMap<>();
 
     public Resources(){
         _instance = this;
@@ -47,6 +48,7 @@ public class Resources {
         assetManager.finishLoading();
 
         storeItemNameToTexture();
+        createItems();
     }
 
     /**
@@ -216,13 +218,28 @@ public class Resources {
 
     private void storeItemNameToTexture(){
         itemNameTexture.put("Potion", "Potion");
+        itemNameTexture.put("BlattRubin", "BlattRubin");
 
     }
 
     public String getItemTexture(String itemName){
         String name = itemNameTexture.get(itemName);
         if(name == null)
-            throw new RuntimeException("Item not registered: " + itemName);
+            throw new RuntimeException("ItemTexture not registered: " + itemName);
         return name;
+    }
+
+    public void createItems(){
+        items.put("BlattRubin", new Item("BlattRubin", 1, 16, 16));
+        items.put("KarminTrauben", new Item("KarminTrauben", 1, 16, 16));
+        items.put("purpurWater", new Item("purpurWater", 1, 16, 16));
+        items.put("healingPotion", new Item("healingPotion", 1, 16,16));
+    }
+
+    public Item getItem(String itemName) {
+        Item item = items.get(itemName);
+        if(item == null)
+            throw new RuntimeException("Item not registered: " + itemName);
+        return item;
     }
 }

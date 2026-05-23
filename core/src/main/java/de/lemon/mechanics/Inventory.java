@@ -60,18 +60,7 @@ public class Inventory {
 
     public void addItem(Item result) {
         Item item = items.get(result.name);
-        if(item == null){
-            items.put(result.name, result.cpy());
-            DebugLogger.printInfo("item null");
-        }
-        else{
-            DebugLogger.printInfo("Item found current quantity: " + item.quantity + " adding: " +result.quantity);
-            item.quantity += result.quantity;
-            DebugLogger.printInfo("Item found new quantity: " + item.quantity);
-        }
-//        System.out.println("ADD INSTANCE: " + System.identityHashCode(result));
-//        System.out.println("MAP INSTANCE: " + System.identityHashCode(items.get(result.name)));
-//        System.out.println("INVENTORY INSTANCE: " + System.identityHashCode(this));
-//        Thread.dumpStack();
+        if(item == null) items.put(result.name, result.cpy());
+        else item.quantity += result.quantity;
     }
 }

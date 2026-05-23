@@ -11,14 +11,12 @@ public class BrewingSystem {
 
     boolean currentlyBrewing = false;
 
-    private TickListener tickListener;
-
     int brewTime = 0;
     private Recipe recipe;
     int currentBrewTime = 0;
 
     public BrewingSystem(){
-        tickListener = new TickListener(){
+        TickListener tickListener = new TickListener() {
             @Override
             protected void onSecond() {
                 super.onSecond();

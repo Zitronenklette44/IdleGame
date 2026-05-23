@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import de.lemon.core.Item;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.logic.render.*;
-import de.lemon.mechanics.Inventory;
 import de.lemon.mechanics.brewing.BrewingSystem;
 import de.lemon.mechanics.brewing.potions.Recipe;
 
@@ -61,16 +60,14 @@ public class BrewingScreen extends CoreScreen{
         if(BrewingSystem._instance.isCurrentlyBrewing()){
             int currentFrame = (int) (brewingArrow.getMaxFrames() * BrewingSystem._instance.progress());
             brewingArrow.setFrame(currentFrame);
+        }else {
+            brewingArrow.setFrame(0);
         }
-
     }
 
     @Override
     public void show() {
         super.show();
-        Inventory._instance.addItem(new Item("Potion", 1, 500, 32, 32));
-        Inventory._instance.addItem(new Item("Potion", 1, 500, 32, 32));
-        Inventory._instance.addItem(new Item("Potion", 1, 500, 32, 32));
-        BrewingSystem._instance.brewRecipe(new Recipe(10, new Item("Potion", 1, 500, 32, 32), new Item("Potion", 1, 500, 32, 32)));
+        BrewingSystem._instance.brewRecipe(new Recipe(10, new Item("Potion", 1, 32, 32), new Item("Potion", 0, 32, 32)));
     }
 }
