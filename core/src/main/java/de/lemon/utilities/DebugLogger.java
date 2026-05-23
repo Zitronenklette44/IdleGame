@@ -21,8 +21,13 @@ public class DebugLogger {
 
     public static void printInfo(String info, Object caller){
         if(!PRINT) return;
-        System.out.println(GREEN + "[" + getTime() + "] " + (caller != null ? caller.getClass().getSimpleName() : "") + " " + info + RESET);
+        System.out.println(GREEN + "[" + getTime() + "] " + (caller != null ? getName(caller) : "") + " " + info + RESET);
     }
+
+    private static String getName(Object caller) {
+        return caller.getClass().getSimpleName() + ":" + caller.hashCode();
+    }
+
     public static void printInfo(String info){
         printInfo(info, null);
     }
@@ -32,7 +37,7 @@ public class DebugLogger {
         System.out.println(
             RED + "[" + getTime() + "] " +
             errorMessage + " | "+
-            (exception != null ? exception.getClass().getSimpleName() + ": " + exception.getMessage(): "")
+            (exception != null ? getName(exception) + ": " + exception.getMessage(): "")
             + RESET);
     }
     public static void printError(String errorMessage){

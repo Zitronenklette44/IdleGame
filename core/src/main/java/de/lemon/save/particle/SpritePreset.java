@@ -29,13 +29,13 @@ public class SpritePreset {
         SpriteType type = preset.type;
         switch (type) {
             case SIMPLE:
-                return new SimpleSprite(preset.textureName, preset.frameWidth, preset.frameHeight, preset.loop, Vector2.Zero.cpy());
+                return new SimpleSprite(preset.textureName, preset.frameWidth, preset.frameHeight, preset.loop);
             case ANIMATED:
-                return new AnimatedSprite(preset.textureName, preset.row, preset.frameWidth, preset.frameHeight, preset.frameDuration, preset.loop, Vector2.Zero.cpy());
+                return new AnimatedSprite(preset.textureName, preset.row, preset.frameWidth, preset.frameHeight, preset.frameDuration, preset.loop);
             case CONTROLLER:
-                return new AnimationController(preset.textureName, preset.rows, Vector2.Zero.cpy(), preset.frameWidth, preset.frameHeight, preset.frameDuration, preset.delay);
+                return new AnimationController(preset.textureName, preset.rows, preset.frameWidth, preset.frameHeight, preset.frameDuration, preset.delay);
             case NINE:
-                return new NineSprite(preset.textureName, preset.left, preset.right, preset.top, preset.bottom, Vector2.Zero.cpy(), Vector2.Zero.cpy());
+                return new NineSprite(preset.textureName, preset.left, preset.right, preset.top, preset.bottom, Vector2.Zero.cpy());
         }
         DebugLogger.printError("Invalid SpriteType: " + type);
         return null;

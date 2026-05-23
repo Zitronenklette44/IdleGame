@@ -1,5 +1,6 @@
 package de.lemon.screens;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.logic.enums.ParticlePresets;
@@ -12,6 +13,7 @@ import de.lemon.main.Main;
 import de.lemon.mechanics.Inventory;
 import de.lemon.mechanics.particleSystem.sources.GeometricParticleSource;
 import de.lemon.save.SaveManager;
+import de.lemon.utilities.DebugLogger;
 
 import java.util.EnumSet;
 
@@ -40,11 +42,11 @@ public class GameScreen extends CoreScreen{
 
     @Override
     protected void createWorld() {
-        background = new AnimatedSprite("gameScreen", 512, 320, 0.1f, true, new Vector2(0, 0));
+        background = new AnimatedSprite("gameScreen", 512, 320, 0.1f, true);
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
         worldRenderer.addObject(background);
 
-        AnimatedSprite door = new AnimatedSprite("door", 72, 16, 0.1f, true, new Vector2()) {
+        AnimatedSprite door = new AnimatedSprite("door", 72, 16, 0.1f, true) {
             @Override
             public void onClick(int button) {
                 Main._instance.switchScreen(Main.GARDEN_SCREEN);
@@ -64,7 +66,16 @@ public class GameScreen extends CoreScreen{
 //
 //        addWorldObject(test, 0.5f, 0.5f, 0.1f, 0.1f);
 
-        AnimationController cauldron = new AnimationController("cauldron", new int[] {0,1,2}, new Vector2(), 80, 112, 0.1f, 5);
+        AnimationController cauldron = new AnimationController("cauldron", new int[] {0,1,2}, 80, 112, 0.1f, 5){
+            @Override
+            public void onClick(int button) {
+                super.onClick(button);
+                if(button == Input.Buttons.LEFT){
+                    Main._instance.switchScreen(Main.BREWING_SCREEN);
+                }
+            }
+        };
+        cauldron.setClickable(true);
         addWorldObject(cauldron, 0.1f, 0.7f, 0.3f, 0.3f);
     }
 

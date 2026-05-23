@@ -50,10 +50,10 @@ public class GardenScreen extends CoreScreen{
 
     @Override
     protected void createWorld() {
-        background = new AnimatedSprite("garden", 512, 256, 0.1f, false, new Vector2());
+        background = new AnimatedSprite("garden", 512, 256, 0.1f, false);
         worldRenderer.addObject(background);
 
-        pots = new SimpleSprite("pots",512, 256, false, new Vector2()){
+        pots = new SimpleSprite("pots",512, 256, false){
             @Override
             public void onKeyDown(int keycode) {
                 if(keycode == Input.Keys.U){
@@ -69,7 +69,7 @@ public class GardenScreen extends CoreScreen{
         addWorldObject(plants[0], 1.2f/10f, 8.2f/10f, 1.4f/5f, 1.4f/5f);
         addWorldObject(plants[1], 3.2f/10f, 8.2f/10f, 1.4f/5f, 1.4f/5f);
 
-        door = new AnimatedSprite("door", 1, 72, 16, 0.1f, true, new Vector2()){
+        door = new AnimatedSprite("door", 1, 72, 16, 0.1f, true){
             @Override
             public void onClick(int button) {
                 Main._instance.switchScreen(Main.GAME_SCREEN);
@@ -79,7 +79,7 @@ public class GardenScreen extends CoreScreen{
         door.setRotation(AnimatedSprite.CW_90);
         addWorldObject(door, 3.4f/100f, 1.2f/3f, 1/7.2f, 3/10f);
 
-        upgrades = new NineSprite("border", 16, 16, 16, 16, new Vector2(0, 0), new Vector2(0, 0));
+        upgrades = new NineSprite("border", 16, 16, 16, 16, new Vector2(0, 0));
         addWorldObject(upgrades, 1/100f * 50, 1/100f * 15, 1/100f * 98, 1/100f * 30);
     }
 

@@ -42,7 +42,7 @@ public class AnimationController extends AnimatedSprite {
         super(frameWidth, frameHeight);
     }
 
-    public AnimationController(String textureName, int[] rows, Vector2 pos, int frameWidth, int frameHeight, float frameDuration, int delay){
+    public AnimationController(String textureName, int[] rows, int frameWidth, int frameHeight, float frameDuration, int delay){
         super(frameWidth, frameHeight);
         this.rows = rows;
         this.delay = delay;

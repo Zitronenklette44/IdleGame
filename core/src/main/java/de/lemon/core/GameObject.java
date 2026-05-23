@@ -154,7 +154,7 @@ public abstract class GameObject implements LayoutItem {
     public void onScrolled(float amountX, float amountY){}
 
     /**
-     * aApplies position with the viewport an the relative position
+     * Applies position with the viewport at the relative position
      * Sets the desired Size with the viewport and the relative Size
      * @param viewport viewport of the window
      */

@@ -18,8 +18,8 @@ public class NineSprite extends Sprite {
     private final String textureName;
     private final int left,right,top,bottom;
 
-    public NineSprite(String textureName, int left, int right, int top, int bottom, Vector2 pos, Vector2 size) {
-        super(pos, size);
+    public NineSprite(String textureName, int left, int right, int top, int bottom, Vector2 size) {
+        super(new Vector2(), size);
         this.left = left;
         this.right = right;
         this.top = top;
@@ -84,7 +84,7 @@ public class NineSprite extends Sprite {
      */
     @Override
     public Sprite cpy() {
-        NineSprite copy = new NineSprite(textureName, left, right, top, bottom, pos, size);
+        NineSprite copy = new NineSprite(textureName, left, right, top, bottom, size);
         copy.text = text;
         copy.textColor = textColor;
         return copy;

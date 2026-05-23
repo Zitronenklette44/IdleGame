@@ -29,8 +29,8 @@ public class AnimatedSprite extends Sprite implements Clickable {
         this.frameHeight = frameHeight;
     }
 
-    public AnimatedSprite(String textureName, int row, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos) {
-        super(pos, new Vector2(frameWidth, frameHeight));
+    public AnimatedSprite(String textureName, int row, int frameWidth, int frameHeight, float frameDuration, boolean loop) {
+        super(new Vector2(), new Vector2(frameWidth, frameHeight));
         this.textureName = textureName;
         this.row = row;
         this.frameWidth = frameWidth;
@@ -45,11 +45,11 @@ public class AnimatedSprite extends Sprite implements Clickable {
 
         stateTime = 0f;
     }
-    public AnimatedSprite(String textureName, int frameWidth, int frameHeight, float frameDuration, boolean loop, Vector2 pos){
-        this(textureName, 0, frameWidth, frameHeight, frameDuration, loop, pos);
+    public AnimatedSprite(String textureName, int frameWidth, int frameHeight, float frameDuration, boolean loop){
+        this(textureName, 0, frameWidth, frameHeight, frameDuration, loop);
     }
-    public AnimatedSprite(String textureName, int frameWidth, int frameHeight, boolean loop, Vector2 pos){
-        this(textureName, 0, frameWidth, frameHeight, 0, loop, pos);
+    public AnimatedSprite(String textureName, int frameWidth, int frameHeight, boolean loop){
+        this(textureName, 0, frameWidth, frameHeight, 0, loop);
     }
     /**
      * Splits a texture into frames based on frameWidth and frameHeight.
@@ -293,5 +293,12 @@ public class AnimatedSprite extends Sprite implements Clickable {
      */
     public float getFrameDuration() {
         return frameDuration;
+    }
+
+    /**
+     * @return number of frames in the animation
+     */
+    public int getMaxFrames(){
+        return animation.getKeyFrames().length;
     }
 }

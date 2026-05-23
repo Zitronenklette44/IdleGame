@@ -5,6 +5,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import de.lemon.core.GameState;
+import de.lemon.core.Item;
+import de.lemon.save.serializer.ItemSerializer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +30,7 @@ public final class SaveManager {
         json.setOutputType(JsonWriter.OutputType.json);
         json.setUsePrototypes(false);
         json.setElementType(GameState.class, "upgrades", Integer.class);
+        json.setSerializer(Item.class, new ItemSerializer());
     }
 
     public static GameState loadGameState(int id) {

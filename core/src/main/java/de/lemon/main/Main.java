@@ -25,6 +25,7 @@ public class Main extends Game {
     public static final int GAME_SCREEN = 3;
     public static final int GARDEN_SCREEN = 4;
     public static final int OPTIONS_SCREEN = 5;
+    public static final int BREWING_SCREEN = 6;
 
     public final ArrayList<CoreScreen> screens = new ArrayList<>();
     public final Deque<Integer> lastScreens = new ArrayDeque<>();
@@ -49,6 +50,7 @@ public class Main extends Game {
         screens.add(new GameScreen());
         screens.add(new GardenScreen());
         screens.add(new OptionScreen());
+        screens.add(new BrewingScreen());
     }
 
     @Override

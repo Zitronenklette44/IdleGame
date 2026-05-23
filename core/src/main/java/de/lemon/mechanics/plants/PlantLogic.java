@@ -21,8 +21,8 @@ public class PlantLogic extends SimpleSprite {
 
     private TickListener tickListener;
 
-    public PlantLogic(String textureName, int frameWidth, int frameHeight, Vector2 pos, float growTime, int dropAmount, Plants plantID) {
-        super(textureName, frameWidth, frameHeight, false, pos);
+    public PlantLogic(String textureName, int frameWidth, int frameHeight, float growTime, int dropAmount, Plants plantID) {
+        super(textureName, frameWidth, frameHeight, false);
         this.growTime = growTime;
         this.dropAmount = dropAmount;
         this.plantID = plantID;
@@ -42,7 +42,7 @@ public class PlantLogic extends SimpleSprite {
     }
 
     public PlantLogic(Plant plant){
-        this(plant.textureName, plant.frameWidth, plant.frameHeight, new Vector2() ,plant.growTime, plant.dropAmount, plant.plantID);
+        this(plant.textureName, plant.frameWidth, plant.frameHeight ,plant.growTime, plant.dropAmount, plant.plantID);
     }
 
     public void changePlant(String textureName, int frameWidth, int frameHeight, float growTime, int dropAmount, Plants plantID){
