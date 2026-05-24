@@ -9,11 +9,16 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import de.lemon.logic.enums.Direction;
 import de.lemon.logic.enums.Geometric;
 import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.logic.enums.ParticlePresets;
 import de.lemon.logic.render.AnimatedSprite;
+import de.lemon.mechanics.dialog.Dialog;
+import de.lemon.mechanics.dialog.DialogData;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
 import de.lemon.mechanics.particleSystem.SpawnArea;
 import de.lemon.save.particle.JsonParser;
@@ -37,6 +42,7 @@ public class Resources {
     private final Map<ParticlePresets, GeneratorSettings> particleRegistry = new HashMap<>();
     private final Map<String, String> itemNameTexture = new HashMap<>();
     private final Map<String, Item> items = new HashMap<>();
+    private final HashMap<String, DialogData> dialogs = new HashMap<>();
 
     public Resources(){
         _instance = this;
@@ -68,7 +74,7 @@ public class Resources {
         ArrayList<FileHandle> textures = getAllFiles(Gdx.files.internal("sprites"), "png");
         for (FileHandle f : textures){
             String name = f.nameWithoutExtension();
-            if(name.equals("loadingBar") || name.equalsIgnoreCase("gameName")) continue;
+            if(name.equals("loadingBar") || name.equals("gameName")) continue;
             String path = f.path();
             registerAsset(name, path, Texture.class);
         }
@@ -90,6 +96,7 @@ public class Resources {
             createParticleSheets();
             storeItemNameToTexture();
             createItems();
+            parseDialogs();
         }
     }
     /**
@@ -243,5 +250,25 @@ public class Resources {
         if(item == null)
             throw new RuntimeException("Item not registered: " + itemName);
         return item.cpy();
+    }
+
+    private void parseDialogs() {
+        FileHandle file = Gdx.files.local("dialogs.json");
+
+        JsonValue json = new JsonReader().parse(file.readString());
+        JsonValue dialogsJson = json.get("dialogs");
+
+        for (JsonValue dialog = dialogsJson.child; dialog != null; dialog = dialog.next) {
+            DialogData data = new DialogData();
+
+            data.name = dialog.name;
+            data.speaker = dialog.getString("speaker");
+            JsonValue linesJson = dialog.get("lines");
+            for (JsonValue line = linesJson.child; line != null; line = line.next) {
+                data.lines.add(line.asString());
+            }
+            dialogs.put(data.name, data);
+            DebugLogger.printInfo(data.toString());
+        }
     }
 }

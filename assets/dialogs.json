@@ -1,0 +1,22 @@
+{
+  "dialogs" : {
+    "test" : {
+      "lines" : [
+        "asd",
+        "asd2",
+        "asd3"
+      ],
+      "speaker" : "system"
+    },
+    "test2": {
+      "lines" : [
+        "i",
+        "don't",
+        "want",
+        "any",
+        "more"
+      ],
+      "speaker" : "system"
+    }
+  }
+}
