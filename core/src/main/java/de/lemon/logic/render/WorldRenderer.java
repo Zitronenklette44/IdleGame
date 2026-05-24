@@ -13,6 +13,7 @@ import de.lemon.logic.GameLogic;
 import de.lemon.logic.interfaces.Clickable;
 import de.lemon.logic.interfaces.Hoverable;
 import de.lemon.mechanics.particleSystem.ParticleManager;
+import de.lemon.utilities.DebugLogger;
 
 import java.util.ArrayList;
 
@@ -46,11 +47,11 @@ public class WorldRenderer {
 
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        for (GameObject o : objects) o.onShapeRender(shapeRenderer, delta);
+        for (GameObject o : objects) if(o.isVisible()) o.onShapeRender(shapeRenderer, delta);
         shapeRenderer.end();
 
         spriteBatch.begin();
-        for (GameObject o : objects) o.onSpriteRender(spriteBatch, delta);
+        for (GameObject o : objects) if(o.isVisible()) o.onSpriteRender(spriteBatch, delta);
         particleManager.render(delta);
         spriteBatch.end();
 
@@ -101,13 +102,14 @@ public class WorldRenderer {
                 Vector3 world = new Vector3(screenX, screenY, 0);
                 camera.unproject(world);
 
-                for (GameObject o : objects) o.onTouchDown(screenX, screenY, button);
+                for (GameObject o : objects) o.onTouchDown(world.x, world.y, screenX, screenY, button);
                 for (int i = objects.size() - 1; i >= 0 ; i--) {
                     GameObject o = objects.get(i);
                     if(o instanceof Clickable){
                         Clickable c = (Clickable) o;
-                        if(c.isClickable() && c.contains(world.x, world.y)) {
+                        if(c.isClickable() && o.isVisible() && c.contains(world.x, world.y)) {
                             c.onClick(button);
+                            c.onClickChildren(world.x, world.y, button);
                             break;
                         }
                     }

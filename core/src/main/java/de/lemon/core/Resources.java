@@ -46,9 +46,6 @@ public class Resources {
         registerAsset("gameName", "sprites/gameName.png", Texture.class);
 
         assetManager.finishLoading();
-
-        storeItemNameToTexture();
-        createItems();
     }
 
     /**
@@ -91,6 +88,8 @@ public class Resources {
         }
         if(assetManager.isFinished()){
             createParticleSheets();
+            storeItemNameToTexture();
+            createItems();
         }
     }
     /**
@@ -217,9 +216,11 @@ public class Resources {
     }
 
     private void storeItemNameToTexture(){
-        itemNameTexture.put("Potion", "Potion");
-        itemNameTexture.put("BlattRubin", "BlattRubin");
-
+        itemNameTexture.put("blattRubin", "BlattRubin");
+        itemNameTexture.put("grapes", "Grapes");
+        itemNameTexture.put("purpurWater", "PurpurWater");
+        itemNameTexture.put("healingPotion", "HealingPotion");
+        itemNameTexture.put("empty", "emptyItem");
     }
 
     public String getItemTexture(String itemName){
@@ -230,16 +231,17 @@ public class Resources {
     }
 
     public void createItems(){
-        items.put("BlattRubin", new Item("BlattRubin", 1, 16, 16));
-        items.put("KarminTrauben", new Item("KarminTrauben", 1, 16, 16));
-        items.put("purpurWater", new Item("purpurWater", 1, 16, 16));
-        items.put("healingPotion", new Item("healingPotion", 1, 16,16));
+        items.put("empty", new Item("empty", 1, 32, 32));
+        items.put("blattRubin", new Item("blattRubin", 1, 32, 32));
+        items.put("grapes", new Item("grapes", 1, 32, 32));
+        items.put("purpurWater", new Item("purpurWater", 1, 32, 32));
+        items.put("healingPotion", new Item("healingPotion", 1, 32,32));
     }
 
     public Item getItem(String itemName) {
         Item item = items.get(itemName);
         if(item == null)
             throw new RuntimeException("Item not registered: " + itemName);
-        return item;
+        return item.cpy();
     }
 }

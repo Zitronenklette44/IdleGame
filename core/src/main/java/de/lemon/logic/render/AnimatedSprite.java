@@ -99,6 +99,7 @@ public class AnimatedSprite extends Sprite implements Clickable {
      */
     @Override
     public void onSpriteRender(Batch batch, float delta) {
+        if(!isVisible) return;
         TextureRegion frame = animation.getKeyFrame(stateTime, loop);
 
         batch.draw(frame, pos.x, pos.y,origin.x, origin.y, size.x, size.y, scale.x, scale.y, rotation);

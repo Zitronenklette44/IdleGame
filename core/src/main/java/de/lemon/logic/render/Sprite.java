@@ -3,10 +3,12 @@ package de.lemon.logic.render;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import de.lemon.core.GameObject;
 import de.lemon.logic.interfaces.Clickable;
 import de.lemon.logic.interfaces.Copyable;
+import de.lemon.utilities.DebugLogger;
 
 public abstract class Sprite extends GameObject implements Clickable, Copyable<Sprite> {
 
@@ -76,6 +78,10 @@ public abstract class Sprite extends GameObject implements Clickable, Copyable<S
      */
     @Override
     public void onClick(int button) {}
+
+    @Override
+    public void onClickChildren(float x, float y, int button) {}
+
     /**
      * Enables or disables click interaction for this sprite.
      *

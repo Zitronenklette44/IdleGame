@@ -4,4 +4,5 @@ public interface Clickable {
     boolean isClickable();
     boolean contains(float x, float y);
     void onClick(int button);
+    void onClickChildren(float x, float y, int button);
 }

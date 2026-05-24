@@ -83,6 +83,7 @@ public class AnimationController extends AnimatedSprite {
      */
     @Override
     public void onSpriteRender(Batch batch, float delta) {
+        if(!isVisible) return;
         Animation<TextureRegion> anim = animationList.get(currentAnimation);
 
         if(anim.isAnimationFinished(stateTime)){

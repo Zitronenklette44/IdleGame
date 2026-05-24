@@ -24,8 +24,8 @@ public class Plant {
         switch (plant){
             case BLATTRUBIN:
                 return new Plant("plant_01", 16, 32, 15, 3, Plants.BLATTRUBIN);
-            case KARMINTRAUBEN:
-                return new Plant("plant_02", 16, 32, 23, 8, Plants.KARMINTRAUBEN);
+            case GRAPES:
+                return new Plant("plant_02", 16, 32, 23, 8, Plants.GRAPES);
         }
 
         return new Plant(null, 0, 0, 0, 0, null);

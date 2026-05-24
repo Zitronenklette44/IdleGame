@@ -6,27 +6,14 @@ import de.lemon.utilities.DebugLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Inventory {
      public static Inventory _instance;
 
-    public int BlattrubinAmount = 0;
-    public int KarmintraubenAmount = 0;
-
     HashMap<String, Item> items = new HashMap<>();
 
     public Inventory(){}
-
-    public void addPlant(Plants plants, int amount){
-        switch (plants){
-            case BLATTRUBIN:
-                BlattrubinAmount += amount;
-                break;
-            case KARMINTRAUBEN:
-                KarmintraubenAmount += amount;
-                break;
-        }
-    }
 
     public boolean contains(Item item, int quantity) {
         Item i = items.get(item.name);
@@ -62,5 +49,9 @@ public class Inventory {
         Item item = items.get(result.name);
         if(item == null) items.put(result.name, result.cpy());
         else item.quantity += result.quantity;
+    }
+
+    public ArrayList<Item> getAllItems(){
+        return items.values().stream().map(Item::cpy).collect(Collectors.toCollection(ArrayList::new));
     }
 }

@@ -86,7 +86,7 @@ public class GardenScreen extends CoreScreen{
     private void createPlants() {
         plants[0] = new PlantLogic(Plant.getNewPlant(Plants.BLATTRUBIN));
         plants[0].setClickable(true);
-        plants[1] = new PlantLogic(Plant.getNewPlant(Plants.KARMINTRAUBEN));
+        plants[1] = new PlantLogic(Plant.getNewPlant(Plants.GRAPES));
         plants[1].setClickable(true);
 
     }

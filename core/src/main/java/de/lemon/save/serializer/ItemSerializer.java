@@ -19,7 +19,6 @@ public class ItemSerializer implements Json.Serializer<Item> {
     public Item read(Json json, JsonValue jsonData, Class type) {
         String name = jsonData.getString("name");
         int quantity = jsonData.getInt("quantity");
-        int maxStackSize = jsonData.getInt("maxStackSize");
         int frameWidth = jsonData.getInt("frameWidth");
         int frameHeight = jsonData.getInt("frameHeight");
         return new Item(name, quantity, frameWidth, frameHeight);

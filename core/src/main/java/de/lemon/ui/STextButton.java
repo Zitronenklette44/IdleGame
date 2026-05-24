@@ -79,6 +79,9 @@ public class STextButton extends GameObject implements Clickable, Hoverable {
         if(onClickAction != null) onClickAction.run();
     }
 
+    @Override
+    public void onClickChildren(float x, float y, int button) {}
+
     public void setText(String text) {
         this.text = text;
         recalculateFont();

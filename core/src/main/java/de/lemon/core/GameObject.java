@@ -45,6 +45,11 @@ public abstract class GameObject implements LayoutItem {
     protected boolean manualSize = false;
 
     /**
+     * Decides if an Object should be rendered or not
+     */
+    protected boolean isVisible = true;
+
+    /**
      * Standard constructor for the object using Vector2 class
      * @param pos position of the Object
      * @param size size of the Object
@@ -147,7 +152,7 @@ public abstract class GameObject implements LayoutItem {
      * @see com.badlogic.gdx.InputProcessor
      */
     public void onKeyTyped(char character){}
-    public void onTouchDown(int screenX, int screenY, int button){}
+    public void onTouchDown(float worldX, float worldY, int screenX, int screenY, int button){}
     public void onTouchUp(int screenX, int screenY, int button){}
     public void onTouchDragged(int screenX, int screenY){}
     public void onMouseMoved(int screenX, int screenY){}
@@ -216,5 +221,13 @@ public abstract class GameObject implements LayoutItem {
 
     public Vector2 getRelSize() {
         return relSize;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
     }
 }

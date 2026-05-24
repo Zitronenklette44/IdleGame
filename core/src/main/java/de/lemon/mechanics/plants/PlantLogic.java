@@ -3,6 +3,7 @@ package de.lemon.mechanics.plants;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import de.lemon.core.Item;
 import de.lemon.core.Resources;
 import de.lemon.logic.enums.Plants;
 import de.lemon.logic.render.SimpleSprite;
@@ -83,7 +84,9 @@ public class PlantLogic extends SimpleSprite {
     public void onClick(int button) {
         if(button == Input.Buttons.LEFT){
             if(fullyGrown){
-                Inventory._instance.addPlant(plantID, dropAmount);
+                Item drops = Resources._instance.getItem(plantID.toString());
+                drops.quantity = dropAmount;
+                Inventory._instance.addItem(drops);
                 fullyGrown = false;
                 currentGrowthTime = 0;
                 stateTime = 0;

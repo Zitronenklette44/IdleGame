@@ -35,6 +35,7 @@ public class NineSprite extends Sprite {
      */
     @Override
     public void onSpriteRender(Batch batch, float delta) {
+        if(!isVisible) return;
         sprite.draw(batch, pos.x, pos.y, origin.x, origin.y, size.x, size.y, scale.x, scale.y, rotation);
         if(text != null && !text.isEmpty()){
             BitmapFont font = FontCache.getFont((int) (size.y * 0.4f), textColor);
