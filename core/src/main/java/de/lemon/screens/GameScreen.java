@@ -11,6 +11,7 @@ import de.lemon.logic.GameLogic;
 import de.lemon.logic.render.AnimationController;
 import de.lemon.main.Main;
 import de.lemon.mechanics.Inventory;
+import de.lemon.mechanics.dialog.DialogSystem;
 import de.lemon.mechanics.particleSystem.sources.GeometricParticleSource;
 import de.lemon.save.SaveManager;
 import de.lemon.utilities.DebugLogger;
@@ -31,8 +32,8 @@ public class GameScreen extends CoreScreen{
     }
 
     @Override
-    protected EnumSet<ScreenFeatures> getFeatures() {
-        return EnumSet.of(ScreenFeatures.UI, ScreenFeatures.WORLD);
+    public EnumSet<ScreenFeatures> getFeatures() {
+        return EnumSet.of(ScreenFeatures.UI, ScreenFeatures.WORLD, ScreenFeatures.DIALOG);
     }
 
     @Override
@@ -55,17 +56,6 @@ public class GameScreen extends CoreScreen{
         door.setClickable(true);
         addWorldObject(door, 4 / 10f, 2.6f/100f, 1/7.2f, 3/10f);
 
-//        StaticParticleSource test = new StaticParticleSource(Vector2.Zero.cpy(), worldRenderer.getParticleManager(), Resources._instance.getParticle(ParticlePresets.FIRE));
-//        test.relTargetPos.set(0.8f, 0.3f);
-
-//        GeometricParticleSource test = new GeometricParticleSource(
-//            worldRenderer.getParticleManager(),
-//            Resources._instance.getParticle(ParticlePresets.FIRE),
-//            Resources._instance.getSpawnAreaPresent(0)
-//        );
-//
-//        addWorldObject(test, 0.5f, 0.5f, 0.1f, 0.1f);
-
         AnimationController cauldron = new AnimationController("cauldron", new int[] {0,1,2}, 80, 112, 0.1f, 5){
             @Override
             public void onClick(int button) {
@@ -80,18 +70,13 @@ public class GameScreen extends CoreScreen{
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
-    }
-
-    @Override
-    public void hide() {
-        super.hide();
-    }
-
-    @Override
     public void resize(int width, int height) {
         super.resize(width, height);
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
+    }
+    @Override
+    public void show() {
+        super.show();
+        Main._instance.switchScreen(Main.SHOWROOM_SCREEN);
     }
 }

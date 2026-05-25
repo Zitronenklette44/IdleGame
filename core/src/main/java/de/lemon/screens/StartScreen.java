@@ -15,7 +15,7 @@ import java.util.EnumSet;
 public class StartScreen extends CoreScreen{
 
     @Override
-    protected EnumSet<ScreenFeatures> getFeatures() {
+    public EnumSet<ScreenFeatures> getFeatures() {
         return EnumSet.of(ScreenFeatures.WORLD);
     }
 

@@ -35,7 +35,7 @@ public class SpritePreset {
             case CONTROLLER:
                 return new AnimationController(preset.textureName, preset.rows, preset.frameWidth, preset.frameHeight, preset.frameDuration, preset.delay);
             case NINE:
-                return new NineSprite(preset.textureName, preset.left, preset.right, preset.top, preset.bottom, Vector2.Zero.cpy());
+                return new NineSprite(preset.textureName, preset.left, preset.right, preset.top, preset.bottom);
         }
         DebugLogger.printError("Invalid SpriteType: " + type);
         return null;

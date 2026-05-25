@@ -222,6 +222,9 @@ public class Resources {
         return result;
     }
 
+    /**
+     * soring Item names with the corresponding texture name
+     */
     private void storeItemNameToTexture(){
         itemNameTexture.put("blattRubin", "BlattRubin");
         itemNameTexture.put("grapes", "Grapes");
@@ -230,6 +233,11 @@ public class Resources {
         itemNameTexture.put("empty", "emptyItem");
     }
 
+    /**
+     * get the Texture corresponding to the item name
+     * @param itemName name of the item
+     * @return texture name
+     */
     public String getItemTexture(String itemName){
         String name = itemNameTexture.get(itemName);
         if(name == null)
@@ -237,7 +245,10 @@ public class Resources {
         return name;
     }
 
-    public void createItems(){
+    /**
+     * creates default items
+     */
+    private void createItems(){
         items.put("empty", new Item("empty", 1, 32, 32));
         items.put("blattRubin", new Item("blattRubin", 1, 32, 32));
         items.put("grapes", new Item("grapes", 1, 32, 32));
@@ -245,6 +256,11 @@ public class Resources {
         items.put("healingPotion", new Item("healingPotion", 1, 32,32));
     }
 
+    /**
+     * returns a copy of the default item with the given name
+     * @param itemName name of the item
+     * @return item copy
+     */
     public Item getItem(String itemName) {
         Item item = items.get(itemName);
         if(item == null)
@@ -252,23 +268,49 @@ public class Resources {
         return item.cpy();
     }
 
+    /**
+     * creates DialogData out of dialogs.json file
+     */
     private void parseDialogs() {
-        FileHandle file = Gdx.files.local("dialogs.json");
+        FileHandle file = Gdx.files.local("dialogs.json");      //read File
 
         JsonValue json = new JsonReader().parse(file.readString());
-        JsonValue dialogsJson = json.get("dialogs");
+        JsonValue dialogsJson = json.get("dialogs");    //get dialog object
 
-        for (JsonValue dialog = dialogsJson.child; dialog != null; dialog = dialog.next) {
+        for (JsonValue dialog = dialogsJson.child; dialog != null; dialog = dialog.next) { //iterate ofer collection
             DialogData data = new DialogData();
 
             data.name = dialog.name;
             data.speaker = dialog.getString("speaker");
+            data.title = dialog.getString("title");
             JsonValue linesJson = dialog.get("lines");
-            for (JsonValue line = linesJson.child; line != null; line = line.next) {
+            for (JsonValue line = linesJson.child; line != null; line = line.next) {    //store all lines in a List
                 data.lines.add(line.asString());
             }
+            JsonValue texture = dialog.get("texture");
+            if(texture != null){
+                data.textureName = texture.getString("name");
+                data.frameWidth = texture.getInt("frameWidth");
+                data.frameHeight = texture.getInt("frameHeight");
+            }else{
+                data.textureName = "unknownSpeaker";
+                data.frameWidth = 32;
+                data.frameHeight = 32;
+            }
             dialogs.put(data.name, data);
-            DebugLogger.printInfo(data.toString());
+//            DebugLogger.printInfo(data.toString());
         }
+    }
+
+    /**
+     * Gives the DialogData to the given name
+     * @param name name of the dialog
+     * @return DialogData
+     */
+    public DialogData getDialogData(String name){
+        DialogData item = dialogs.get(name);
+        if(item == null)
+            throw new RuntimeException("Dialog not found: " + name);
+        return item;
     }
 }

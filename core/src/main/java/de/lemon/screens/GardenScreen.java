@@ -23,7 +23,7 @@ public class GardenScreen extends CoreScreen{
     private NineSprite upgrades;
 
     @Override
-    protected EnumSet<ScreenFeatures> getFeatures() {
+    public EnumSet<ScreenFeatures> getFeatures() {
         return EnumSet.of(ScreenFeatures.UI, ScreenFeatures.WORLD);
     }
 
@@ -79,7 +79,7 @@ public class GardenScreen extends CoreScreen{
         door.setRotation(AnimatedSprite.CW_90);
         addWorldObject(door, 3.4f/100f, 1.2f/3f, 1/7.2f, 3/10f);
 
-        upgrades = new NineSprite("border", 16, 16, 16, 16, new Vector2(0, 0));
+        upgrades = new NineSprite("border", 16, 16, 16, 16);
         addWorldObject(upgrades, 1/100f * 50, 1/100f * 15, 1/100f * 98, 1/100f * 30);
     }
 

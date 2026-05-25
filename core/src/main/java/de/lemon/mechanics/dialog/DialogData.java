@@ -6,6 +6,10 @@ public class DialogData {
     public ArrayList<String> lines = new ArrayList<>();
     public String speaker;
     public String name;
+    public String title;
+    public String textureName;
+    public int frameWidth;
+    public int frameHeight;
 
     @Override
     public String toString() {

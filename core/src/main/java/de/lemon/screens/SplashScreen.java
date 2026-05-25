@@ -21,7 +21,7 @@ public class SplashScreen extends CoreScreen{
     private final int TRANSITION_FRAMES = 30;
 
     @Override
-    protected EnumSet<ScreenFeatures> getFeatures() {
+    public EnumSet<ScreenFeatures> getFeatures() {
         return EnumSet.of(ScreenFeatures.LOADING, ScreenFeatures.WORLD);
     }
 

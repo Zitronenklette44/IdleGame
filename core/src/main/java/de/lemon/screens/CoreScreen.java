@@ -17,6 +17,7 @@ import de.lemon.logic.render.WorldRenderer;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.mechanics.particleSystem.ParticleSource;
 import de.lemon.mechanics.particleSystem.sources.MovingParticleSource;
+import de.lemon.ui.DialogOverlay;
 import de.lemon.ui.LayoutManager;
 
 import java.util.EnumSet;
@@ -32,13 +33,14 @@ public abstract class CoreScreen implements Screen {
     protected Stage worldStage;
     protected WorldRenderer worldRenderer;
     protected LayoutManager layout = new LayoutManager();
+    protected DialogOverlay overlay;
 
     OrthographicCamera camera = new OrthographicCamera();
     protected Viewport viewport = new ExtendViewport(800, 480,camera);
 
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-    protected abstract EnumSet<ScreenFeatures> getFeatures();
+    public abstract EnumSet<ScreenFeatures> getFeatures();
 
     public void init(){}
 
@@ -71,6 +73,11 @@ public abstract class CoreScreen implements Screen {
 
         createComponents();
         createWorld();
+
+        if(getFeatures().contains(ScreenFeatures.DIALOG)) {
+            overlay = new DialogOverlay();
+            addWorldObject(overlay, .5f, .25f, .95f, .45f);
+        }
     }
 
     protected abstract void createComponents();
@@ -167,5 +174,17 @@ public abstract class CoreScreen implements Screen {
 
     public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
+    }
+
+    public DialogOverlay getDialogOverlay() {
+        return overlay;
+    }
+
+    public void revalidateLayout() {
+        layout.resize(viewport);
+
+        if(worldRenderer != null) {
+            worldRenderer.resize(viewport);
+        }
     }
 }

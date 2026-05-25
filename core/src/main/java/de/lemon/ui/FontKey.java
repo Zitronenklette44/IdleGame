@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 
 public class FontKey {
 
-    int size;
-    Color color;
+    final int size;
+    final Color color;
 
     public FontKey(int size, Color color){
         this.size = size;
@@ -18,5 +18,12 @@ public class FontKey {
         if(!(obj instanceof FontKey)) return false;
         FontKey o = (FontKey) obj;
         return size == o.size && color.equals(o.color);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Integer.hashCode(size);
+        result = 31 * result + color.hashCode();
+        return result;
     }
 }

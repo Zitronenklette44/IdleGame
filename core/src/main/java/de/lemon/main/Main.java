@@ -8,6 +8,7 @@ import de.lemon.logic.enums.ScreenMode;
 import de.lemon.logic.GameLogic;
 import de.lemon.logic.Tick;
 import de.lemon.mechanics.Inventory;
+import de.lemon.mechanics.dialog.DialogSystem;
 import de.lemon.save.SaveManager;
 import de.lemon.screens.*;
 import de.lemon.utilities.DebugLogger;
@@ -26,6 +27,7 @@ public class Main extends Game {
     public static final int GARDEN_SCREEN = 4;
     public static final int OPTIONS_SCREEN = 5;
     public static final int BREWING_SCREEN = 6;
+    public static final int SHOWROOM_SCREEN = 7;
 
     public final ArrayList<CoreScreen> screens = new ArrayList<>();
     public final Deque<Integer> lastScreens = new ArrayDeque<>();
@@ -51,6 +53,7 @@ public class Main extends Game {
         screens.add(new GardenScreen());
         screens.add(new OptionScreen());
         screens.add(new BrewingScreen());
+        screens.add(new ShowroomScreen());
     }
 
     @Override
@@ -110,6 +113,7 @@ public class Main extends Game {
         if(!force && currentIndex == id) return;
         if(currentIndex != -1) lastScreens.push(currentIndex);
         currentIndex = id;
+        DialogSystem._instance.cancel();
         setScreen(screens.get(id));
     }
 

@@ -38,7 +38,7 @@ public class BrewingScreen extends CoreScreen{
     };
 
     @Override
-    protected EnumSet<ScreenFeatures> getFeatures() {
+    public EnumSet<ScreenFeatures> getFeatures() {
         return EnumSet.of(ScreenFeatures.WORLD);
     }
 
@@ -60,7 +60,7 @@ public class BrewingScreen extends CoreScreen{
         ColoredSprite overlay = new ColoredSprite(new Color(0, 0, 0, .7f));
         addWorldObject(overlay, .5f, .5f, 3, 3);
 
-        NineSprite recipeBackground = new NineSprite("recipeBackground", 16, 16, 16, 16, new Vector2());
+        NineSprite recipeBackground = new NineSprite("recipeBackground", 16, 16, 16, 16);
         addWorldObject(recipeBackground, 0.7f, .5f, .5f, .95f);
 
         SimpleSprite slot1 = new SimpleSprite("recipeSlot", 64, 64, true){

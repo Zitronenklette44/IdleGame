@@ -15,7 +15,7 @@ public class OptionScreen extends CoreScreen{
 
 
     @Override
-    protected EnumSet<ScreenFeatures> getFeatures() {
+    public EnumSet<ScreenFeatures> getFeatures() {
         return EnumSet.of(ScreenFeatures.WORLD);
     }
 

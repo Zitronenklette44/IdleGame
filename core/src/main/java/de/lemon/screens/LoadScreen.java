@@ -30,7 +30,7 @@ public class LoadScreen extends CoreScreen{
     private SavePreview selectedSave = null;
 
     @Override
-    protected EnumSet<ScreenFeatures> getFeatures() {
+    public EnumSet<ScreenFeatures> getFeatures() {
         return EnumSet.of(ScreenFeatures.WORLD, ScreenFeatures.UI);
     }
 
