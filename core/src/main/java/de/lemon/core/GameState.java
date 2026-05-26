@@ -14,6 +14,7 @@ public class GameState {
     private long lastPlayed;
     private long playtime = 0;
     private Inventory inventory;
+    private float money = 0;
 
     public GameState(){}
 
@@ -172,5 +173,17 @@ public class GameState {
      */
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+
+    public float getMoney() {
+        return money;
+    }
+
+    public void setMoney(float money) {
+        this.money = money;
+    }
+
+    public void addMoney(float money){
+        this.money += money;
     }
 }

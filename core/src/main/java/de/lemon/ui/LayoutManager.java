@@ -1,6 +1,7 @@
 package de.lemon.ui;
 
 import com.badlogic.gdx.utils.viewport.Viewport;
+import de.lemon.core.GameObject;
 import de.lemon.logic.interfaces.LayoutItem;
 
 import java.util.ArrayList;
@@ -18,5 +19,9 @@ public class LayoutManager {
 
     public void add(LayoutItem item){
         items.add(item);
+    }
+
+    public void remove(LayoutItem item) {
+        items.remove(item);
     }
 }

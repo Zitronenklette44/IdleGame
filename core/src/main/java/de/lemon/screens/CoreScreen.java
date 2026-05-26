@@ -77,6 +77,7 @@ public abstract class CoreScreen implements Screen {
         if(getFeatures().contains(ScreenFeatures.DIALOG)) {
             overlay = new DialogOverlay();
             addWorldObject(overlay, .5f, .25f, .95f, .45f);
+            worldRenderer.setTopObject(overlay);
         }
     }
 
@@ -128,6 +129,13 @@ public abstract class CoreScreen implements Screen {
         if (worldRenderer != null){
             worldRenderer.addObject(item);
         }
+    }
+
+    public void removeWordObject(GameObject obj){
+        if(worldRenderer != null){
+            worldRenderer.removeObject(obj);
+        }
+        layout.remove(obj);
     }
 
     private void addParticleSource(ParticleSource item, float relX, float relY) {

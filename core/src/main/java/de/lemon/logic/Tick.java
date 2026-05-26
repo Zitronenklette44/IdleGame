@@ -1,10 +1,11 @@
 package de.lemon.logic;
 
 import de.lemon.listeners.TickListener;
+import de.lemon.logic.interfaces.Listenable;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Tick {
+public class Tick implements Listenable<TickListener> {
 
     private float timeScale = 1f;
     private boolean running = false;
@@ -13,10 +14,12 @@ public class Tick {
 
     public Tick(){}
 
+    @Override
     public void addListener(TickListener listener){
         listeners.add(listener);
     }
 
+    @Override
     public void removeListener(TickListener listener){
         listeners.remove(listener);
     }

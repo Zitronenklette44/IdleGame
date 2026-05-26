@@ -13,12 +13,15 @@ import de.lemon.logic.GameLogic;
 import de.lemon.logic.interfaces.Clickable;
 import de.lemon.logic.interfaces.Hoverable;
 import de.lemon.mechanics.particleSystem.ParticleManager;
+import de.lemon.ui.DialogOverlay;
 import de.lemon.utilities.DebugLogger;
 
 import java.util.ArrayList;
 
 public class WorldRenderer {
     private final ArrayList<GameObject> objects = new ArrayList<>();
+    private final ArrayList<GameObject> pendingRemove = new ArrayList<>();
+    private final ArrayList<GameObject> pendingAdd = new ArrayList<>();
     private final ArrayList<GameObject> lights = new ArrayList<>();
     private final OrthographicCamera camera;
 
@@ -28,16 +31,25 @@ public class WorldRenderer {
     ParticleManager particleManager = new ParticleManager(spriteBatch);
 
     private Hoverable hoverable;
+    private GameObject topObject;
 
     public WorldRenderer(OrthographicCamera camera){
         this.camera = camera;
     }
 
     public void addObject(GameObject object){
-        objects.add(object);
+        if(!pendingAdd.contains(object)){
+            pendingAdd.add(object);
+        }
     }
     public void addLight(GameObject object){
         lights.add(object);
+    }
+
+    public void removeObject(GameObject object){
+        if(!pendingRemove.contains(object)){
+            pendingRemove.add(object);
+        }
     }
 
     public void render(float delta){
@@ -51,8 +63,9 @@ public class WorldRenderer {
         shapeRenderer.end();
 
         spriteBatch.begin();
-        for (GameObject o : objects) if(o.isVisible()) o.onSpriteRender(spriteBatch, delta);
+        for (GameObject o : objects) if (o.isVisible() && o !=topObject) o.onSpriteRender(spriteBatch, delta);
         particleManager.render(delta);
+        if(topObject != null && topObject.isVisible()) topObject.onSpriteRender(spriteBatch, delta);
         spriteBatch.end();
 
         if(GameLogic.debug){
@@ -181,10 +194,9 @@ public class WorldRenderer {
     }
 
     public void update(float delta){
-        for (GameObject gO : objects){
-            gO.update(delta);
-        }
+        for (GameObject gO : objects) gO.update(delta);
         particleManager.update(delta);
+        applyChanges();
     }
 
     public ArrayList<GameObject> getObjects() {
@@ -201,5 +213,21 @@ public class WorldRenderer {
 
     public void resize(Viewport viewport){
         particleManager.resize(viewport);
+    }
+
+    public void setTopObject(GameObject topObject) {
+        this.topObject = topObject;
+    }
+
+    private void applyChanges(){
+        if(!pendingRemove.isEmpty()){
+            objects.removeAll(pendingRemove);
+            pendingRemove.clear();
+        }
+
+        if(!pendingAdd.isEmpty()){
+            objects.addAll(pendingAdd);
+            pendingAdd.clear();
+        }
     }
 }

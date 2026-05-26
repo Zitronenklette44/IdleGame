@@ -4,6 +4,7 @@ import de.lemon.core.Resources;
 import de.lemon.listeners.DialogListener;
 import de.lemon.listeners.TickListener;
 import de.lemon.logic.enums.ScreenFeatures;
+import de.lemon.logic.interfaces.Listenable;
 import de.lemon.main.Main;
 import de.lemon.screens.CoreScreen;
 import de.lemon.ui.DialogOverlay;
@@ -11,7 +12,7 @@ import de.lemon.utilities.DebugLogger;
 
 import java.util.ArrayList;
 
-public class DialogSystem {
+public class DialogSystem implements Listenable<DialogListener> {
 
     public static DialogSystem _instance = new DialogSystem();
 
@@ -47,18 +48,23 @@ public class DialogSystem {
     }
 
     public void startDialog(String name){
-        Main._instance.tick.addListener(tickListener);
-        active = true;
-        DialogData data = Resources._instance.getDialogData(name);
+        if(active) {
+            DebugLogger.printError("Can not start a new Dialog because one is currently active");
+            return;
+        }
         CoreScreen screen = (CoreScreen) Main._instance.getScreen();
         if(!screen.getFeatures().contains(ScreenFeatures.DIALOG)){
             DebugLogger.printError("unable to show Dialog due to screen not supporting");
             return;
         }
+        Main._instance.tick.addListener(tickListener);
+        active = true;
+        DialogData data = Resources._instance.getDialogData(name);
         overlay = screen.getDialogOverlay();
         overlay.showName(data.speaker);
         overlay.showTitle(data.title);
         overlay.showPortrait(data.textureName, data.frameWidth, data.frameHeight);
+        overlay.setVisible(true);
         screen.revalidateLayout();
         currentDialog = new Dialog(data);
         visibleChars = 0;
@@ -67,7 +73,6 @@ public class DialogSystem {
 
     public void cancel(){
         if(!active) return;
-        Main._instance.tick.removeListener(tickListener);
         close();
         for(DialogListener l : listeners) l.onCancel();
     }
@@ -86,9 +91,16 @@ public class DialogSystem {
     }
 
     public void close(){
+        if(!active) return;
+
         overlay.setVisible(false);
+
         Main._instance.tick.removeListener(tickListener);
+
         active = false;
+        currentDialog = null;
+        visibleChars = 0;
+
         for(DialogListener l : listeners) l.onFinish();
     }
 
@@ -100,10 +112,17 @@ public class DialogSystem {
         return active;
     }
 
-    public void remove(DialogListener dialogListener) {
-
+    @Override
+    public void addListener(DialogListener listener) {
+        listeners.add(listener);
     }
 
-    public void add(DialogListener dialogListener) {
+    @Override
+    public void removeListener(DialogListener listener) {
+        listeners.remove(listener);
+    }
+
+    public Dialog getCurrentDialog() {
+        return currentDialog;
     }
 }

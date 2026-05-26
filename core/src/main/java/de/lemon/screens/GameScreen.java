@@ -9,6 +9,7 @@ import de.lemon.core.Resources;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.logic.GameLogic;
 import de.lemon.logic.render.AnimationController;
+import de.lemon.logic.render.Sprite;
 import de.lemon.main.Main;
 import de.lemon.mechanics.Inventory;
 import de.lemon.mechanics.dialog.DialogSystem;
@@ -56,6 +57,16 @@ public class GameScreen extends CoreScreen{
         door.setClickable(true);
         addWorldObject(door, 4 / 10f, 2.6f/100f, 1/7.2f, 3/10f);
 
+        AnimatedSprite doorShowroom = new AnimatedSprite("door", 1, 72, 16, 0.1f, true) {
+            @Override
+            public void onClick(int button) {
+                Main._instance.switchScreen(Main.SHOWROOM_SCREEN);
+            }
+        };
+        doorShowroom.setClickable(true);
+        doorShowroom.setRotation(Sprite.CW_90);
+        addWorldObject(doorShowroom, .035f, .15f, 1/7.2f, 3/10f);
+
         AnimationController cauldron = new AnimationController("cauldron", new int[] {0,1,2}, 80, 112, 0.1f, 5){
             @Override
             public void onClick(int button) {
@@ -73,10 +84,5 @@ public class GameScreen extends CoreScreen{
     public void resize(int width, int height) {
         super.resize(width, height);
         background.scaleToFit(new Vector2(viewport.getWorldWidth(), viewport.getWorldHeight()));
-    }
-    @Override
-    public void show() {
-        super.show();
-        Main._instance.switchScreen(Main.SHOWROOM_SCREEN);
     }
 }

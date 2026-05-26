@@ -33,7 +33,6 @@ public class DialogOverlay extends Sprite {
         createSprites();
         manualSize = false;
         setClickable(true);
-//        setVisible(false);
     }
 
     public void showName(String name){
@@ -75,6 +74,7 @@ public class DialogOverlay extends Sprite {
     @Override
     public void onSpriteRender(Batch batch, float delta) {
         super.onSpriteRender(batch, delta);
+        if(!DialogSystem._instance.isActive()) return;
         background.onSpriteRender(batch, delta);
         border.onSpriteRender(batch, delta);
         if(speaker != null) speaker.onSpriteRender(batch, delta);
@@ -153,10 +153,7 @@ public class DialogOverlay extends Sprite {
         profile.setSize(new Vector2(profile.getSize().x, profile.getSize().x));
         background.applyLayout(viewport);
         spaceBar.applyLayout(viewport);
-        if(speaker != null){
-            speaker.applyLayout(viewport);
-            DebugLogger.printInfo("applied");
-        }
+        if(speaker != null) speaker.applyLayout(viewport);
     }
 
     @Override
@@ -166,10 +163,7 @@ public class DialogOverlay extends Sprite {
         profile.finaliseLayout();
         background.finaliseLayout();
         spaceBar.finaliseLayout();
-        if(speaker != null) {
-            speaker.finaliseLayout();
-            DebugLogger.printInfo("finalised");
-        }
+        if(speaker != null) speaker.finaliseLayout();
     }
 
     @Override

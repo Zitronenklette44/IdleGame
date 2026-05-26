@@ -33,6 +33,19 @@
       ],
       "speaker": "system",
       "title": "Extended UI Stress Test"
+    },
+    "villagerPotionBuy": {
+      "lines": [
+        "Ah, there you are.",
+        "The people in this village speak highly of your brews.",
+        "I am preparing for a journey through the northern woods.",
+        "Bandits and wolves have become a real problem lately.",
+        "I would like to buy {quantity} healing potions from you.",
+        "I can pay {amount} gold.",
+        "Do we have a deal?"
+      ],
+      "speaker": "villager",
+      "title": "Traveler's Request"
     }
   }
 }

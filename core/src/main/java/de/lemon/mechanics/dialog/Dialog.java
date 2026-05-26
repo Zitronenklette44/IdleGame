@@ -10,8 +10,8 @@ public class Dialog {
     String name;
 
     public Dialog(DialogData data){
-        lines = data.lines;
-        name = data.name;;
+        lines = new ArrayList<>(data.lines);
+        name = data.name;
         speaker = data.speaker;
     }
 
@@ -50,5 +50,9 @@ public class Dialog {
 
     public int getMaxChars() {
         return getLine().length() - 1;
+    }
+
+    public void replaceVariableWithValue(String variableName, String value){
+        lines.replaceAll(s -> s.replace("{" + variableName + "}", value));
     }
 }

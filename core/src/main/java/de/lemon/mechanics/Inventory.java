@@ -1,7 +1,6 @@
 package de.lemon.mechanics;
 
 import de.lemon.core.Item;
-import de.lemon.logic.enums.Plants;
 import de.lemon.utilities.DebugLogger;
 
 import java.util.ArrayList;
@@ -27,22 +26,7 @@ public class Inventory {
     }
 
     public void removeItems(ArrayList<Item> items) {
-        for(Item i : items){
-            Item item = this.items.get(i.name);
-            if(item == null) {
-                DebugLogger.printError("Item "+ i.name + "not found in inventory");
-                continue;
-            }
-            item.quantity -= i.quantity;
-            if (item.quantity <= 0) {
-                if (item.quantity < 0) {
-                    DebugLogger.printError(
-                        "Item count of " + i.name + " got negative"
-                    );
-                }
-                this.items.remove(item.name);
-            }
-        }
+        for(Item i : items) removeItem(i);
     }
 
     public void addItem(Item result) {
@@ -53,5 +37,22 @@ public class Inventory {
 
     public ArrayList<Item> getAllItems(){
         return items.values().stream().map(Item::cpy).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public void removeItem(Item item) {
+        Item i = this.items.get(item.name);
+        if(i == null) {
+            DebugLogger.printError("Item "+ item.name + "not found in inventory");
+            return;
+        }
+        i.quantity -= item.quantity;
+        if (i.quantity <= 0) {
+            if (i.quantity < 0) {
+                DebugLogger.printError(
+                    "Item count of " + item.name + " got negative"
+                );
+            }
+            this.items.remove(i.name);
+        }
     }
 }

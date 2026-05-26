@@ -4,11 +4,11 @@ import de.lemon.mechanics.dialog.DialogSystem;
 
 public class DialogListener {
     public  DialogListener(){
-        DialogSystem._instance.add(this);
+        DialogSystem._instance.addListener(this);
     }
 
     public void dispose() {
-        DialogSystem._instance.remove(this);
+        DialogSystem._instance.removeListener(this);
     }
 
     public void onStart(){}
