@@ -111,7 +111,7 @@ public class BrewingScreen extends CoreScreen{
                 inv.refreshItems(viewport);
             }
         };
-        slot4.setClickable(true);;
+        slot4.setClickable(true);
         addWorldObject(slot4, .1f, .8f, .1f, .1f);
         addWorldObject(input4, .1f, .8f, .1f, .1f);
 
@@ -146,7 +146,6 @@ public class BrewingScreen extends CoreScreen{
         inv = new InventorySelect(this::selectedItem);
         inv.setVisible(false);
         addWorldObject(inv, .5f, .5f, .8f, .8f);
-
     }
 
     private void selectedItem(){

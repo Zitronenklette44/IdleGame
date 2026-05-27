@@ -247,6 +247,9 @@ public class AnimatedSprite extends Sprite implements Clickable {
         copy.pos.set(this.pos);
         copy.size.set(this.size);
 
+        copy.relSize.set(this.relSize);
+        copy.relPos.set(this.relPos);
+
         copy.rotation = this.rotation;
         copy.scale.set(this.scale);
         copy.origin.set(this.origin);

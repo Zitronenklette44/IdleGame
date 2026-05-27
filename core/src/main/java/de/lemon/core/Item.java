@@ -10,7 +10,7 @@ import de.lemon.logic.interfaces.Copyable;
 import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.ui.FontCache;
 
-import java.awt.*;
+import java.util.UUID;
 
 public class Item extends GameObject implements Copyable<Item> {
 
@@ -19,19 +19,24 @@ public class Item extends GameObject implements Copyable<Item> {
     public int frameWidth;
     public int frameHeight;
     private AnimatedSprite sprite;
+    private UUID uuid;
+    public int id;
 
-    public Item(String name, int quantity, int frameWidth, int frameHeight) {
+    public Item(String name, int quantity, int frameWidth, int frameHeight, int id) {
         super(0, 0, 0, 0);
         this.name = name;
         this.quantity = quantity;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
+        this.id = id;
         loadSprite();
+
+        uuid = UUID.randomUUID();
     }
 
     private void loadSprite(){
         sprite = null;
-        sprite = new AnimatedSprite(Resources._instance.getItemTexture(name), frameWidth, frameHeight, true);
+        sprite = new AnimatedSprite(Resources._instance.getItemTexture(name), frameWidth, frameHeight, 0.1f, true);
     }
 
     @Override
@@ -59,12 +64,13 @@ public class Item extends GameObject implements Copyable<Item> {
 
     @Override
     public Item cpy() {
-        Item item = new Item(name, quantity, frameWidth, frameHeight);
+        Item item = new Item(name, quantity, frameWidth, frameHeight, id);
         item.relPos = relPos.cpy();
         item.relSize = relSize.cpy();
         item.maxSize = maxSize.cpy();
         item.minSize = minSize.cpy();
         item.sprite = sprite.cpy();
+        item.id = id;
         return item;
     }
 
@@ -72,7 +78,7 @@ public class Item extends GameObject implements Copyable<Item> {
     public boolean equals(Object obj) {
         if(!(obj instanceof Item)) return false;
         Item objI = (Item) obj;
-        return objI.name.equals(name);
+        return objI.uuid == uuid;
     }
 
     @Override
@@ -104,8 +110,17 @@ public class Item extends GameObject implements Copyable<Item> {
         quantity = newItem.quantity;
         frameWidth = newItem.frameWidth;
         frameHeight = newItem.frameHeight;
+        id = newItem.id;
         loadSprite();
         sprite.relPos.set(relPos.cpy());
         sprite.relSize.set(relSize.cpy());
+    }
+
+    public AnimatedSprite getSprite() {
+        return sprite;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 }

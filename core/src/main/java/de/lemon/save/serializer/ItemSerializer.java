@@ -12,6 +12,7 @@ public class ItemSerializer implements Json.Serializer<Item> {
         json.writeValue("quantity", object.quantity);
         json.writeValue("frameWidth", object.frameWidth);
         json.writeValue("frameHeight", object.frameHeight);
+        json.writeValue("id", object.id);
         json.writeObjectEnd();
     }
 
@@ -21,6 +22,7 @@ public class ItemSerializer implements Json.Serializer<Item> {
         int quantity = jsonData.getInt("quantity");
         int frameWidth = jsonData.getInt("frameWidth");
         int frameHeight = jsonData.getInt("frameHeight");
-        return new Item(name, quantity, frameWidth, frameHeight);
+        int id = jsonData.getInt("id");
+        return new Item(name, quantity, frameWidth, frameHeight, id);
     }
 }

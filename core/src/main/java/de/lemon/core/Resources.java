@@ -3,21 +3,15 @@ package de.lemon.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import de.lemon.logic.enums.Direction;
 import de.lemon.logic.enums.Geometric;
-import de.lemon.logic.enums.ParticleEmissionType;
 import de.lemon.logic.enums.ParticlePresets;
-import de.lemon.logic.render.AnimatedSprite;
-import de.lemon.mechanics.dialog.Dialog;
 import de.lemon.mechanics.dialog.DialogData;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
 import de.lemon.mechanics.particleSystem.SpawnArea;
@@ -249,11 +243,11 @@ public class Resources {
      * creates default items
      */
     private void createItems(){
-        items.put("empty", new Item("empty", 1, 32, 32));
-        items.put("blattRubin", new Item("blattRubin", 1, 32, 32));
-        items.put("grapes", new Item("grapes", 1, 32, 32));
-        items.put("purpurWater", new Item("purpurWater", 1, 32, 32));
-        items.put("healingPotion", new Item("healingPotion", 1, 32,32));
+        items.put("empty", new Item("empty", 1, 32, 32, 0));
+        items.put("blattRubin", new Item("blattRubin", 1, 32, 32, 1));
+        items.put("grapes", new Item("grapes", 1, 32, 32, 2));
+        items.put("purpurWater", new Item("purpurWater", 1, 32, 32, 3));
+        items.put("healingPotion", new Item("healingPotion", 1, 32,32, 4));
     }
 
     /**

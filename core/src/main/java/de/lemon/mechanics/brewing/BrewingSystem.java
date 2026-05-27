@@ -33,7 +33,7 @@ public class BrewingSystem implements Listenable<BrewingListener> {
     }
 
     public void brewRecipe(Recipe recipe){
-        if(!recipe.canBeBrewed() || currentlyBrewing) return;
+        if(recipe == null || !recipe.canBeBrewed() || currentlyBrewing) return;
         Inventory._instance.removeItems(recipe.getItems());
         startBrewing(recipe);
     }
@@ -86,7 +86,15 @@ public class BrewingSystem implements Listenable<BrewingListener> {
             ArrayList<Item> remainingItems = new ArrayList<>(recipe.getItems());
             boolean success = true;
             for (Item inputItem : items) {
-                if (!remainingItems.remove(inputItem)) {
+                boolean found = false;
+                for (Item rItem : remainingItems) {
+                    if (rItem.id == inputItem.id) {
+                        remainingItems.remove(rItem);
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
                     success = false;
                     break;
                 }

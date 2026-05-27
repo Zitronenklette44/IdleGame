@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.core.GameObject;
+import de.lemon.core.Item;
 import de.lemon.logic.GameLogic;
 import de.lemon.logic.interfaces.Clickable;
 import de.lemon.logic.interfaces.Hoverable;
@@ -38,9 +39,9 @@ public class WorldRenderer {
     }
 
     public void addObject(GameObject object){
-        if(!pendingAdd.contains(object)){
+//        if(!pendingAdd.contains(object)){
             pendingAdd.add(object);
-        }
+//        }
     }
     public void addLight(GameObject object){
         lights.add(object);
@@ -63,7 +64,7 @@ public class WorldRenderer {
         shapeRenderer.end();
 
         spriteBatch.begin();
-        for (GameObject o : objects) if (o.isVisible() && o !=topObject) o.onSpriteRender(spriteBatch, delta);
+        for (GameObject o : objects) if (o.isVisible() && o != topObject) o.onSpriteRender(spriteBatch, delta);
         particleManager.render(delta);
         if(topObject != null && topObject.isVisible()) topObject.onSpriteRender(spriteBatch, delta);
         spriteBatch.end();

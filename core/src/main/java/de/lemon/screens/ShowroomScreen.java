@@ -2,7 +2,6 @@ package de.lemon.screens;
 
 import com.badlogic.gdx.graphics.Color;
 import de.lemon.listeners.CustomerListener;
-import de.lemon.listeners.DialogListener;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.main.Main;

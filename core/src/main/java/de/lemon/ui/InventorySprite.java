@@ -12,7 +12,6 @@ import de.lemon.logic.render.ColoredSprite;
 import de.lemon.logic.render.SimpleSprite;
 import de.lemon.logic.render.Sprite;
 import de.lemon.mechanics.Inventory;
-import de.lemon.utilities.DebugLogger;
 
 import java.util.ArrayList;
 

@@ -2,6 +2,7 @@ package de.lemon.mechanics.customer;
 
 import com.badlogic.gdx.math.MathUtils;
 import de.lemon.core.Item;
+import de.lemon.core.Resources;
 import de.lemon.listeners.CustomerListener;
 import de.lemon.listeners.TickListener;
 import de.lemon.logic.interfaces.Listenable;
@@ -15,7 +16,7 @@ public class CustomerSystem implements Listenable<CustomerListener> {
 
     Customer[] customers = new Customer[2];
 //    float spawnChance = 0.02f;
-    float spawnChance = 0.2f;
+    float spawnChance = 0.05f;
     public ArrayList<CustomerListener> listeners = new ArrayList<>();
     boolean needUpdate = false;
 
@@ -35,7 +36,8 @@ public class CustomerSystem implements Listenable<CustomerListener> {
              if(customers[i] == null){
                  float value = MathUtils.random(0, 100);
                  if(value <= 100 * spawnChance){
-                     Item desiredItem = new Item("healingPotion", MathUtils.random(1, 5), 32, 32);
+                     Item desiredItem = Resources._instance.getItem("healingPotion");
+                     desiredItem.quantity = MathUtils.random(1, 5);
                      customers[i] = new Customer("unknownSpeaker", 32, 32, desiredItem, MathUtils.random(5, 10), "villagerPotionBuy");
                      for(CustomerListener l : listeners) l.onNewSpawn();
                  }
