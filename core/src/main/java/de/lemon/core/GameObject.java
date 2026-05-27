@@ -153,7 +153,7 @@ public abstract class GameObject implements LayoutItem {
      */
     public void onKeyTyped(char character){}
     public void onTouchDown(float worldX, float worldY, int screenX, int screenY, int button){}
-    public void onTouchUp(int screenX, int screenY, int button){}
+    public void onTouchUp(float worldX, float worldY, int screenX, int screenY, int button){}
     public void onTouchDragged(int screenX, int screenY){}
     public void onMouseMoved(int screenX, int screenY){}
     public void onScrolled(float amountX, float amountY){}

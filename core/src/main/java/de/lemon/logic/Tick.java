@@ -2,6 +2,7 @@ package de.lemon.logic;
 
 import de.lemon.listeners.TickListener;
 import de.lemon.logic.interfaces.Listenable;
+import de.lemon.main.Main;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -38,6 +39,7 @@ public class Tick implements Listenable<TickListener> {
     }
 
     public void start(){
+        Main._instance.initScreens();
         running = true;
     }
 

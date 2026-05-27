@@ -110,7 +110,7 @@ public final class SaveManager {
     public static int getNewId(){
         List<Integer> availableIds = getAvailableIds();
         if(availableIds.isEmpty()) return 0;
-        int lastId = availableIds.get(availableIds.size() - 1);
+        int lastId = availableIds.getLast();
         return lastId + 1;
     }
 }

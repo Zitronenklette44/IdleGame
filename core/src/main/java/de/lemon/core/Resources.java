@@ -73,7 +73,7 @@ public class Resources {
             if(name.equals("loadingBar") || name.equals("gameName")) continue;
             String path = f.path();
             registerAsset(name, path, Texture.class);
-            DebugLogger.printInfo("loadedFile: " + path + " as " + name);
+//            DebugLogger.printInfo("loadedFile: " + path + " as " + name);
         }
         //skin
         registerAsset("skin", "skins/template.json", Skin.class);

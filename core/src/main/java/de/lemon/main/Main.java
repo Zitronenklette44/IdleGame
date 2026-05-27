@@ -41,6 +41,7 @@ public class Main extends Game {
     public GameLogic gameLogic;
     public int currentGameStateId;
     public boolean played = false;
+    private long started;
 
 
     public Main(){
@@ -62,6 +63,7 @@ public class Main extends Game {
         SaveManager.init();
         setWindowsMode();
         switchScreen(SPLASH_SCREEN);
+        started = System.currentTimeMillis();
     }
 
     void setWindowsMode() {
@@ -95,6 +97,7 @@ public class Main extends Game {
         if(played) {
             gameLogic.getGameState().setInventory(Inventory._instance);
             gameLogic.getGameState().setLastPlayed(System.currentTimeMillis());
+            gameLogic.getGameState().addPlaytime(System.currentTimeMillis() - started);
             SaveManager.saveGameState(gameLogic.getGameState(), currentGameStateId);
         }
         super.dispose();

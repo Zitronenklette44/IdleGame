@@ -133,7 +133,10 @@ public class WorldRenderer {
 
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-                for (GameObject o : objects) o.onTouchUp(screenX, screenY, button);
+                Vector3 world = new Vector3(screenX, screenY, 0);
+                camera.unproject(world);
+
+                for (GameObject o : objects) o.onTouchUp(world.x, world.y, screenX, screenY, button);
                 return false;
             }
 

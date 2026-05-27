@@ -10,22 +10,23 @@ import de.lemon.logic.render.AnimationController;
 import de.lemon.logic.render.Sprite;
 import de.lemon.main.Main;
 import de.lemon.mechanics.Inventory;
-import de.lemon.mechanics.dialog.DialogSystem;
 import de.lemon.save.SaveManager;
+import de.lemon.utilities.DebugLogger;
 
 import java.util.EnumSet;
 
 public class GameScreen extends CoreScreen{
     private AnimatedSprite background;
 
-
     @Override
     public void init() {
+        super.init();
+        DebugLogger.printInfo(" loaded id: " + Main._instance.currentGameStateId);
         Main._instance.gameLogic = new GameLogic(SaveManager.loadGameState(Main._instance.currentGameStateId));
+        if(Main._instance.gameLogic.getGameState().getInventory() == null) Main._instance.gameLogic.getGameState().setInventory(new Inventory());
         Inventory._instance = Main._instance.gameLogic.getGameState().getInventory();
         Main._instance.tick.addListener(Main._instance.gameLogic.getTickListener());
         setBackgroundColor(Color.DARK_GRAY);
-        super.init();
     }
 
     @Override

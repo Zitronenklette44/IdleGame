@@ -12,10 +12,10 @@ import java.util.ArrayList;
 
 public class AnimationController extends AnimatedSprite {
 
-    private int[] rows;
+    protected int[] rows;
     private int delay;
-    private final ArrayList<Animation<TextureRegion>> animationList = new ArrayList<>();
-    private int currentAnimation = 0;
+    protected final ArrayList<Animation<TextureRegion>> animationList = new ArrayList<>();
+    protected int currentAnimation = 0;
     /**
      * Creates a deep copy of this AnimationController.
      * Copies transformation state and animation list reference data.
@@ -47,7 +47,6 @@ public class AnimationController extends AnimatedSprite {
         this.rows = rows;
         this.delay = delay;
         this.textureName = textureName;
-        currentAnimation = MathUtils.random(rows.length - 1);
 
         setPos(pos);
         Texture texture = Resources._instance.getTexture(textureName);
@@ -62,6 +61,7 @@ public class AnimationController extends AnimatedSprite {
             a.setPlayMode(Animation.PlayMode.NORMAL);
             animationList.add(a);
         }
+        currentAnimation = nextAnimation();
     }
     /**
      * Updates the internal animation state time.
@@ -93,7 +93,7 @@ public class AnimationController extends AnimatedSprite {
                 batch.draw(anim.getKeyFrames()[anim.getKeyFrames().length - 1], pos.x, pos.y, size.x, size.y);
                 return;
             }else{
-                setCurrentAnimation(MathUtils.random(animationList.size() - 1));
+                setCurrentAnimation(nextAnimation());
             }
         }
 
@@ -121,5 +121,9 @@ public class AnimationController extends AnimatedSprite {
      */
     public int[] getRows() {
         return rows;
+    }
+
+    protected int nextAnimation(){
+        return MathUtils.random(animationList.size() - 1);
     }
 }

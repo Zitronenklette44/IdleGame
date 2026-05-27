@@ -71,7 +71,6 @@ public class SplashScreen extends CoreScreen{
             if(!loadProgress[1]) loadProgress[1] = FontCache.isLoaded;
 
             if(!loadProgress[2]){
-                Main._instance.initScreens();
                 loadProgress[2] = true;
             }
 

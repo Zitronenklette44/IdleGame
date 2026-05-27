@@ -27,6 +27,11 @@ public class NineSprite extends Sprite {
         this.textureName = textureName;
         this.sprite = new NinePatch(Resources._instance.getTexture(textureName), left, right, top, bottom);
     }
+
+    public NineSprite(String textureName, int border){
+        this(textureName, border, border, border, border);
+    }
+
     /**
      * Renders the NinePatch sprite and optional centered text.
      *
