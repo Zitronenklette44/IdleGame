@@ -3,19 +3,15 @@ package de.lemon.screens;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import de.lemon.logic.enums.ParticlePresets;
-import de.lemon.logic.render.AnimatedSprite;
-import de.lemon.core.Resources;
-import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.logic.GameLogic;
+import de.lemon.logic.enums.ScreenFeatures;
+import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.logic.render.AnimationController;
 import de.lemon.logic.render.Sprite;
 import de.lemon.main.Main;
 import de.lemon.mechanics.Inventory;
 import de.lemon.mechanics.dialog.DialogSystem;
-import de.lemon.mechanics.particleSystem.sources.GeometricParticleSource;
 import de.lemon.save.SaveManager;
-import de.lemon.utilities.DebugLogger;
 
 import java.util.EnumSet;
 

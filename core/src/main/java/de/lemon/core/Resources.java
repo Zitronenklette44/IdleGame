@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.JsonReader;
@@ -37,6 +38,7 @@ public class Resources {
     private final Map<String, String> itemNameTexture = new HashMap<>();
     private final Map<String, Item> items = new HashMap<>();
     private final HashMap<String, DialogData> dialogs = new HashMap<>();
+    private final HashMap<String, String> icons = new HashMap<>();
 
     public Resources(){
         _instance = this;
@@ -71,6 +73,7 @@ public class Resources {
             if(name.equals("loadingBar") || name.equals("gameName")) continue;
             String path = f.path();
             registerAsset(name, path, Texture.class);
+            DebugLogger.printInfo("loadedFile: " + path + " as " + name);
         }
         //skin
         registerAsset("skin", "skins/template.json", Skin.class);
@@ -221,9 +224,13 @@ public class Resources {
      */
     private void storeItemNameToTexture(){
         itemNameTexture.put("blattRubin", "BlattRubin");
+        icons.put("blattRubin", "blattRubinIcon");
         itemNameTexture.put("grapes", "Grapes");
+        icons.put("grapes", "grapesIcon");
         itemNameTexture.put("purpurWater", "PurpurWater");
+        icons.put("purpurWater", "purpurWaterIcon");
         itemNameTexture.put("healingPotion", "HealingPotion");
+        icons.put("healingPotion", "healingPotionIcon");
         itemNameTexture.put("empty", "emptyItem");
     }
 
@@ -302,9 +309,13 @@ public class Resources {
      * @return DialogData
      */
     public DialogData getDialogData(String name){
-        DialogData item = dialogs.get(name);
+        DialogData item = dialogs.get(name).cpy();
         if(item == null)
             throw new RuntimeException("Dialog not found: " + name);
         return item;
+    }
+
+    public TextureRegion getIcon(String value) {
+        return new TextureRegion(getTexture(icons.get(value)));
     }
 }

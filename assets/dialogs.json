@@ -22,14 +22,14 @@
     },
     "testLong": {
       "lines": [
-        "This is a long test dialog to check how your dialog system behaves with multiple lines and longer text flow.",
-        "We are now adding a second line to see if line switching, layout spacing and text wrapping still behave correctly under pressure.",
-        "The third line introduces even more content so you can verify that nothing overlaps with the profile image or UI borders.",
-        "At this point you should also test how quickly the system can switch between lines without visual glitches or skipped rendering frames.",
-        "If everything works correctly, this line should appear cleanly below the previous ones without any clipping or misalignment.",
-        "We are intentionally making this dialog longer to simulate real NPC conversations in a game environment. But we simultaneously need to be carefull not to make it to long because then it would render over all the other Dialog overlay systems and that is something we don't want. Since this still isn't long enough what about some spezial characters? \"äüöß\" Good we are nearly there and from now on we override stuff i believe!",
+        "This is a long test dialog to check how your dialog system behaves with multiple lines and longer text flow. <icon=grapes> This should appear inline.",
+        "We are now adding a second line <red> to see if line switching, layout spacing and text wrapping still behave correctly under pressure.",
+        "The third line introduces <icon=blattRubin> even more content so you can verify that nothing overlaps with the profile image or UI borders.",
+        "At this point <yellow> you should also test how quickly the system can switch <yellow>between lines without visual glitches or skipped rendering frames.</>",
+        "If everything works correctly <green> this line should appear cleanly <icon=purpurWater>below the previous ones </> without any clipping or misalignment.",
+        "We are intentionally making this dialog <red>longer</> to simulate real NPC conversations in a game environment. But we simultaneously need to be <yellow>carefull</> not to make it to long because then it would render over all the other Dialog overlay systems and that is something we don't want. Since this still isn't long enough what about some spezial characters? <blue>\"äüöß\"</> Good we are nearly there and from now on we override stuff i believe!",
         "Another important test is whether the font rendering remains stable when multiple updates happen in a short amount of time.",
-        "Finally this last line should confirm that your dialog system can handle extended conversations without breaking layout or readability."
+        "Finally this last line <icon=purpurWater> <yellow> should confirm that your dialog system can handle extended conversations without breaking layout or readability."
       ],
       "speaker": "system",
       "title": "Extended UI Stress Test"
@@ -40,8 +40,8 @@
         "The people in this village speak highly of your brews.",
         "I am preparing for a journey through the northern woods.",
         "Bandits and wolves have become a real problem lately.",
-        "I would like to buy {quantity} healing potions from you.",
-        "I can pay {amount} gold.",
+        "I would like to buy {quantity} <icon=healingPotion> <red>healing potions</> from you.",
+        "I can pay {amount} <yellow>gold</>.",
         "Do we have a deal?"
       ],
       "speaker": "villager",

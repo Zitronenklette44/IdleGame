@@ -19,44 +19,75 @@ public class DialogSystem implements Listenable<DialogListener> {
     private TickListener tickListener;
     private DialogOverlay overlay;
     private Dialog currentDialog;
-    private int visibleChars = 0;
-    private final float charDelay = 0.03f;
+
     private boolean active = false;
+
     private final ArrayList<DialogListener> listeners = new ArrayList<>();
 
-    public DialogSystem(){
-        tickListener = new TickListener(){
+    // Token typing state
+    private int visibleTokenIndex = 0;
+    private int visibleCharIndex = 0;
+
+    private final float charDelay = 0.03f;
+
+    public DialogSystem() {
+
+        tickListener = new TickListener() {
             float counter = 0;
+
             @Override
             public void onTick(float delta) {
                 super.onTick(delta);
-                counter += delta;
-                while(counter >= charDelay) {
-                    update();
-                    counter-= charDelay;
-                }
 
+                counter += delta;
+
+                while (counter >= charDelay) {
+                    update();
+                    counter -= charDelay;
+                }
             }
         };
     }
 
     private void update() {
-        String text = currentDialog.getChars(visibleChars);
+
+        if (currentDialog == null) return;
+
+        String text = currentDialog.getVisibleText(visibleTokenIndex, visibleCharIndex);
         overlay.showText(text);
-        if(!currentDialog.allVisible(visibleChars)) visibleChars++;
-        for(DialogListener l : listeners) l.onUpdate();
+        if (currentDialog.allVisible(visibleTokenIndex, visibleCharIndex)) {
+            for (DialogListener l : listeners) l.onUpdate();
+            return;
+        }
+        visibleCharIndex++;
+
+        if (visibleTokenIndex < currentDialog.getTokensSize()) {
+            int tokenLength = currentDialog.getCurrentTokenLength(visibleTokenIndex);
+            if (visibleCharIndex >= tokenLength) {
+                visibleTokenIndex++;
+                visibleCharIndex = 0;
+            }
+        }
+
+        if (visibleTokenIndex >= currentDialog.getTokensSize()) {
+            visibleTokenIndex = currentDialog.getTokensSize() - 1;
+            visibleCharIndex = currentDialog.getLastTokenLength();
+        }
+
+        for (DialogListener l : listeners) l.onUpdate();
     }
 
-    public void startDialog(String name){
-        if(active) {
+    public void startDialog(String name) {
+        if (active) {
             DebugLogger.printError("Can not start a new Dialog because one is currently active");
             return;
         }
         CoreScreen screen = (CoreScreen) Main._instance.getScreen();
-        if(!screen.getFeatures().contains(ScreenFeatures.DIALOG)){
+        if (!screen.getFeatures().contains(ScreenFeatures.DIALOG)) {
             DebugLogger.printError("unable to show Dialog due to screen not supporting");
             return;
         }
+
         Main._instance.tick.addListener(tickListener);
         active = true;
         DialogData data = Resources._instance.getDialogData(name);
@@ -67,31 +98,46 @@ public class DialogSystem implements Listenable<DialogListener> {
         overlay.setVisible(true);
         screen.revalidateLayout();
         currentDialog = new Dialog(data);
-        visibleChars = 0;
-        for(DialogListener l : listeners) l.onStart();
-    }
 
-    public void cancel(){
-        if(!active) return;
-        close();
-        for(DialogListener l : listeners) l.onCancel();
+        visibleTokenIndex = 0;
+        visibleCharIndex = 0;
+
+        for (DialogListener l : listeners) {
+            l.onStart();
+        }
     }
 
     public void handleInput() {
-        if(currentDialog.isLastLine() && currentDialog.allVisible(visibleChars)) {
-            close();
-            return;
-        }
-        if(!currentDialog.allVisible(visibleChars)) visibleChars = currentDialog.getMaxChars();
-        else {
+        if (currentDialog == null) return;
+        if (currentDialog.allVisible(visibleTokenIndex, visibleCharIndex)) {
+            if (currentDialog.isLastLine()) {
+                close();
+                return;
+            }
             currentDialog.next();
-            for(DialogListener l : listeners) l.onNext();
-            visibleChars = 0;
+            visibleTokenIndex = 0;
+            visibleCharIndex = 0;
+
+            for (DialogListener l : listeners) {
+                l.onNext();
+            }
+
+        } else {
+            visibleTokenIndex = currentDialog.getTokensSize() - 1;
+            visibleCharIndex = currentDialog.getLastTokenLength();
         }
     }
 
-    public void close(){
-        if(!active) return;
+    public void cancel() {
+        if (!active) return;
+        close();
+        for (DialogListener l : listeners) {
+            l.onCancel();
+        }
+    }
+
+    public void close() {
+        if (!active) return;
 
         overlay.setVisible(false);
 
@@ -99,13 +145,13 @@ public class DialogSystem implements Listenable<DialogListener> {
 
         active = false;
         currentDialog = null;
-        visibleChars = 0;
 
-        for(DialogListener l : listeners) l.onFinish();
-    }
+        visibleTokenIndex = 0;
+        visibleCharIndex = 0;
 
-    public boolean isAllVisible() {
-        return currentDialog.allVisible(visibleChars);
+        for (DialogListener l : listeners) {
+            l.onFinish();
+        }
     }
 
     public boolean isActive() {
@@ -124,5 +170,18 @@ public class DialogSystem implements Listenable<DialogListener> {
 
     public Dialog getCurrentDialog() {
         return currentDialog;
+    }
+
+    public boolean isAllVisible() {
+        return currentDialog.allVisible(visibleTokenIndex, visibleCharIndex);
+    }
+
+    public DialogRenderState getRenderState() {
+        if (currentDialog == null) return null;
+        return new DialogRenderState(
+            currentDialog,
+            visibleTokenIndex,
+            visibleCharIndex
+        );
     }
 }

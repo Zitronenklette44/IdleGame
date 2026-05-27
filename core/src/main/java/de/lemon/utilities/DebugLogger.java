@@ -2,6 +2,8 @@ package de.lemon.utilities;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 public class DebugLogger {
     private static final boolean PRINT = true;
@@ -49,4 +51,8 @@ public class DebugLogger {
         return LocalTime.now().format(formatter);
     }
 
+    public static void printList(String prefix, List list) {
+        if(!PRINT) return;
+        System.out.println(YELLOW + "[" + getTime() + "] " + prefix + ": " + Arrays.toString(list.toArray()) + RESET);
+    }
 }

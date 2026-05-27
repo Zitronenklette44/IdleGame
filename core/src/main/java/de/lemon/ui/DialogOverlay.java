@@ -5,17 +5,21 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import de.lemon.core.Resources;
 import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.logic.render.ColoredSprite;
 import de.lemon.logic.render.NineSprite;
 import de.lemon.logic.render.Sprite;
+import de.lemon.mechanics.dialog.DialogRenderState;
 import de.lemon.mechanics.dialog.DialogSystem;
-import de.lemon.utilities.DebugLogger;
+import de.lemon.mechanics.dialog.DialogToken;
+
+import java.util.ArrayList;
 
 public class DialogOverlay extends Sprite {
 
@@ -82,6 +86,8 @@ public class DialogOverlay extends Sprite {
         if(DialogSystem._instance.isAllVisible()) spaceBar.onSpriteRender(batch, delta);
 
         BitmapFont font = FontCache.getFont(18, Color.WHITE);
+        assert font != null;
+        font.setColor(Color.WHITE);
         float padding = 20f;
 
 //        float boxX = getPos().x - getSize().x / 2;
@@ -99,8 +105,6 @@ public class DialogOverlay extends Sprite {
 
         GlyphLayout layout = new GlyphLayout();
 
-        assert font != null;
-        // NAME (oben links beim Portrait)
         if(name != null) {
             float nameX = profileX;
             float nameY = boxY + boxHeight - padding;
@@ -118,11 +122,77 @@ public class DialogOverlay extends Sprite {
         }
 
         if(text != null) {
-            layout.setText(font, text, Color.WHITE, textWidth, Align.topLeft, true);
-
-            font.draw(batch, layout, textX, textY - 20);
+//            layout.setText(font, text, Color.WHITE, textWidth, Align.topLeft, true);
+//
+//            font.draw(batch, layout, textX, textY - 20);
+            renderTokens(textX, textY - 20, batch, textWidth);
         }
 
+    }
+
+    private void renderTokens(float textX, float textY, Batch batch, float textWidth) {
+        DialogRenderState state = DialogSystem._instance.getRenderState();
+        if (state == null) return;
+
+        ArrayList<DialogToken> tokens = state.dialog.getVisibleTokens(state.tokenIndex, state.charIndex);
+        BitmapFont font = FontCache.getFont(18, Color.WHITE);
+
+        float x = textX;
+        float y = textY;
+
+        assert font != null;
+        float lineHeight = font.getLineHeight();
+
+        Color currentColor = Color.WHITE;
+
+        for (DialogToken token : tokens) {
+            switch (token.type) {
+                case COLOR -> currentColor = parseColor(token.value);
+                case RESET -> currentColor = Color.WHITE;
+                case ICON -> {
+                    float iconSize = 16;
+                    float iconAdvance = iconSize + 2;
+
+                    if (x + iconAdvance > textX + textWidth) {
+                        x = textX;
+                        y -= lineHeight;
+                    }
+
+                    batch.setColor(currentColor);
+                    TextureRegion icon = Resources._instance.getIcon(token.value);
+                    batch.draw(icon, x, y - iconSize + 4, iconSize, iconSize);
+
+                    x += iconAdvance;
+                }
+                case TEXT -> {
+                    String[] words = token.value.split(" ");
+                    for (String s : words) {
+                        String word = s + " ";
+                        GlyphLayout layout = new GlyphLayout(font, word);
+                        float width = layout.width;
+
+                        if (x + width > textX + textWidth) {
+                            x = textX;
+                            y -= lineHeight;
+                        }
+                        font.setColor(currentColor);
+                        font.draw(batch, word, x, y);
+                        x += width;
+                    }
+                }
+            }
+        }
+        batch.setColor(Color.WHITE);
+    }
+
+    private Color parseColor(String value) {
+        return switch (value) {
+            case "red" -> Color.RED;
+            case "green" -> Color.GREEN;
+            case "blue" -> Color.BLUE;
+            case "yellow" -> Color.YELLOW;
+            default -> Color.WHITE;
+        };
     }
 
     @Override
