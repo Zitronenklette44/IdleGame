@@ -55,4 +55,11 @@ public class DebugLogger {
         if(!PRINT) return;
         System.out.println(YELLOW + "[" + getTime() + "] " + prefix + ": " + Arrays.toString(list.toArray()) + RESET);
     }
+
+    public static void printArray(String prefix, Object array) {
+        if (!PRINT) return;
+        // Arrays.deepToString funktioniert sowohl für Objekt-Arrays als auch für verschachtelte Arrays
+        System.out.println(YELLOW + "[" + getTime() + "] " + prefix + ": " + Arrays.deepToString(new Object[]{array}) + RESET);
+    }
+
 }

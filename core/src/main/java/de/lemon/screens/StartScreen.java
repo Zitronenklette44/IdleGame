@@ -6,7 +6,10 @@ import de.lemon.logic.render.AnimationController;
 import de.lemon.logic.render.AnimatedSprite;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.main.Main;
+import de.lemon.mechanics.brewing.Recipe;
+import de.lemon.mechanics.brewing.RecipeData;
 import de.lemon.ui.AnimatedButton;
+import de.lemon.utilities.DebugLogger;
 
 import java.util.EnumSet;
 
@@ -39,4 +42,18 @@ public class StartScreen extends CoreScreen{
         addWorldObject(bQuit, .5f, .39f, .2f, .1f);
     }
 
+//    @Override
+//    public void show() {
+//        super.show();
+//        Recipe recipe = RecipeData.get("purpurWater");
+//        float currentEventChance = 0.3f * recipe.riskValue;
+//        DebugLogger.printInfo("event Chance: " + currentEventChance);
+//        float[] weights = new float[4];
+//        float p = recipe.riskValue;
+//        weights[0] = (float) Math.pow((1 - p), 3);
+//        weights[1] = (float) Math.exp(-Math.pow((p - 0.5), 2) / 0.04);
+//        weights[2] = p < 0.1 ? 0 : (float) (1.2345679012f * Math.pow((p - .1), 2));
+//        weights[3] = (float) Math.max(0, Math.pow((p -.3), 3));
+//        DebugLogger.printArray("weights: ", weights);
+//    }
 }

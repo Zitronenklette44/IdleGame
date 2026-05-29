@@ -1,5 +1,6 @@
 package de.lemon.listeners;
 
+import de.lemon.mechanics.brewing.events.BrewingEvent;
 import de.lemon.mechanics.brewing.BrewingSystem;
 
 public class BrewingListener {
@@ -11,6 +12,7 @@ public class BrewingListener {
     public void onStart(){}
     public void onFinish(boolean success){}
     public void onUpdate(){}
+    public void onEvent(BrewingEvent e){}
 
     public void dispose(){
         BrewingSystem._instance.removeListener(this);

@@ -8,8 +8,8 @@ public class GameLogic {
     private final GameState gameState;
     private final TickListener tickListener;
     private final Mana mana;
-    public static final boolean debug = true;
-    public static final boolean fastLoad = false;
+    public static final boolean debug = false;
+    public static final boolean fastLoad = true;
 
     public GameLogic(GameState gameState){
         this.gameState = gameState;

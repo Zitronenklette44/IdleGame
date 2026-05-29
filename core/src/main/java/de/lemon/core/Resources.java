@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import de.lemon.logic.enums.Direction;
 import de.lemon.logic.enums.Geometric;
 import de.lemon.logic.enums.ParticlePresets;
+import de.lemon.mechanics.brewing.RecipeData;
+import de.lemon.mechanics.brewing.events.EventManager;
 import de.lemon.mechanics.dialog.DialogData;
 import de.lemon.mechanics.particleSystem.GeneratorSettings;
 import de.lemon.mechanics.particleSystem.SpawnArea;
@@ -94,6 +96,8 @@ public class Resources {
             storeItemNameToTexture();
             createItems();
             parseDialogs();
+            RecipeData.init(Gdx.files.local("config/recipes.json"));
+            EventManager._instance.init(Gdx.files.local("config/events.json"));
         }
     }
     /**
@@ -273,7 +277,7 @@ public class Resources {
      * creates DialogData out of dialogs.json file
      */
     private void parseDialogs() {
-        FileHandle file = Gdx.files.local("dialogs.json");      //read File
+        FileHandle file = Gdx.files.local("config/dialogs.json");      //read File
 
         JsonValue json = new JsonReader().parse(file.readString());
         JsonValue dialogsJson = json.get("dialogs");    //get dialog object

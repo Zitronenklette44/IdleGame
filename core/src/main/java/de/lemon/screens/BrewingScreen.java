@@ -9,7 +9,8 @@ import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.logic.render.*;
 import de.lemon.main.Main;
 import de.lemon.mechanics.brewing.BrewingSystem;
-import de.lemon.mechanics.brewing.potions.Recipe;
+import de.lemon.mechanics.brewing.Recipe;
+import de.lemon.mechanics.brewing.RecipeData;
 import de.lemon.ui.InventorySelect;
 import de.lemon.ui.STextButton;
 import de.lemon.utilities.DebugLogger;
@@ -125,7 +126,7 @@ public class BrewingScreen extends CoreScreen{
                 super.onClick(button);
                 Recipe r = BrewingSystem._instance.findRecipe(getItems());
                 BrewingSystem._instance.brewRecipe(r);
-                output1.set(r.getResult());
+                if(r != null) output1.set(r.getResult());
                 clearItems();
                 layout.resize(viewport);
             }
@@ -195,7 +196,6 @@ public class BrewingScreen extends CoreScreen{
     @Override
     public void show() {
         super.show();
-//        BrewingSystem._instance.brewRecipe(RecipeData.purpurWater);
-        DebugLogger.printInfo("Search for Recipe resulted in " + BrewingSystem._instance.findRecipe(new Item[] {Resources._instance.getItem("purpurWater"), Resources._instance.getItem("blattRubin")}));
+        BrewingSystem._instance.BrewEventTest(RecipeData.get("purpurWater"));
     }
 }

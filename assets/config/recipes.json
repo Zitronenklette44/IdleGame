@@ -1,0 +1,21 @@
+{
+  "recipes" : {
+    "purpurWater" : {
+      "brewingTime" : 5,
+      "riskValue" : 0.2,
+      "resultName" : "purpurWater",
+      "ingredients" : [
+        "grapes"
+      ]
+    },
+    "healingPotion" : {
+      "brewingTime" : 15,
+      "riskValue" : 0.05,
+      "resultName" : "healingPotion",
+      "ingredients" : [
+        "purpurWater",
+        "blattRubin"
+      ]
+    }
+  }
+}

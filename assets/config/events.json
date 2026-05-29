@@ -1,0 +1,243 @@
+{
+  "events": {
+    "low": [
+      {
+        "id": "foam_building",
+        "title": "Schaumbildung",
+        "description": "Der Sud beginnt leicht zu schäumen.",
+        "options": {
+          "good": {
+            "action": "Umrühren",
+            "factor": 0.2
+          },
+          "neutral": {
+            "action": "Ignorieren",
+            "factor": 0.0
+          },
+          "bad": {
+            "action": "Hitze erhöhen",
+            "factor": -0.2
+          }
+        }
+      },
+      {
+        "id": "aroma_release",
+        "title": "Aroma entfaltet sich",
+        "description": "Ein angenehmer Duft steigt aus dem Kessel.",
+        "options": {
+          "good": {
+            "action": "Deckel öffnen",
+            "factor": 0.2
+          },
+          "neutral": {
+            "action": "Weiterkochen",
+            "factor": 0.0
+          },
+          "bad": {
+            "action": "Wasser hinzufügen",
+            "factor": -0.2
+          }
+        }
+      },
+      {
+        "id": "crystal_formation",
+        "title": "Leichte Kristallisierung",
+        "description": "Am Rand des Kessels bilden sich kleine Kristalle.",
+        "options": {
+          "good": {
+            "action": "Vorsichtig lösen",
+            "factor": 0.2
+          },
+          "neutral": {
+            "action": "Ignorieren",
+            "factor": 0.0
+          },
+          "bad": {
+            "action": "Stark erhitzen",
+            "factor": -0.2
+          }
+        }
+      }
+    ],
+
+    "normal": [
+      {
+        "id": "temperature_rise",
+        "title": "Temperaturanstieg",
+        "description": "Die Mischung wird zunehmend heißer.",
+        "options": {
+          "good": {
+            "action": "Hitze reduzieren",
+            "factor": 0.25
+          },
+          "neutral": {
+            "action": "Ignorieren",
+            "factor": 0.0
+          },
+          "bad": {
+            "action": "Pulver nachfüllen",
+            "factor": -0.25
+          }
+        }
+      },
+      {
+        "id": "essence_separation",
+        "title": "Essenz trennt sich",
+        "description": "Die Bestandteile beginnen sich zu entmischen.",
+        "options": {
+          "good": {
+            "action": "Umrühren",
+            "factor": 0.25
+          },
+          "neutral": {
+            "action": "Mehr Flüssigkeit hinzufügen",
+            "factor": 0.0
+          },
+          "bad": {
+            "action": "Ignorieren",
+            "factor": -0.25
+          }
+        }
+      },
+      {
+        "id": "pressure_buildup",
+        "title": "Druckaufbau",
+        "description": "Der Druck im Kessel steigt langsam an.",
+        "options": {
+          "good": {
+            "action": "Ventil öffnen",
+            "factor": 0.25
+          },
+          "neutral": {
+            "action": "Ignorieren",
+            "factor": 0.0
+          },
+          "bad": {
+            "action": "Hitze erhöhen",
+            "factor": -0.25
+          }
+        }
+      }
+    ],
+
+    "high": [
+      {
+        "id": "unstable_reaction",
+        "title": "Instabile Reaktion",
+        "description": "Der Kessel reagiert heftig und unkontrolliert.",
+        "options": {
+          "good": {
+            "action": "Stabilisator hinzufügen",
+            "factor": 0.3
+          },
+          "neutral": {
+            "action": "Schnell umrühren",
+            "factor": 0.0
+          },
+          "bad": {
+            "action": "Ignorieren",
+            "factor": -0.3
+          }
+        }
+      },
+      {
+        "id": "toxic_fumes",
+        "title": "Giftige Dämpfe",
+        "description": "Grüner Rauch steigt aus dem Kessel auf.",
+        "options": {
+          "good": {
+            "action": "Belüften",
+            "factor": 0.3
+          },
+          "neutral": {
+            "action": "Weiterbrauen",
+            "factor": 0.0
+          },
+          "bad": {
+            "action": "Deckel schließen",
+            "factor": -0.3
+          }
+        }
+      },
+      {
+        "id": "essence_overload",
+        "title": "Essenz-Überladung",
+        "description": "Magische Energie sammelt sich unkontrolliert.",
+        "options": {
+          "good": {
+            "action": "Energie ableiten",
+            "factor": 0.3
+          },
+          "neutral": {
+            "action": "Ignorieren",
+            "factor": 0.0
+          },
+          "bad": {
+            "action": "Zutaten hinzufügen",
+            "factor": -0.3
+          }
+        }
+      }
+    ],
+
+    "critical": [
+      {
+        "id": "boiling_over",
+        "title": "Kessel droht zu explodieren",
+        "description": "Der gesamte Brauprozess gerät außer Kontrolle.",
+        "options": {
+          "good": {
+            "action": "Notabschaltung",
+            "factor": 0.4
+          },
+          "neutral": {
+            "action": "Druckventil öffnen",
+            "factor": 0.1
+          },
+          "bad": {
+            "action": "Ignorieren",
+            "factor": -0.5
+          }
+        }
+      },
+      {
+        "id": "reaction_collapse",
+        "title": "Reaktionskollaps",
+        "description": "Die Mischung beginnt sich selbst zu destabilisieren.",
+        "options": {
+          "good": {
+            "action": "Stabilisieren",
+            "factor": 0.4
+          },
+          "neutral": {
+            "action": "Abwarten",
+            "factor": 0.0
+          },
+          "bad": {
+            "action": "Hitze erhöhen",
+            "factor": -0.5
+          }
+        }
+      },
+      {
+        "id": "chaotic_mutation",
+        "title": "Chaotische Mutation",
+        "description": "Der Sud verändert sich unvorhersehbar.",
+        "options": {
+          "good": {
+            "action": "Reinigungsessenz",
+            "factor": 0.4
+          },
+          "neutral": {
+            "action": "Umrühren",
+            "factor": 0.1
+          },
+          "bad": {
+            "action": "Ignorieren",
+            "factor": -0.5
+          }
+        }
+      }
+    ]
+  }
+}
