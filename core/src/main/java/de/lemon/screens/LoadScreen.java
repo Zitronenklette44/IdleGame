@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.lemon.core.GameState;
 import de.lemon.core.Resources;
+import de.lemon.logic.GameLogic;
 import de.lemon.logic.enums.ScreenFeatures;
 import de.lemon.main.Main;
 import de.lemon.mechanics.Inventory;
@@ -170,5 +171,14 @@ public class LoadScreen extends CoreScreen{
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        if(!GameLogic.fastLoad) return;
+        Main._instance.currentGameStateId = 3;
+        Main._instance.tick.start();
+        Main._instance.switchScreen(Main.GAME_SCREEN);
     }
 }

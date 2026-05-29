@@ -3,7 +3,6 @@ package de.lemon.save;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
@@ -14,7 +13,6 @@ import de.lemon.logic.interfaces.Clickable;
 import de.lemon.logic.render.ColoredSprite;
 import de.lemon.logic.render.NineSprite;
 import de.lemon.ui.FontCache;
-import de.lemon.utilities.DebugLogger;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -50,22 +48,34 @@ public class SavePreview extends GameObject implements Clickable {
         super.onSpriteRender(batch, delta);
         bg.onSpriteRender(batch, delta);
         selectedOverlay.onSpriteRender(batch, delta);
-        BitmapFont font = FontCache.getFont(18, Color.WHITE);
+        BitmapFont font = FontCache.getFont(24, Color.WHITE);
 
         Vector2 size = new Vector2(bg.getSize());
         Vector2 pos = new Vector2(bg.getPos().x - size.x / 2, bg.getPos().y - size.y / 2);
         float padding = 10f;
 
         String title = gameState.getName();
-//        batch.setColor(Color.GOLD);
         font.setColor(Color.GOLD);
         font.draw(batch, title, pos.x + size.x / 2 + padding, pos.y + size.y * 1.45f - padding, size.x - padding * 2, Align.center, true);
-//        batch.setColor(Color.WHITE);
 
-        font = FontCache.getFont(12, Color.WHITE);
+        font = FontCache.getFont(18, Color.WHITE);
         long playtime = gameState.getPlaytime();
 
         String lastPlayed = DateFormat.getInstance().format(new Date(gameState.getLastPlayed()));
+        String formattedPlaytime = formatePlaytime(playtime);
+
+        font.draw(batch, "Playtime:\n" + formattedPlaytime, pos.x + size.x / 2 + padding, pos.y + size.y * 1.2f - padding, size.x - padding * 2, Align.left, true);
+        font.draw(batch, "Last Played:\n" + lastPlayed, pos.x + size.x / 2 + padding, pos.y + size.y * 1.05f - padding, size.x - padding * 2, Align.left, true);
+
+    }
+
+    private String formatePlaytime(long time){
+        time = time / 1000;//into millis
+        time = time / 60;//into seconds
+        long minutes = time % 60;
+        time = time / 60;
+        long hours = time;
+        return String.format("%02d:%02d h", hours, minutes);
     }
 
     @Override
